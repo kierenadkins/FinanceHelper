@@ -49,7 +49,12 @@ namespace Application.Usecases.Users.Command
 
             request.User.Password = _hashingService.HashPassword(request.User.Password);
 
-            await _userAccountService.Add(request.User);
+            var user = await _userAccountService.AddAsync(request.User);
+
+            if(user.Id == 0)
+            {
+                return new BaseResult("Error occurred while creating the user account");
+            }
 
             return result;
         }

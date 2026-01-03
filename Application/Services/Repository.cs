@@ -13,6 +13,7 @@ namespace Application.Services
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
+        Task AddRangeAsync(IEnumerable<T> entities);
     }
 
     public class Repository<T> : IRepository<T> where T : class
@@ -39,6 +40,12 @@ namespace Application.Services
         public async Task AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddRangeAsync(IEnumerable<T> entities)
+        {
+            await _context.Set<T>().AddRangeAsync(entities);
             await _context.SaveChangesAsync();
         }
 

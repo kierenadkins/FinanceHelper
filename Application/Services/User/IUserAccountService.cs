@@ -4,11 +4,16 @@ namespace Application.Services.User
 {
     public interface IUserAccountService
     {
-        Task Add(UserAccount userAccount);
-        Task Delete(int id);
-        Task<List<UserAccount>> GetAllCached();
         int GetCurrent();
         Task<UserAccount?> GetUserByEmail(string email);
-        Task Update(UserAccount userAccount);
+
+
+        //generic
+        Task<UserAccount?> GetByIdAsync(int id);
+        Task<UserAccount> AddAsync(UserAccount account, params object[] cacheArgs);
+        Task UpdateAsync(UserAccount account, params object[] cacheArgs);
+        Task UpdateAsync(IEnumerable<UserAccount> accounts, params object[] cacheArgs);
+        Task DeleteAsync(UserAccount account, params object[] cacheArgs);
+        Task DeleteAsync(int id, params object[] cacheArgs);
     }
 }
