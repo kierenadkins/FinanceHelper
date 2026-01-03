@@ -3,6 +3,7 @@ using Application.Usecases.Users.Command;
 using Core.Services.Session;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Web.Models;
 using Web.Models.Auth;
 
 namespace Web.Controllers
@@ -39,7 +40,7 @@ namespace Web.Controllers
 
             if (!result.Success)
             {
-                ModelState.AddModelError(string.Empty, result.Errors.FirstOrDefault() ?? "Login failed");
+                model.Error = result.Errors.FirstOrDefault();
                 return View(model);
             }
 
@@ -48,14 +49,14 @@ namespace Web.Controllers
 
 
         [HttpGet]
-        public IActionResult Register()
+        public IActionResult Signup()
         {
             return View(new SignupViewModel());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(SignupViewModel model)
+        public async Task<IActionResult> Signup(SignupViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
@@ -72,7 +73,7 @@ namespace Web.Controllers
 
             if (!result.Success)
             {
-                ModelState.AddModelError(string.Empty, string.Join(", ", result.Errors));
+                model.Errors = new ErrorViewModel(result.Errors);
                 return View(model);
             }
 

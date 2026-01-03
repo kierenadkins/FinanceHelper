@@ -1,0 +1,67 @@
+﻿@model Web.Models.Auth.SignupViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container mt-5" style="max-width: 500px;">
+    <h2 class="text-center mb-4">Create Account</h2>
+
+    @if (Model?.Errors != null && Model.Errors.Errors.Any())
+    {
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach (var error in Model.Errors.Errors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        </div>
+    }
+
+    <form asp-action="Signup" method="post" novalidate>
+        @Html.AntiForgeryToken()
+
+        <div class="form-group mb-3">
+            <label asp-for="FirstName" class="form-label"></label>
+            <input asp-for="FirstName" class="form-control" placeholder="John" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="LastName" class="form-label"></label>
+            <input asp-for="LastName" class="form-control" placeholder="Doe" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="EmailAddress" class="form-label"></label>
+            <input asp-for="EmailAddress" class="form-control" placeholder="you@example.com" />
+            <span asp-validation-for="EmailAddress" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" type="password" class="form-control" placeholder="Enter password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="ConfirmPassword" class="form-label"></label>
+            <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm password" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Register</button>
+
+        <div class="text-center mt-3">
+            <small>
+                Already have an account?
+                <a asp-controller="Auth" asp-action="Login">Sign in</a>
+            </small>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

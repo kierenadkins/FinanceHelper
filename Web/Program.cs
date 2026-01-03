@@ -18,6 +18,10 @@ namespace FinanceBuddy
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddMediatR(cfg =>
+                cfg.RegisterServicesFromAssemblies(
+                    AppDomain.CurrentDomain.GetAssemblies()
+                ));
             builder.Services.AddDbContext<LocalDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SQL")), ServiceLifetime.Transient);
 
             builder.Services.AddHttpContextAccessor();
