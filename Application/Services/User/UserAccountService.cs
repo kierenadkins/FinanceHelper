@@ -1,6 +1,8 @@
 ﻿using Application.Data;
+using Application.Domain.Finance;
 using Application.Domain.Users;
 using Application.Services.Cache;
+using Application.Services.Finance;
 using Core.Services.Session;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +12,12 @@ using System.Text;
 
 namespace Application.Services.User
 {
-    public class UserAccountService(IRepository<UserAccount> repository, ISessionManagerService sessionManager, ICacheManagerService cacheManager, LocalDbContext ctx, IEntityCacheKey<UserAccount> cacheKeys) : GenericCrudService<UserAccount>(repository, cacheManager, ctx, cacheKeys), IUserAccountService
+    public class UserAccountService(IRepository<UserAccount> repository,
+    ISessionManagerService sessionManager,
+    ICacheManagerService cacheManager,
+    LocalDbContext ctx,
+    IEntityCacheKey<UserAccount> cacheKeys
+) : GenericCrudService<UserAccount>(repository, cacheManager, ctx, cacheKeys), IUserAccountService
     {
         private const int CacheDurationSeconds = 3600;
 

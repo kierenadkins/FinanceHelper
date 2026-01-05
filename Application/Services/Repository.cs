@@ -2,12 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Application.Services
 {
     public interface IRepository<T> where T : class
     {
+        Task<T?> GetAsync(Expression<Func<T, bool>> predicate);
         Task<List<T>> GetAllAsync();
         Task<T?> GetByIdAsync(object id);
         Task AddAsync(T entity);
@@ -35,6 +37,11 @@ namespace Application.Services
         public async Task<T?> GetByIdAsync(object id)
         {
             return await _dbSet.FindAsync(id);
+        }
+
+        public async Task<T?> GetAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().FirstOrDefaultAsync(predicate);
         }
 
         public async Task AddAsync(T entity)

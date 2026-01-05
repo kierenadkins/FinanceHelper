@@ -4,7 +4,7 @@ using Application.Services;
 using Application.Services.Cache;
 using Microsoft.EntityFrameworkCore;
 
-public abstract class GenericCrudService<T> where T : class
+public abstract class GenericCrudService<T> : IGenericCrudService<T> where T : class
 {
     protected readonly IRepository<T> _repo;
     protected readonly ICacheManagerService _cache;
