@@ -7,10 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Enums\" />
     <Folder Include="Extentions\" />
     <Folder Include="Helpers\" />
-    <Folder Include="Settings\" />
   </ItemGroup>
 
   <ItemGroup>
