@@ -27,7 +27,7 @@ namespace Application.Usecases.Finance.Salarys.Command
         public async Task<BaseResult<Salary>> Handle(CalculateSalaryTaxablesCommand request, CancellationToken cancellationToken)
         {
             if (request?.Salary == null)
-                return BaseResult<Salary>.ErrorResult("User not found");
+                return BaseResult<Salary>.ErrorResult("Salary not found");
 
             var salary = request.Salary;
             var gross = salary.GrossSalary;

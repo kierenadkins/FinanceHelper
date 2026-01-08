@@ -1,0 +1,216 @@
+﻿@model Web.Models.Finance.AddSalaryFormModel
+@{
+    ViewData["Title"] = "Add Salary";
+}
+
+<div class="container py-5">
+    <div class="card shadow-lg border-0 rounded-4 overflow-hidden animate__animated animate__fadeIn">
+        <div class="card-body p-5">
+
+            @if (!Model.IsReview)
+            {
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold text-primary">Add Your Salary Details</h2>
+                    <p class="text-muted mb-0">Enter your gross salary and deductions to calculate your net income.</p>
+                </div>
+
+                <form asp-action="CalculateSalaryDeductions" method="post" class="needs-validation" novalidate>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label asp-for="GrossSalary" class="form-label fw-semibold"></label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light text-muted">£</span>
+                                <input asp-for="GrossSalary" class="form-control" placeholder="e.g., 45000" />
+                            </div>
+                            <span asp-validation-for="GrossSalary" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="PensionPercentage" class="form-label fw-semibold"></label>
+                            <div class="input-group input-group-lg">
+                                <input asp-for="PensionPercentage" class="form-control" placeholder="e.g., 5" />
+                                <span class="input-group-text bg-light text-muted">%</span>
+                            </div>
+                            <span asp-validation-for="PensionPercentage" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="form-check form-switch mb-3">
+                        <input asp-for="PayNationalInsurance" class="form-check-input" />
+                        <label asp-for="PayNationalInsurance" class="form-check-label fw-semibold"></label>
+                    </div>
+
+                    <div class="form-check form-switch mb-3">
+                        <input asp-for="HasStudentLoan" id="hasStudentLoanCheckbox" class="form-check-input" />
+                        <label asp-for="HasStudentLoan" class="form-check-label fw-semibold"></label>
+                    </div>
+
+                    <div class="mb-4" id="studentPlanDiv">
+                        <label asp-for="StudentPlanType" class="form-label fw-semibold"></label>
+                        <select asp-for="StudentPlanType" asp-items="Model.StudentPlanTypeOptions" class="form-select form-select-lg">
+                            <option value="">-- Select Plan --</option>
+                        </select>
+                        <span asp-validation-for="StudentPlanType" class="text-danger small"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-3 fw-semibold rounded-3 shadow-sm">
+                        <i class="bi bi-calculator me-2"></i> Calculate Deductions
+                    </button>
+                </form>
+            }
+            else
+            {
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold text-success">Review Your Calculated Salary</h2>
+                    <p class="text-muted">Check your yearly and monthly figures before saving them.</p>
+                </div>
+
+                <form asp-action="SaveSalary" method="post">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm rounded-3 h-100">
+                                <div class="card-body">
+                                    <h5 class="fw-bold text-primary mb-3">Yearly Overview</h5>
+
+                                    <div class="mb-3">
+                                        <label asp-for="GrossSalary" class="form-label small fw-semibold"></label>
+                                        <input asp-for="GrossSalary" class="form-control form-control-lg" />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="NetSalary" class="form-label small fw-semibold"></label>
+                                        <input asp-for="NetSalary" class="form-control form-control-lg" />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="Tax" class="form-label small fw-semibold"></label>
+                                        <input asp-for="Tax" class="form-control form-control-lg" />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="NationalInsurance" class="form-label small fw-semibold"></label>
+                                        <input asp-for="NationalInsurance" class="form-control form-control-lg" />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="PensionContribution" class="form-label small fw-semibold"></label>
+                                        <input asp-for="PensionContribution" class="form-control form-control-lg" />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="StudentLoan" class="form-label small fw-semibold"></label>
+                                        <input asp-for="StudentLoan" class="form-control form-control-lg" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm rounded-3 h-100">
+                                <div class="card-body">
+                                    <h5 class="fw-bold text-primary mb-3">Monthly Breakdown</h5>
+
+                                    <div class="mb-3">
+                                        <label asp-for="GrossSalaryMonthly" class="form-label small fw-semibold"></label>
+                                        <input asp-for="GrossSalaryMonthly" class="form-control form-control-lg" />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="NetSalaryMonthly" class="form-label small fw-semibold"></label>
+                                        <input asp-for="NetSalaryMonthly" class="form-control form-control-lg" />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="TaxMonthly" class="form-label small fw-semibold"></label>
+                                        <input asp-for="TaxMonthly" class="form-control form-control-lg" />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="NationalInsuranceMonthly" class="form-label small fw-semibold"></label>
+                                        <input asp-for="NationalInsuranceMonthly" class="form-control form-control-lg" />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="PensionContributionMonthly" class="form-label small fw-semibold"></label>
+                                        <input asp-for="PensionContributionMonthly" class="form-control form-control-lg" />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="StudentLoanMonthly" class="form-label small fw-semibold"></label>
+                                        <input asp-for="StudentLoanMonthly" class="form-control form-control-lg" />
+                                    </div>
+
+                                    <input type="hidden" asp-for="PensionPercentage" />
+                                    <input type="hidden" asp-for="TaxBand" />
+                                    <input type="hidden" asp-for="PayNationalInsurance" />
+                                    <input type="hidden" asp-for="HasStudentLoan" />
+                                    <input type="hidden" asp-for="StudentPlanType" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-5">
+                        <a asp-action="SalaryForm" class="btn btn-outline-secondary w-50 me-3 py-3 fw-semibold rounded-3">
+                            <i class="bi bi-arrow-left-circle me-2"></i> Back
+                        </a>
+                        <button type="submit" class="btn btn-success w-50 py-3 fw-semibold rounded-3 shadow-sm">
+                            <i class="bi bi-save2 me-2"></i> Save to Database
+                        </button>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const hasStudentLoanCheckbox = document.getElementById('hasStudentLoanCheckbox');
+            const studentPlanDiv = document.getElementById('studentPlanDiv');
+            if (hasStudentLoanCheckbox) {
+                function toggleStudentPlan() {
+                    studentPlanDiv.style.display = hasStudentLoanCheckbox.checked ? 'block' : 'none';
+                }
+                hasStudentLoanCheckbox.addEventListener('change', toggleStudentPlan);
+                toggleStudentPlan();
+            }
+
+            const fields = [
+                ['GrossSalary', 'GrossSalaryMonthly'],
+                ['NetSalary', 'NetSalaryMonthly'],
+                ['Tax', 'TaxMonthly'],
+                ['NationalInsurance', 'NationalInsuranceMonthly'],
+                ['StudentLoan', 'StudentLoanMonthly']
+            ];
+
+            fields.forEach(([yearlyId, monthlyId]) => {
+                const yearlyInput = document.getElementById(yearlyId);
+                const monthlyInput = document.getElementById(monthlyId);
+
+                if (!yearlyInput || !monthlyInput) return;
+
+                let isUpdating = false;
+
+                yearlyInput.addEventListener('input', () => {
+                    if (isUpdating) return;
+                    isUpdating = true;
+                    const val = parseFloat(yearlyInput.value);
+                    monthlyInput.value = isNaN(val) ? '' : (val / 12).toFixed(2);
+                    isUpdating = false;
+                });
+
+                monthlyInput.addEventListener('input', () => {
+                    if (isUpdating) return;
+                    isUpdating = true;
+                    const val = parseFloat(monthlyInput.value);
+                    yearlyInput.value = isNaN(val) ? '' : (val * 12).toFixed(2);
+                    isUpdating = false;
+                });
+            });
+        });
+    </script>
+}

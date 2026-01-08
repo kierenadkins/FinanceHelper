@@ -1,4 +1,5 @@
 ﻿using Application.Enums.Finance;
+using Application.Extentions.Numerics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,5 +22,26 @@ namespace Application.Domain.Finance
         public bool HasStudentLoan { get; set; }
         public StudentPlanType? StudentPlanType { get; set; } = null;
         public decimal StudentLoan { get; set; }
+    }
+
+    public class MonthlyTotals
+    {
+        private MonthlyTotals() { }
+        public MonthlyTotals(Salary salary)
+        {
+            GrossSalary = salary.GrossSalary.YearlyToMonthly();
+            NetSalary = salary.NetSalary.YearlyToMonthly();
+            PensionContribution = salary.PensionContribution.YearlyToMonthly();
+            Tax = salary.Tax.YearlyToMonthly();
+            NationalInsurance = salary.NationalInsurance.YearlyToMonthly();
+            StudentLoan = salary.StudentLoan.YearlyToMonthly();
+        }
+
+        public decimal GrossSalary { get; private set; }
+        public decimal NetSalary { get; private set; }
+        public decimal PensionContribution { get; private set; }
+        public decimal Tax { get; private set; }
+        public decimal NationalInsurance { get; private set; }
+        public decimal StudentLoan { get; private set; }
     }
 }
