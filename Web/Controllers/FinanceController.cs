@@ -23,11 +23,18 @@ namespace Web.Controllers
         {
             var model = new FinanceModel();
 
-            var salary = await _mediator.Send(new GetSalaryQuery { });
+            var finance = await _mediator.Send(new GetFinanceDashboardQuery { });
 
-            model.Salary = new SalaryModel(salary);
-            model.YearlyLeftOver = model.Salary.NetSalary - model.YearlyTotalOutGoings;
-            model.MonthlyLeftOver = (model.Salary.NetSalary.YearlyToMonthly() - model.MonthlyOutGoings).To2DP();
+            if (finance == null)
+                return View(model);
+
+            model.Salary = new SalaryModel(finance.Salary);
+            model.Category = finance.CategoriesWithSubCats.Select(x => new CategoryModel(x)).ToList();
+            model.MonthlyLeftOver = finance.MonthlyLeftOver;
+            model.YearlyLeftOver = finance.YearlyLeftOver;
+            model.MonthlyOutGoings = finance.MonthlyOutGoings;
+            model.YearlyTotalOutGoings = finance.YearlyTotalOutGoings;
+
             return View(model);
         }
 

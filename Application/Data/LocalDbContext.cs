@@ -7,6 +7,7 @@ using System.Reflection.Emit;
 using System.Security.Principal;
 using System.Text;
 using Application.Domain.Finance;
+using Application.Domain.Finance.ExpenseTracking;
 
 namespace Application.Data
 {
@@ -14,6 +15,8 @@ namespace Application.Data
     {
         public DbSet<UserAccount> UserAccounts { get; set; }
         public DbSet<Salary> Salary { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<SubCategory> SubCategory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Helpers\" />
+    <Folder Include="Usecases\Finance\Salarys\Request\" />
   </ItemGroup>
 
   <ItemGroup>
