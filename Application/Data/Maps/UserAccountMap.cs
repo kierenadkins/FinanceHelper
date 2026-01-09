@@ -12,7 +12,7 @@ namespace Application.Data.Maps
     {
         public void Configure(EntityTypeBuilder<UserAccount> builder)
         {
-            builder.ToTable("tbl_UserAccounts");
+            builder.ToTable("tbl_UserAccount");
             builder.HasKey(x => x.Id);
         }
     }

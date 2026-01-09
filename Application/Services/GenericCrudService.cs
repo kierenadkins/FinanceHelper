@@ -46,7 +46,11 @@ public abstract class GenericCrudService<T> : IGenericCrudService<T> where T : c
     {
         LastUpdated(entity);
         await _repo.AddAsync(entity);
-        Invalidate(cacheArgs);
+
+        if (cacheArgs.Length > 0)
+        {
+            Invalidate(cacheArgs);
+        }
 
         return entity;
     }
@@ -119,6 +123,7 @@ public abstract class GenericCrudService<T> : IGenericCrudService<T> where T : c
 
         if (entity is BaseEntity baseEntity)
         {
+            baseEntity.DateCreated = now;
             baseEntity.LastUpdated = now;
         }
     }

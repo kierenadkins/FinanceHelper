@@ -1,12 +1,8 @@
 ﻿using Application.Domain.Base;
 using Application.Domain.Finance;
-using Application.Domain.Users;
 using Application.Extentions.Numerics;
 using Application.Services.Tax;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Application.Usecases.Finance.Salarys.Command
 {

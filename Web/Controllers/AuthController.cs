@@ -25,6 +25,8 @@ namespace Web.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            
+            
             return View(new LoginViewModel());
         }
 

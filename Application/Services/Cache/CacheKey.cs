@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Application.Domain.Finance;
+using Application.Domain.Finance.ExpenseTracking;
 
 namespace Application.Services.Cache
 {
@@ -18,6 +20,35 @@ namespace Application.Services.Cache
     }
 
     public class UserAccountCacheKeys : IEntityCacheKey<UserAccount>
+    {
+        public string ListKey(params object[] args)
+        {
+            return args.Length switch
+            {
+                1 => $"AccountsByUserId_{args[0]}",
+                2 => $"AccountsByUserId_{args[0]}_type_{args[1]}",
+                _ => throw new ArgumentException("Invalid arguments for account cache key")
+            };
+        }
+    }
+
+    public class SalaryCacheKeys : IEntityCacheKey<Salary>
+    {
+        public string ListKey(params object[] args)
+        {
+            return $"UserByEmail_{args[0]}";
+        }
+    }
+
+    public class CategoryCacheKeys : IEntityCacheKey<Category>
+    {
+        public string ListKey(params object[] args)
+        {
+            return $"UserByEmail_{args[0]}";
+        }
+    }
+
+    public class SubCategoryCacheKeys : IEntityCacheKey<SubCategory>
     {
         public string ListKey(params object[] args)
         {
