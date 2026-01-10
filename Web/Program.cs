@@ -10,6 +10,7 @@ using Application.Services.Finance.ExpenseTracking;
 using Application.Services.Sterializer;
 using Application.Services.Tax;
 using Application.Services.User;
+using Application.Settings;
 using Core.Services.Session;
 using Microsoft.EntityFrameworkCore;
 
@@ -56,6 +57,8 @@ namespace FinanceBuddy
             builder.Services.AddScoped<IEntityCacheKey<Salary>, SalaryCacheKeys>();
             builder.Services.AddScoped<IEntityCacheKey<Category>, CategoryCacheKeys>();
             builder.Services.AddScoped<IEntityCacheKey<SubCategory>, SubCategoryCacheKeys>();
+
+            builder.Services.Configure<TaxSettings>(builder.Configuration.GetSection("TaxSettings"));
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

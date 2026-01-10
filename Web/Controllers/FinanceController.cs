@@ -1,16 +1,16 @@
 ﻿using Application.Domain.Finance;
 using Application.Enums.Finance;
-using Application.Extentions.Numerics;
-using Application.Services.User;
 using Application.Usecases.Finance.Salarys.Command;
 using Application.Usecases.Finance.Salarys.Request;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Web.Attribute;
 using Web.Models.Finance;
 
 namespace Web.Controllers
 {
+    [AuthorizeSession]
     public class FinanceController : Controller
     {
         private readonly IMediator _mediator;

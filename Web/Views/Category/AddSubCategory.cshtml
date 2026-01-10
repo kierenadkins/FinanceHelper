@@ -1,0 +1,92 @@
+﻿@model Web.Models.Finance.AddSubCategoryModel
+@{
+    Layout = "_Layout";
+}
+
+<div class="container mt-4">
+    <h2>Add Subcategory</h2>
+
+    <form asp-controller="Category" asp-action="AddSubCategoryPost" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="CategoryId" />
+
+        <div class="mb-3">
+            <label class="form-label">Subcategory Name</label>
+            <input asp-for="Name" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Type</label>
+            <select asp-for="SubCategoryType" asp-items="Model.SubCategoryTypeOptions" class="form-select" required>
+                <option value="">Select Type</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Yearly Cost</label>
+            <input asp-for="YearlyCost" type="number" class="form-control" id="yearlyCost" step="0.01" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Monthly Cost</label>
+            <input asp-for="MonthlyCost" type="number" class="form-control" id="monthlyCost" step="0.01" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Weekly Cost</label>
+            <input asp-for="WeeklyCost" type="number" class="form-control" id="weeklyCost" step="0.01" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Subcategory</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+<script>
+    const yearlyInput = document.getElementById('yearlyCost');
+    const monthlyInput = document.getElementById('monthlyCost');
+    const weeklyInput = document.getElementById('weeklyCost');
+
+    if (yearlyInput && monthlyInput && weeklyInput) {
+        let isUpdating = false;
+
+        const updateFromYearly = () => {
+            const y = parseFloat(yearlyInput.value);
+            monthlyInput.value = (y / 12).toFixed(2);
+            weeklyInput.value = ((y / 12) /4).toFixed(2);
+        };
+
+        const updateFromMonthly = () => {
+            const m = parseFloat(monthlyInput.value);
+            yearlyInput.value = (m * 12).toFixed(2);
+            weeklyInput.value = (m / 4).toFixed(2);
+        };
+
+        const updateFromWeekly = () => {
+            const w = parseFloat(weeklyInput.value);
+            yearlyInput.value = ((w * 12) * 4).toFixed(2);
+            monthlyInput.value = ((w * 4)).toFixed(2);
+        };
+
+        yearlyInput.addEventListener('input', () => {
+            if (isUpdating) return;
+            isUpdating = true;
+            updateFromYearly();
+            isUpdating = false;
+        });
+
+        monthlyInput.addEventListener('input', () => {
+            if (isUpdating) return;
+            isUpdating = true;
+            updateFromMonthly();
+            isUpdating = false;
+        });
+
+        weeklyInput.addEventListener('input', () => {
+            if (isUpdating) return;
+            isUpdating = true;
+            updateFromWeekly();
+            isUpdating = false;
+        });
+    }
+</script>

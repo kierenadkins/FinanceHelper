@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Web.Attribute;
 
 namespace Web.Controllers
 {
+    [AuthorizeSession]
     public class SavingsController : Controller
     {
         // GET: SavingsController

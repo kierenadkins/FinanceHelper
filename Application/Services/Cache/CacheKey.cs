@@ -35,16 +35,15 @@ namespace Application.Services.Cache
     public class SalaryCacheKeys : IEntityCacheKey<Salary>
     {
         public string ListKey(params object[] args)
-        {
-            return $"UserByEmail_{args[0]}";
-        }
+            => $"SalaryByUserId_{args[0]}";
     }
 
     public class CategoryCacheKeys : IEntityCacheKey<Category>
     {
         public string ListKey(params object[] args)
         {
-            return $"UserByEmail_{args[0]}";
+            if (args.Length == 1) return $"CategoryByUserId_{args[0]}";
+            throw new ArgumentException("Invalid arguments for category cache key");
         }
     }
 
@@ -52,8 +51,8 @@ namespace Application.Services.Cache
     {
         public string ListKey(params object[] args)
         {
-            return $"UserByEmail_{args[0]}";
+            if (args.Length == 1) return $"CategoryByUserId_{args[0]}";
+            throw new ArgumentException("Invalid arguments for category cache key");
         }
     }
-
 }
