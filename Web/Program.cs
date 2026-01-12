@@ -58,6 +58,7 @@ namespace FinanceBuddy
             builder.Services.AddScoped<IEntityCacheKey<Category>, CategoryCacheKeys>();
             builder.Services.AddScoped<IEntityCacheKey<SubCategory>, SubCategoryCacheKeys>();
 
+
             builder.Services.Configure<TaxSettings>(builder.Configuration.GetSection("TaxSettings"));
 
             builder.Services.AddEndpointsApiExplorer();

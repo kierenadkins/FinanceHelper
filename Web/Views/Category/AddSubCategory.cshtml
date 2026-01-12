@@ -11,30 +11,49 @@
         <input type="hidden" asp-for="CategoryId" />
 
         <div class="mb-3">
-            <label class="form-label">Subcategory Name</label>
+            <label asp-for="Name" class="form-label"></label>
             <input asp-for="Name" class="form-control" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Type</label>
-            <select asp-for="SubCategoryType" asp-items="Model.SubCategoryTypeOptions" class="form-select" required>
+            <label asp-for="SubCategoryType" class="form-label"></label>
+            <select asp-for="SubCategoryType"
+                    asp-items="Model.SubCategoryTypeOptions"
+                    class="form-select"
+                    required>
                 <option value="">Select Type</option>
             </select>
+            <span asp-validation-for="SubCategoryType" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Yearly Cost</label>
+            <label asp-for="PaymentFrequency" class="form-label"></label>
+            <select asp-for="PaymentFrequency"
+                    asp-items="Model.PaymentFrequencyTypeOptions"
+                    class="form-select"
+                    required>
+                <option value="">Select Payment Frequency</option>
+            </select>
+            <span asp-validation-for="PaymentFrequency" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="YearlyCost" class="form-label"></label>
             <input asp-for="YearlyCost" type="number" class="form-control" id="yearlyCost" step="0.01" />
+            <span asp-validation-for="YearlyCost" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Monthly Cost</label>
+            <label asp-for="MonthlyCost" class="form-label"></label>
             <input asp-for="MonthlyCost" type="number" class="form-control" id="monthlyCost" step="0.01" />
+            <span asp-validation-for="MonthlyCost" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Weekly Cost</label>
+            <label asp-for="WeeklyCost" class="form-label"></label>
             <input asp-for="WeeklyCost" type="number" class="form-control" id="weeklyCost" step="0.01" />
+            <span asp-validation-for="WeeklyCost" class="text-danger"></span>
         </div>
 
         <button type="submit" class="btn btn-primary">Add Subcategory</button>
@@ -42,51 +61,58 @@
     </form>
 </div>
 
-<script>
-    const yearlyInput = document.getElementById('yearlyCost');
-    const monthlyInput = document.getElementById('monthlyCost');
-    const weeklyInput = document.getElementById('weeklyCost');
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 
-    if (yearlyInput && monthlyInput && weeklyInput) {
-        let isUpdating = false;
+    <script>
+        const yearlyInput = document.getElementById('yearlyCost');
+        const monthlyInput = document.getElementById('monthlyCost');
+        const weeklyInput = document.getElementById('weeklyCost');
 
-        const updateFromYearly = () => {
-            const y = parseFloat(yearlyInput.value);
-            monthlyInput.value = (y / 12).toFixed(2);
-            weeklyInput.value = ((y / 12) /4).toFixed(2);
-        };
+        if (yearlyInput && monthlyInput && weeklyInput) {
+            let isUpdating = false;
 
-        const updateFromMonthly = () => {
-            const m = parseFloat(monthlyInput.value);
-            yearlyInput.value = (m * 12).toFixed(2);
-            weeklyInput.value = (m / 4).toFixed(2);
-        };
+            const updateFromYearly = () => {
+                const y = parseFloat(yearlyInput.value);
+                if (isNaN(y)) return;
+                monthlyInput.value = (y / 12).toFixed(2);
+                weeklyInput.value = (y / 48).toFixed(2);
+            };
 
-        const updateFromWeekly = () => {
-            const w = parseFloat(weeklyInput.value);
-            yearlyInput.value = ((w * 12) * 4).toFixed(2);
-            monthlyInput.value = ((w * 4)).toFixed(2);
-        };
+            const updateFromMonthly = () => {
+                const m = parseFloat(monthlyInput.value);
+                if (isNaN(m)) return;
+                yearlyInput.value = (m * 12).toFixed(2);
+                weeklyInput.value = (m / 4).toFixed(2);
+            };
 
-        yearlyInput.addEventListener('input', () => {
-            if (isUpdating) return;
-            isUpdating = true;
-            updateFromYearly();
-            isUpdating = false;
-        });
+            const updateFromWeekly = () => {
+                const w = parseFloat(weeklyInput.value);
+                if (isNaN(w)) return;
+                yearlyInput.value = (w * 48).toFixed(2);
+                monthlyInput.value = (w * 4).toFixed(2);
+            };
 
-        monthlyInput.addEventListener('input', () => {
-            if (isUpdating) return;
-            isUpdating = true;
-            updateFromMonthly();
-            isUpdating = false;
-        });
+            yearlyInput.addEventListener('input', () => {
+                if (isUpdating) return;
+                isUpdating = true;
+                updateFromYearly();
+                isUpdating = false;
+            });
 
-        weeklyInput.addEventListener('input', () => {
-            if (isUpdating) return;
-            isUpdating = true;
-            updateFromWeekly();
-            isUpdating = false;
-        });
-    }
-</script>
+            monthlyInput.addEventListener('input', () => {
+                if (isUpdating) return;
+                isUpdating = true;
+                updateFromMonthly();
+                isUpdating = false;
+            });
+
+            weeklyInput.addEventListener('input', () => {
+                if (isUpdating) return;
+                isUpdating = true;
+                updateFromWeekly();
+                isUpdating = false;
+            });
+        }
+    </script>
+}

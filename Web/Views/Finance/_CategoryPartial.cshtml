@@ -1,240 +1,220 @@
 ﻿@using Application.Domain.Finance.ExpenseTracking
 @model IEnumerable<Web.Models.Finance.CategoryModel>
 
-<div class="mb-4 text-end">
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
-        <i class="bi bi-plus-circle me-1"></i> Add Category
-    </button>
-</div>
+<div class="container-fluid px-4">
 
-<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content rounded-4 shadow">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="addCategoryModalLabel">Add New Category</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Expense Categories</h2>
+        <button class="btn btn-primary btn-lg shadow-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#addCategoryModal">
+            <i class="bi bi-plus-circle me-2"></i>Add Category
+        </button>
+    </div>
+
+    <!-- ================= ADD CATEGORY MODAL ================= -->
+    <div class="modal fade" id="addCategoryModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow-lg border-0">
+                <div class="modal-header bg-primary text-white rounded-top-4">
+                    <h5 class="modal-title fw-semibold">Add New Category</h5>
+                    <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
                 <form asp-controller="Category" asp-action="AddCategory" method="post">
                     @Html.AntiForgeryToken()
-                    <div class="mb-3">
-                        <label for="categoryName" class="form-label">Category Name</label>
-                        <input type="text" class="form-control" id="categoryName" name="name" required />
+                    <div class="modal-body p-4">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Category Type</label>
+                            <select name="categoryType"
+                                    class="form-select form-select-lg"
+                                    required>
+                                <option value="">Select Type</option>
+                                @foreach (var type in Enum.GetValues(typeof(CategoryType)).Cast<CategoryType>())
+                                {
+                                    <option value="@type">@type</option>
+                                }
+                            </select>
+                        </div>
+
+                        @if (TempData["AddCategoryError"] != null)
+                        {
+                            <div class="alert alert-danger">
+                                @TempData["AddCategoryError"]
+                            </div>
+                        }
                     </div>
-                    @if (TempData["AddCategoryError"] != null)
-                    {
-                        <div class="text-danger mb-2">@TempData["AddCategoryError"]</div>
-                    }
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Add Category</button>
+
+                    <div class="modal-footer px-4 pb-4">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary btn-lg">Add Category</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
 
-<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content rounded-4 shadow">
-            <div class="modal-header bg-warning text-dark">
-                <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editCategoryForm" asp-controller="Category" asp-action="EditCategory" method="post">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" id="editCategoryId" name="id" />
-                    <div class="mb-3">
-                        <label for="editCategoryName" class="form-label">Category Name</label>
-                        <input type="text" class="form-control" id="editCategoryName" name="name" required />
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-warning">Save Changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+    <!-- ================= DELETE CATEGORY MODAL ================= -->
+    <div class="modal fade" id="deleteCategoryModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow-lg border-0">
+                <div class="modal-header bg-danger text-white rounded-top-4">
+                    <h5 class="modal-title fw-semibold">Delete Category</h5>
+                    <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
 
-<div class="modal fade" id="deleteCategoryModal" tabindex="-1" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content rounded-4 shadow">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="deleteCategoryModalLabel">Delete Category</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete "<span id="deleteCategoryName"></span>"?</p>
-                <form id="deleteCategoryForm" asp-controller="Category" asp-action="DeleteCategory" method="post">
+                <form asp-controller="Category" asp-action="DeleteCategory" method="post">
                     @Html.AntiForgeryToken()
                     <input type="hidden" id="deleteCategoryId" name="id" />
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
+
+                    <div class="modal-body p-4">
+                        <p class="fs-5 mb-0">
+                            Are you sure you want to delete
+                            <strong class="text-danger">"<span id="deleteCategoryName"></span>"</strong>?
+                        </p>
+                    </div>
+
+                    <div class="modal-footer px-4 pb-4">
+                        <button class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger btn-lg">Delete</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
 
-<div class="modal fade" id="deleteSubCategoryModal" tabindex="-1" aria-labelledby="deleteSubCategoryModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content rounded-4 shadow">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="deleteSubCategoryModalLabel">Delete Subcategory</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete "<span id="deleteSubCategoryName"></span>"?</p>
-                <form id="deleteSubCategoryForm" asp-controller="Category" asp-action="DeleteSubCategory"  method="post">
+    <!-- ================= DELETE SUBCATEGORY MODAL ================= -->
+    <div class="modal fade" id="deleteSubCategoryModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow-lg border-0">
+                <div class="modal-header bg-danger text-white rounded-top-4">
+                    <h5 class="modal-title fw-semibold">Delete Subcategory</h5>
+                    <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form asp-controller="Category" asp-action="DeleteSubCategory" method="post">
                     @Html.AntiForgeryToken()
                     <input type="hidden" id="deleteSubCategoryId" name="Id" />
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
+
+                    <div class="modal-body p-4">
+                        <p class="fs-5 mb-0">
+                            Delete
+                            <strong class="text-danger">"<span id="deleteSubCategoryName"></span>"</strong>?
+                        </p>
+                    </div>
+
+                    <div class="modal-footer px-4 pb-4">
+                        <button class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger btn-lg">Delete</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
 
-@if (Model?.Any() == true)
-{
-    foreach (var cat in Model)
+    <!-- ================= CATEGORY LIST ================= -->
+    @if (Model?.Any() == true)
     {
-        decimal yearlyTotal = 0, monthlyTotal = 0, weeklyTotal = 0;
+        foreach (var cat in Model)
+        {
+            decimal yearlyTotal = 0, monthlyTotal = 0, weeklyTotal = 0;
 
-        <div class="card shadow-sm border-0 rounded-4 mb-5">
-            <div class="card-header bg-secondary text-white fw-semibold d-flex justify-content-between align-items-center rounded-top-4">
-                <span>@cat.Name</span>
-                <div class="d-flex gap-1">
-                    <a asp-controller="Category" asp-action="AddSubCategory" asp-route-categoryId="@cat.Id" class="btn btn-sm btn-success" data-bs-toggle="tooltip" title="Add Subcategory">
-                        <i class="bi bi-plus-circle"></i>
-                    </a>
-                    <a href="javascript:void(0);" class="btn btn-sm btn-warning edit-category-btn"
-                       data-bs-toggle="modal" data-bs-target="#editCategoryModal"
-                       data-id="@cat.Id" data-name="@cat.Name" title="Edit">
-                        <i class="bi bi-pencil-square"></i>
-                    </a>
-                    <a href="javascript:void(0);" class="btn btn-sm btn-danger delete-category-btn"
-                       data-bs-toggle="modal" data-bs-target="#deleteCategoryModal"
-                       data-id="@cat.Id" data-name="@cat.Name" title="Delete">
-                        <i class="bi bi-trash"></i>
-                    </a>
+            <div class="card border-0 shadow-sm rounded-4 mb-5">
+                <div class="card-header bg-dark text-white rounded-top-4 d-flex justify-content-between align-items-center px-4 py-3">
+                    <h5 class="mb-0 fw-semibold">@cat.Name</h5>
+
+                    <div class="btn-group">
+                        <a asp-controller="Category" asp-action="AddSubCategory"
+                           asp-route-categoryId="@cat.Id"
+                           class="btn btn-success btn-sm"
+                           data-bs-toggle="tooltip" title="Add Subcategory">
+                            <i class="bi bi-plus-circle"></i>
+                        </a>
+
+                        <a href="javascript:void(0);"
+                           class="btn btn-warning btn-sm edit-category-btn"
+                           data-id="@cat.Id" data-name="@cat.Name"
+                           data-bs-toggle="tooltip" title="Edit Category">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+
+                        <a href="javascript:void(0);"
+                           class="btn btn-danger btn-sm delete-category-btn"
+                           data-id="@cat.Id" data-name="@cat.Name"
+                           data-bs-toggle="modal"
+                           data-bs-target="#deleteCategoryModal"
+                           title="Delete Category">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <div class="card-body p-4">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover align-middle text-start">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Subcategory</th>
-                                <th>Type</th>
-                                <th>Yearly</th>
-                                <th>Monthly</th>
-                                <th>Weekly</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (cat.SubCategories?.Any() == true)
-                            {
-                                foreach (var sub in cat.SubCategories)
+
+                <div class="card-body p-4">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Subcategory</th>
+                                    <th>Type</th>
+                                    <th>Yearly</th>
+                                    <th>Monthly</th>
+                                    <th>Weekly</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var sub in cat.SubCategories ?? Enumerable.Empty<dynamic>())
                                 {
                                     yearlyTotal += sub.YearlyCost;
                                     monthlyTotal += sub.MonthlyCost;
                                     weeklyTotal += sub.WeeklyCost;
+
                                     <tr>
-                                        <td>@sub.Name</td>
+                                        <td class="fw-semibold">@sub.Name</td>
                                         <td>
-                                            <span class="badge @(sub.SubCategoryType == SubCategoryType.Expense ? "bg-danger" : "bg-success")">
-                                                @(sub.SubCategoryType)
+                                            <span class="badge rounded-pill @(sub.SubCategoryType == SubCategoryType.Expense ? "bg-danger" : "bg-success")">
+                                                @sub.SubCategoryType
+                                            </span>
+                                            <span class="badge rounded-pill bg-secondary">
+                                                @sub.PaymentFrequency
                                             </span>
                                         </td>
                                         <td>@sub.YearlyCost.ToString("C")</td>
                                         <td>@sub.MonthlyCost.ToString("C")</td>
                                         <td>@sub.WeeklyCost.ToString("C")</td>
-                                        <td>
-                                            <a asp-controller="Category" asp-action="EditSubCategory" asp-route-subCategoryId="@sub.Id" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="Edit Subcategory">
-                                                <i class="bi bi-plus-circle"></i>
+                                        <td class="text-end">
+                                            <a asp-controller="Category" asp-action="EditSubCategory"
+                                               asp-route-subCategoryId="@sub.Id"
+                                               class="btn btn-warning btn-sm">
+                                                <i class="bi bi-pencil"></i>
                                             </a>
 
-                                            <a href="javascript:void(0);" class="btn btn-sm btn-danger delete-subcategory-btn"
-                                               data-bs-toggle="modal" data-bs-target="#deleteSubCategoryModal"
-                                               data-id="@sub.Id" data-name="@sub.Name" title="Delete Subcategory">
+                                            <a href="javascript:void(0);"
+                                               class="btn btn-danger btn-sm delete-subcategory-btn"
+                                               data-id="@sub.Id" data-name="@sub.Name"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#deleteSubCategoryModal">
                                                 <i class="bi bi-trash"></i>
                                             </a>
                                         </td>
                                     </tr>
                                 }
-                            }
-                            <tr class="fw-bold table-primary">
-                                <td>Total</td>
-                                <td></td>
-                                <td>@yearlyTotal.ToString("C")</td>
-                                <td>@monthlyTotal.ToString("C")</td>
-                                <td>@weeklyTotal.ToString("C")</td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                                <tr class="table-primary fw-bold">
+                                    <td>Total</td>
+                                    <td></td>
+                                    <td>@yearlyTotal.ToString("C")</td>
+                                    <td>@monthlyTotal.ToString("C")</td>
+                                    <td>@weeklyTotal.ToString("C")</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
     }
-}
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        });
-
-        var editButtons = document.querySelectorAll(".edit-category-btn");
-        var editNameInput = document.getElementById("editCategoryName");
-        var editIdInput = document.getElementById("editCategoryId");
-
-        editButtons.forEach(btn => btn.addEventListener("click", function () {
-            editIdInput.value = this.dataset.id;
-            editNameInput.value = this.dataset.name;
-        }));
-        document.getElementById('editCategoryModal').addEventListener('hidden.bs.modal', function () {
-            editIdInput.value = '';
-            editNameInput.value = '';
-        });
-
-
-        var deleteButtons = document.querySelectorAll(".delete-category-btn");
-        var deleteNameSpan = document.getElementById("deleteCategoryName");
-        var deleteIdInput = document.getElementById("deleteCategoryId");
-
-        deleteButtons.forEach(btn => btn.addEventListener("click", function () {
-            deleteIdInput.value = this.dataset.id;
-            deleteNameSpan.textContent = this.dataset.name;
-        }));
-        document.getElementById('deleteCategoryModal').addEventListener('hidden.bs.modal', function () {
-            deleteIdInput.value = '';
-            deleteNameSpan.textContent = '';
-        });
-
-        var deleteSubButtons = document.querySelectorAll(".delete-subcategory-btn");
-        var deleteSubNameSpan = document.getElementById("deleteSubCategoryName");
-        var deleteSubIdInput = document.getElementById("deleteSubCategoryId");
-
-        deleteSubButtons.forEach(btn => btn.addEventListener("click", function () {
-            deleteSubIdInput.value = this.dataset.id;
-            deleteSubNameSpan.textContent = this.dataset.name;
-        }));
-        document.getElementById('deleteSubCategoryModal').addEventListener('hidden.bs.modal', function () {
-            deleteSubIdInput.value = '';
-            deleteSubNameSpan.textContent = '';
-        });
-    });
-</script>
+</div>

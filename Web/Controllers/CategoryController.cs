@@ -25,17 +25,12 @@ public class CategoryController : Controller
         _userAccountService = userAccountService;
     }
 
-    public IActionResult AddCategory()
-    {
-        return View();
-    }
-
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> AddCategory(CategoryType type)
+    public async Task<IActionResult> AddCategory(CategoryType categoryType)
     {
-        var result = await _mediator.Send(new SaveCategoryCommand() { Category = new Category { Type = type} });
+        var result = await _mediator.Send(new SaveCategoryCommand() {CategoryType = categoryType });
 
         if (!result.Success)
         {
@@ -58,12 +53,6 @@ public class CategoryController : Controller
 
     public IActionResult AddSubCategory(int categoryId)
     {
-        var categoryType = Enum.GetValues(typeof(CategoryType)).Cast<CategoryType>().Select(ct => new SelectListItem
-        {
-            Value = ct.ToString(),
-            Text = ct.ToString()
-        });
-
         var paymentFrequency = Enum.GetValues(typeof(PaymentFrequency)).Cast<PaymentFrequency>().Select(ct => new SelectListItem
         {
             Value = ct.ToString(),
@@ -73,7 +62,6 @@ public class CategoryController : Controller
         var model = new AddSubCategoryModel()
         {
             PaymentFrequencyTypeOptions = paymentFrequency,
-            SubCategoryTypeOptions = categoryType,
             CategoryId = categoryId
         };
 
@@ -99,12 +87,6 @@ public class CategoryController : Controller
 
     public async Task<IActionResult> EditSubCategory(int subCategoryId)
     {
-        var subCategoryType = Enum.GetValues(typeof(SubCategoryType)).Cast<SubCategoryType>().Select(ct => new SelectListItem
-        {
-            Value = ct.ToString(),
-            Text = ct.ToString()
-        });
-
         var subCat = await _subCategoryService.GetByIdAsync(subCategoryId);
 
         if (subCat == null)
@@ -115,7 +97,6 @@ public class CategoryController : Controller
         var model = new AddSubCategoryModel()
         {
             SubCategoryId = subCategoryId,
-            SubCategoryTypeOptions = subCategoryType,
             CategoryId = subCat.CategoryId,
             SubCategoryType = subCat.SubCategoryType,
             MonthlyCost = subCat.MonthlyCost,
@@ -161,6 +142,7 @@ public class CategoryController : Controller
             Id = model.SubCategoryId,
             Name = model.Name,
             SubCategoryType = model.SubCategoryType,
+            PayFrequency = model.PaymentFrequency,
             CategoryId = model.CategoryId,
             YearlyCost = model.YearlyCost,
             MonthlyCost = model.MonthlyCost,

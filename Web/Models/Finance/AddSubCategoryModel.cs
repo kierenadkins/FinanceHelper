@@ -6,7 +6,11 @@ namespace Web.Models.Finance;
 public class AddSubCategoryModel
 {
     public int SubCategoryId { get; set; }
-    public IEnumerable<SelectListItem> SubCategoryTypeOptions { get; set; } = Enumerable.Empty<SelectListItem>();
+    public IEnumerable<SelectListItem> SubCategoryTypeOptions { get; set; } = Enum.GetValues(typeof(SubCategoryType)).Cast<SubCategoryType>().Select(ct => new SelectListItem
+    {
+        Value = ct.ToString(),
+        Text = ct.ToString()
+    });
     public SubCategoryType SubCategoryType { get; set; }
 
     public IEnumerable<SelectListItem> PaymentFrequencyTypeOptions { get; set; } = Enumerable.Empty<SelectListItem>();

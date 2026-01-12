@@ -1,4 +1,5 @@
 ﻿using Application.Domain.Base;
+using Application.Domain.Finance.ExpenseTracking;
 using Application.Services.Finance.ExpenseTracking;
 using Application.Services.User;
 using Application.Validators;
@@ -8,7 +9,7 @@ namespace Application.Usecases.Category.Command;
 
 public class SaveCategoryCommand : IRequest<BaseResult>
 {
-    public Domain.Finance.ExpenseTracking.Category Category;
+    public CategoryType CategoryType;
 }
 
 public class SaveCategoryCommandHandler(IUserAccountService userAccountService, ICategoryService categoryService)
@@ -17,9 +18,12 @@ public class SaveCategoryCommandHandler(IUserAccountService userAccountService, 
     public async Task<BaseResult> Handle(SaveCategoryCommand request, CancellationToken cancellationToken)
     {
         var result = new BaseResult();
+        var userId = userAccountService.GetCurrent();
+
+        var category = new Domain.Finance.ExpenseTracking.Category { UserId = userId, Type = request.CategoryType };
 
         var catValidator = new CategoryValidator();
-        var catValidationResult = await catValidator.ValidateAsync(request.Category, cancellationToken);
+        var catValidationResult = await catValidator.ValidateAsync(category, cancellationToken);
 
         if (!catValidationResult.IsValid)
         {
@@ -27,32 +31,30 @@ public class SaveCategoryCommandHandler(IUserAccountService userAccountService, 
             return result;
         }
 
-        if (request.Category.SubCategories.Any())
-        {
-            var subValidator = new SubCategoryValidator();
+        //if (request.Category.SubCategories.Any())
+        //{
+        //    var subValidator = new SubCategoryValidator();
 
-            foreach (var subCategory in request.Category.SubCategories)
-            {
-                var validationResult = await subValidator.ValidateAsync(subCategory, cancellationToken);
+        //    foreach (var subCategory in request.Category.SubCategories)
+        //    {
+        //        var validationResult = await subValidator.ValidateAsync(subCategory, cancellationToken);
 
-                if (validationResult.IsValid) continue;
+        //        if (validationResult.IsValid) continue;
 
-                result.AddErrors(validationResult.Errors.Select(e => e.ErrorMessage));
-                return result;
-            }
-        }
-
-        var userId = userAccountService.GetCurrent();
+        //        result.AddErrors(validationResult.Errors.Select(e => e.ErrorMessage));
+        //        return result;
+        //    }
+        //}
 
         var categories = await categoryService.GetAllCategoriesWithUserIdCached(userId);
 
-        if (categories.Count > 0 & categories.Any(x => x.Type == request.Category.Type))
+        if (categories.Count > 0 & categories.Any(x => x.Type == category.Type))
         {
             result.AddError("This category already exists for your account");
+            return result;
         }
 
-        request.Category.UserId = userId;
-        await categoryService.AddAsync(request.Category, userId);
+        await categoryService.AddAsync(category, userId);
         return result;
     }
 }

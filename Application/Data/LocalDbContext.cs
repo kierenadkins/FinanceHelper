@@ -23,6 +23,9 @@ namespace Application.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new UserAccountMap());
+            modelBuilder.ApplyConfiguration(new SalaryMap());
+            modelBuilder.ApplyConfiguration(new CategoryMap());
+            modelBuilder.ApplyConfiguration(new SubCategoryMap());
         }
     }
 }
