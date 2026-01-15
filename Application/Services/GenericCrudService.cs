@@ -40,12 +40,12 @@ public abstract class GenericCrudService<T> : IGenericCrudService<T> where T : c
         return results;
     }
 
-    public virtual Task<T?> GetByIdAsync(int id) => _repo.GetByIdAsync(id);
+    public virtual Task<T?> GetByIdAsync(int id) => _repo.GetAsync(id);
 
     public virtual async Task<T> AddAsync(T entity, params object[] cacheArgs)
     {
         LastUpdated(entity);
-        await _repo.AddAsync(entity);
+        await _repo.InsertAsync(entity);
 
         if (cacheArgs.Length > 0)
         {
@@ -65,7 +65,7 @@ public abstract class GenericCrudService<T> : IGenericCrudService<T> where T : c
             LastUpdated(entity);
         }
 
-        await _repo.AddRangeAsync(entities);
+        await _repo.InsertManyAsync(entities);
         Invalidate(cacheArgs);
     }
 
@@ -89,13 +89,13 @@ public abstract class GenericCrudService<T> : IGenericCrudService<T> where T : c
             }
         }
 
-        await _repo.AddRangeAsync(entities);
+        await _repo.InsertManyAsync(entities);
         Invalidate(cacheArgs);
     }
 
     public virtual async Task DeleteAsync(int id, params object[] cacheArgs)
     {
-        var entity = await _repo.GetByIdAsync(id);
+        var entity = await _repo.GetAsync(id);
         if (entity == null)
             throw new KeyNotFoundException($"Entity with Id {id} not found.");
 
@@ -111,7 +111,7 @@ public abstract class GenericCrudService<T> : IGenericCrudService<T> where T : c
         }
         else
         {
-            await _repo.DeleteAsync(entity);
+            await _repo.DeletePermanentAsync(entity);
         }
 
         Invalidate(cacheArgs);
