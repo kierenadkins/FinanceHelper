@@ -53,15 +53,8 @@ public class CategoryController : Controller
 
     public IActionResult AddSubCategory(int categoryId)
     {
-        var paymentFrequency = Enum.GetValues(typeof(PaymentFrequency)).Cast<PaymentFrequency>().Select(ct => new SelectListItem
-        {
-            Value = ct.ToString(),
-            Text = ct.ToString()
-        });
-
         var model = new AddSubCategoryModel()
         {
-            PaymentFrequencyTypeOptions = paymentFrequency,
             CategoryId = categoryId
         };
 

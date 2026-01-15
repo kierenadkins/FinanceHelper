@@ -13,7 +13,12 @@ public class AddSubCategoryModel
     });
     public SubCategoryType SubCategoryType { get; set; }
 
-    public IEnumerable<SelectListItem> PaymentFrequencyTypeOptions { get; set; } = Enumerable.Empty<SelectListItem>();
+    public IEnumerable<SelectListItem> PaymentFrequencyTypeOptions { get; set; } = Enum.GetValues(typeof(PaymentFrequency)).Cast<PaymentFrequency>().Select(ct => new SelectListItem
+    {
+        Value = ct.ToString(),
+        Text = ct.ToString()
+    });
+
     public PaymentFrequency PaymentFrequency { get; set; }
 
     public int CategoryId { get; set; }
