@@ -3,153 +3,207 @@
     ViewData["Title"] = "Finance Dashboard";
 }
 
-<div class="container-fluid py-5 animate__animated animate__fadeIn">
+<div class="container-xxl py-4">
 
     @if (Model?.Salary == null)
     {
-        <!-- Empty State -->
-        <div class="d-flex flex-column justify-content-center align-items-center text-center" style="height: 75vh;">
-            <div class="card shadow-lg border-0 rounded-4 p-5" style="max-width: 420px;">
-                <h3 class="fw-bold text-primary mb-3">Add Your Salary</h3>
-                <p class="text-muted mb-4">Start by entering your salary to build your personalized finance dashboard.</p>
-
-                <form asp-action="SalaryForm" method="get" class="w-100">
-                    <div class="input-group input-group-lg mb-3">
-                        <span class="input-group-text bg-light text-muted">£</span>
-                        <input type="number" name="salary" step="0.01" placeholder="Enter your salary" required class="form-control" />
+        <div class="row justify-content-center align-items-center" style="min-height:65vh">
+            <div class="col-md-6 col-lg-4">
+                <div class="card border-0 shadow-sm rounded-3 p-4 text-center bg-glass">
+                    <div class="icon-circle mb-3 mx-auto">
+                        <i class="bi bi-currency-pound"></i>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold shadow-sm">
-                        <i class="bi bi-check-circle me-2"></i>Submit
-                    </button>
-                </form>
+                    <h4 class="fw-bold mb-1">Welcome</h4>
+                    <p class="text-muted mb-3">Add your salary to start tracking your finances.</p>
+
+                    <form asp-action="SalaryForm" method="get">
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text">£</span>
+                            <input type="number" step="0.01" name="salary" class="form-control" placeholder="Annual salary" required />
+                        </div>
+                        <button class="btn btn-primary w-100 rounded-pill py-1">Get Started</button>
+                    </form>
+                </div>
             </div>
         </div>
     }
     else
     {
-        <div class="text-center mb-5">
-            <h1 class="fw-bold text-primary mb-2">Finance Dashboard</h1>
-            <p class="text-muted">Overview of your income, taxes, and spending categories.</p>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h3 class="fw-bold mb-0">Finance Dashboard</h3>
+                <small class="text-muted">Overview of your income, taxes, and spending</small>
+            </div>
+            <span class="badge bg-primary-subtle text-primary">Updated</span>
         </div>
 
-        <div class="row g-4 mb-5 text-center">
-            <div class="col-12 col-sm-6 col-md-4">
-                <div class="card summary-card shadow-lg border-0 text-white rounded-4 hover-lift" style="background: linear-gradient(135deg,#43e97b,#38f9d7);">
-                    <div class="card-body">
-                        <i class="bi bi-currency-pound fs-2 mb-2"></i>
-                        <h6 class="text-uppercase mb-1">Net Salary (Yearly)</h6>
-                        <h3 class="fw-bold">£@Model.Salary.NetSalary</h3>
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <div class="kpi-card bg-success p-3">
+                    <div>
+                        <h6 class="mb-1">Net Income</h6>
+                        <h4 class="fw-bold mb-0">£@Model.Salary.NetSalary</h4>
                         <small>£@Model.Salary.SalaryMonthly.NetSalary / month</small>
                     </div>
+                    <i class="bi bi-graph-up-arrow"></i>
                 </div>
             </div>
-
-            <div class="col-12 col-sm-6 col-md-4">
-                <div class="card summary-card shadow-lg border-0 text-white rounded-4 hover-lift" style="background: linear-gradient(135deg,#f7971e,#ffd200);">
-                    <div class="card-body">
-                        <i class="bi bi-wallet2 fs-2 mb-2"></i>
-                        <h6 class="text-uppercase mb-1">Outgoings</h6>
-                        <h3 class="fw-bold">£@Model.YearlyTotalOutGoings</h3>
+            <div class="col-md-4">
+                <div class="kpi-card bg-warning p-3">
+                    <div>
+                        <h6 class="mb-1">Outgoings</h6>
+                        <h4 class="fw-bold mb-0">£@Model.YearlyTotalOutGoings</h4>
                         <small>£@Model.MonthlyOutGoings / month</small>
                     </div>
+                    <i class="bi bi-credit-card"></i>
                 </div>
             </div>
-
-            <div class="col-12 col-sm-6 col-md-4">
-                <div class="card summary-card shadow-lg border-0 text-white rounded-4 hover-lift" style="background: linear-gradient(135deg,#667eea,#764ba2);">
-                    <div class="card-body">
-                        <i class="bi bi-piggy-bank fs-2 mb-2"></i>
-                        <h6 class="text-uppercase mb-1">Left Over</h6>
-                        <h3 class="fw-bold">£@Model.YearlyLeftOver</h3>
+            <div class="col-md-4">
+                <div class="kpi-card bg-primary p-3">
+                    <div>
+                        <h6 class="mb-1">Left Over</h6>
+                        <h4 class="fw-bold mb-0">£@Model.YearlyLeftOver</h4>
                         <small>£@Model.MonthlyLeftOver / month</small>
                     </div>
+                    <i class="bi bi-piggy-bank"></i>
                 </div>
             </div>
         </div>
 
-        <div class="card shadow-sm border-0 rounded-4 animate__animated animate__fadeInUp mb-5">
-            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center rounded-top-4">
-                <h5 class="mb-0"><i class="bi bi-bar-chart-line me-2"></i>Salary Overview</h5>
+        <div class="card border-0 shadow-sm rounded-3 mb-4 overflow-hidden">
+            <div class="card-header bg-body-secondary px-3 py-2">
+                <h6 class="mb-0 fw-semibold">Salary Breakdown</h6>
             </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 small">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Item</th>
+                            <th>Yearly</th>
+                            <th>Monthly</th>
+                            <th>Weekly</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Gross Salary</td>
+                            <td>£@Model.Salary.GrossSalary</td>
+                            <td>£@Model.Salary.SalaryMonthly.GrossSalary</td>
+                            <td>£@Model.Salary.SalaryWeekly.GrossSalary</td>
+                        </tr>
+                        <tr class="fw-semibold">
+                            <td>Net Salary</td>
+                            <td>£@Model.Salary.NetSalary</td>
+                            <td>£@Model.Salary.SalaryMonthly.NetSalary</td>
+                            <td>£@Model.Salary.SalaryWeekly.NetSalary</td>
+                        </tr>
+                        <tr>
+                            <td>Tax</td>
+                            <td>£@Model.Salary.Tax</td>
+                            <td>£@Model.Salary.SalaryMonthly.Tax</td>
+                            <td>£@Model.Salary.SalaryWeekly.Tax</td>
+                        </tr>
+                        <tr>
+                            <td>National Insurance</td>
+                            <td>£@Model.Salary.NationalInsurance</td>
+                            <td>£@Model.Salary.SalaryMonthly.NationalInsurance</td>
+                            <td>£@Model.Salary.SalaryWeekly.NationalInsurance</td>
+                        </tr>
+                        <tr>
+                            <td>Pension (@Model.Salary.PensionPercentage%)</td>
+                            <td>£@Model.Salary.PensionContribution</td>
+                            <td>£@Model.Salary.SalaryMonthly.PensionContribution</td>
+                            <td>£@Model.Salary.SalaryWeekly.PensionContribution</td>
+                        </tr>
+                        @if (Model.Salary.HasStudentLoan)
+                        {
                             <tr>
-                                <th>Category</th>
-                                <th>Yearly</th>
-                                <th>Monthly</th>
-                                <th>Weekly</th>
+                                <td>Student Loan (@Model.Salary.StudentPlanType)</td>
+                                <td>£@Model.Salary.StudentLoan</td>
+                                <td>£@Model.Salary.SalaryMonthly.StudentLoan</td>
+                                <td>£@Model.Salary.SalaryWeekly.StudentLoan</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                                var salaryRows = new[]
-                                {
-                                                new { Label = "Gross Salary", Yearly = Model.Salary.GrossSalary, Monthly = Model.Salary.SalaryMonthly.GrossSalary, Weekly = Model.Salary.SalaryWeekly.GrossSalary },
-                                                new { Label = "Net Salary", Yearly = Model.Salary.NetSalary, Monthly = Model.Salary.SalaryMonthly.NetSalary, Weekly = Model.Salary.SalaryWeekly.NetSalary },
-                                                new { Label = "Tax", Yearly = Model.Salary.Tax, Monthly = Model.Salary.SalaryMonthly.Tax, Weekly = Model.Salary.SalaryWeekly.Tax },
-                                                new { Label = "National Insurance", Yearly = Model.Salary.NationalInsurance, Monthly = Model.Salary.SalaryMonthly.NationalInsurance, Weekly = Model.Salary.SalaryWeekly.NationalInsurance },
-                                                new { Label = $"Pension Contribution ({Model.Salary.PensionPercentage}%)", Yearly = Model.Salary.PensionContribution, Monthly = Model.Salary.SalaryMonthly.PensionContribution, Weekly = Model.Salary.SalaryWeekly.PensionContribution }
-                                                };
-                            }
-
-                            @foreach (var row in salaryRows)
-                            {
-                                <tr>
-                                    <td>@row.Label</td>
-                                    <td>£@row.Yearly</td>
-                                    <td>£@row.Monthly</td>
-                                    <td>£@row.Weekly</td>
-                                </tr>
-                            }
-
-                            @if (Model.Salary.HasStudentLoan)
-                            {
-                                <tr>
-                                    <td>Student Loan (@Model.Salary.StudentPlanType)</td>
-                                    <td>£@Model.Salary.StudentLoan</td>
-                                    <td>£@Model.Salary.SalaryMonthly.StudentLoan</td>
-                                    <td>£@Model.Salary.SalaryWeekly.StudentLoan</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
+
+        <div class="mb-3">
+            <h5 class="fw-semibold mb-3">Spending Categories</h5>
+
+            <div class="d-flex flex-row flex-nowrap overflow-auto gap-3">
+                @foreach (var cat in Model.Category)
+                {
+                    <div class="col-12 col-sm-6 col-lg-4 flex-shrink-0">
+                        <div class="card border-0 shadow-sm rounded-3 p-3 category-tile">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h6 class="fw-semibold mb-0">@cat.Name</h6>
+                                <span class="badge bg-success-subtle text-success">Yearly</span>
+                            </div>
+                            <h5 class="fw-bold mb-2">£@cat.YearlyCost</h5>
+                            <div class="small d-flex justify-content-between">
+                                <span class="text-muted">Monthly</span>
+                                <span>£@cat.MonthlyCost</span>
+                            </div>
+                            <div class="small d-flex justify-content-between">
+                                <span class="text-muted">Weekly</span>
+                                <span>£@cat.WeeklyCost</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
         @await Html.PartialAsync("_CategoryPartial", Model.Category)
     }
 </div>
 
-@section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></script>
+<style>
+    body {
+        background: #f8f9fa;
+    }
 
-    <script>
-        // Hover-lift effect for summary cards
-        document.querySelectorAll('.hover-lift').forEach(card => {
-            card.addEventListener('mouseenter', () => card.classList.add('shadow-xl', 'scale-up'));
-            card.addEventListener('mouseleave', () => card.classList.remove('shadow-xl', 'scale-up'));
-        });
-    </script>
+    .bg-glass {
+        background: rgba(255,255,255,0.85);
+        backdrop-filter: blur(6px);
+    }
 
-    <style>
-        .hover-lift {
-            transition: transform 0.2s ease, box-shadow 0.3s ease;
+    .icon-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #667eea;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.3rem;
+        margin: auto;
+    }
+
+    .kpi-card {
+        border-radius: 1rem;
+        padding: 1rem;
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: .9rem;
+    }
+
+        .kpi-card i {
+            font-size: 1.8rem;
+            opacity: 0.5;
         }
 
-            .hover-lift.scale-up {
-                transform: translateY(-4px) scale(1.03);
-            }
+    .category-tile {
+        transition: transform .15s ease, box-shadow .15s ease;
+    }
 
-        .summary-card h6 {
-            letter-spacing: 0.5px;
-            font-weight: 600;
+        .category-tile:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
         }
-
-        table th, table td {
-            vertical-align: middle !important;
-        }
-    </style>
-}
+</style>
