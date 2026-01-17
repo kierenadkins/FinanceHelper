@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="Application/Application.csproj" />
   <Project Path="ApplicationTest/ApplicationTest.csproj" Id="a748b761-c7dc-4df0-8edc-506573a99ccd" />
+  <Project Path="FinanceHelperConsole/FinanceHelperConsole.csproj" Id="4500fa1c-1820-4774-a637-f6dde1778ba1" />
   <Project Path="Web/Web.csproj" />
 </Solution>

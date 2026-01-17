@@ -10,6 +10,7 @@
     <Folder Include="Helpers\" />
     <Folder Include="Usecases\Category\Query\" />
     <Folder Include="Usecases\Finance\Salarys\Request\" />
+    <Folder Include="Usecases\Savings\" />
   </ItemGroup>
 
   <ItemGroup>
