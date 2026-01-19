@@ -4,7 +4,7 @@ using Application.Services.Finance.ExpenseTracking;
 using Application.Services.User;
 using MediatR;
 
-namespace Application.Usecases.Finance.Salarys.Request
+namespace Application.Usecases.Finance
 {
     public class GetFinanceDashboardQuery : IRequest<FinanceDto?>
     {

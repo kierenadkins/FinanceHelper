@@ -1,5 +1,5 @@
-﻿@using Core.Services.Session
-@inject Core.Services.Session.ISessionManagerService SessionManager
+﻿@using Application.Services.Session
+@inject ISessionManagerService SessionManager
 
 @{
     var userSession = SessionManager.Get<int>("CurrentUser");

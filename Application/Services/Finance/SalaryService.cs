@@ -1,7 +1,7 @@
 ﻿using Application.Data;
 using Application.Domain.Finance;
 using Application.Services.Cache;
-using Core.Services.Session;
+using Application.Services.Session;
 
 namespace Application.Services.Finance;
 

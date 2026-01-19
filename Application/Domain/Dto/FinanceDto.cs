@@ -1,6 +1,6 @@
 ﻿using Application.Domain.Finance;
 using Application.Domain.Finance.ExpenseTracking;
-using Application.Extentions.Numerics;
+using Application.Extensions.Numerics;
 
 namespace Application.Domain.Dto;
 

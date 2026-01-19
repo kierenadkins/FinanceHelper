@@ -1,4 +1,4 @@
-﻿namespace Core.Services.Session
+﻿namespace Application.Services.Session
 {
     public interface ISessionManagerService
     {

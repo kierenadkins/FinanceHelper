@@ -1,11 +1,11 @@
-﻿using Core.Services.Session;
+﻿using Application.Services.Session;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Web.Attribute
+namespace Web.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class AuthorizeSessionAttribute : System.Attribute, IAuthorizationFilter
+    public class AuthorizeSessionAttribute : Attribute, IAuthorizationFilter
     {
         private readonly ISessionManagerService _sessionManager;
 

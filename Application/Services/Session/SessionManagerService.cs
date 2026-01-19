@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using System.Text;
 
-namespace Core.Services.Session
+namespace Application.Services.Session
 {
     public class SessionManagerService : ISessionManagerService
     {

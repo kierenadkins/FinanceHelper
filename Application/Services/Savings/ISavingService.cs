@@ -1,6 +1,6 @@
 ﻿using Application.Domain.Accounts;
 
-namespace Application.Services.Finance.ExpenseTracking;
+namespace Application.Services.Savings;
 
 public interface ISavingService
 {

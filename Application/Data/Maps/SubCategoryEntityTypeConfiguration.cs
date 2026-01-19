@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Application.Data.Maps;
 
-public class SubCategoryMap : IEntityTypeConfiguration<SubCategory>
+public class SubCategoryEntityTypeConfiguration : IEntityTypeConfiguration<SubCategory>
 {
     public void Configure(EntityTypeBuilder<SubCategory> builder)
     {

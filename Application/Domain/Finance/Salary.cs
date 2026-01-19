@@ -1,5 +1,5 @@
 ﻿using Application.Enums.Finance;
-using Application.Extentions.Numerics;
+using Application.Extensions.Numerics;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -7,14 +7,14 @@ using Application.Services.Cache;
 using Application.Services.Encryption;
 using Application.Services.Finance;
 using Application.Services.Finance.ExpenseTracking;
+using Application.Services.Session;
 using Application.Services.Sterializer;
 using Application.Services.Tax;
 using Application.Services.User;
 using Application.Settings;
-using Core.Services.Session;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinanceBuddy
+namespace Web
 {
     public class Program
     {

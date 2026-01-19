@@ -1,6 +1,6 @@
 ﻿using Application.Domain.Base;
 using Application.Domain.Finance;
-using Application.Extentions.Numerics;
+using Application.Extensions.Numerics;
 using Application.Services.Tax;
 using MediatR;
 

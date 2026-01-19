@@ -3,7 +3,7 @@ using Application.Domain.Finance;
 using Application.Domain.Users;
 using Application.Services.Cache;
 using Application.Services.Finance;
-using Core.Services.Session;
+using Application.Services.Session;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

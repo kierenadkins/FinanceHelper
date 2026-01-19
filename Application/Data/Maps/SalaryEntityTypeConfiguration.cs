@@ -9,7 +9,7 @@ using Application.Domain.Finance;
 
 namespace Application.Data.Maps
 {
-    public class SalaryMap : IEntityTypeConfiguration<Salary>
+    public class SalaryEntityTypeConfiguration : IEntityTypeConfiguration<Salary>
     {
         public void Configure(EntityTypeBuilder<Salary> builder)
         {

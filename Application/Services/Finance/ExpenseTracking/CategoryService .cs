@@ -15,14 +15,14 @@ public class CategoryService(
     public Task<List<Category>> GetAllCategoriesWithUserIdCached(int userId)
     {
         return GetListCachedAsync(
-            ctx => ctx.Category.AsNoTracking().Where(c => c.UserId == userId && c.Deleted == false),
+            ctx => ctx.Categories.AsNoTracking().Where(c => c.UserId == userId && c.Deleted == false),
             userId
         );
     }
     public Task<List<Category>> GetAllCategoriesWithSubCategoriesWithUserIdCached(int userId)
     {
         return GetListCachedAsync(
-            ctx => ctx.Category
+            ctx => ctx.Categories
                 .AsNoTracking()
                 .Include(c => c.SubCategories.Where(sc => sc.Deleted == false))
                 .Where(c => c.UserId == userId && c.Deleted == false),

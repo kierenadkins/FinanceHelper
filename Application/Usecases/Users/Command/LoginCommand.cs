@@ -1,8 +1,8 @@
 ﻿using Application.Domain.Base;
 using Application.Services.Encryption;
+using Application.Services.Session;
 using Application.Services.User;
 using Application.Tools;
-using Core.Services.Session;
 using MediatR;
 using System;
 using System.Collections.Generic;

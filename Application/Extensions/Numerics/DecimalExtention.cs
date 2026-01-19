@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.Extentions.Numerics
+namespace Application.Extensions.Numerics
 {
     public static class NumericExtensions
     {

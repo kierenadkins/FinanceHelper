@@ -1,6 +1,6 @@
 ﻿using Application.Domain.Users;
+using Application.Services.Session;
 using Application.Usecases.Users.Command;
-using Core.Services.Session;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models;
