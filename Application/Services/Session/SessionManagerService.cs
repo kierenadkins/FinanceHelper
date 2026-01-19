@@ -1,8 +1,8 @@
-﻿using Application.Services.Sterializer;
+﻿using FinanceHelper.Application.Services.Sterializer;
 using Microsoft.AspNetCore.Http;
 using System.Text;
 
-namespace Application.Services.Session
+namespace FinanceHelper.Application.Services.Session
 {
     public class SessionManagerService : ISessionManagerService
     {

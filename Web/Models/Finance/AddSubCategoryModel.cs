@@ -1,7 +1,7 @@
-﻿using Application.Domain.Finance.ExpenseTracking;
+﻿using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Web.Models.Finance;
+namespace FinanceHelper.Web.Models.Finance;
 
 public class AddSubCategoryModel
 {

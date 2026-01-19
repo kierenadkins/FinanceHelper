@@ -1,13 +1,13 @@
-﻿using Application.Domain.Base;
-using Application.Domain.Finance;
-using Application.Services.Finance;
-using Application.Services.User;
+﻿using FinanceHelper.Application.Services.Finance;
+using FinanceHelper.Application.Services.User;
+using FinanceHelper.Domain.Objects.Base;
+using FinanceHelper.Domain.Objects.Finance;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.Usecases.Finance.Salarys.Command
+namespace FinanceHelper.Application.Usecases.Finance.Salarys.Command
 {
     public class SaveSalaryCommand : IRequest<BaseResult>
     {

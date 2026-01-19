@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
-namespace Application.Services;
+namespace FinanceHelper.Application.Services;
 
 public class CoinCapService
 {

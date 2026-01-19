@@ -1,8 +1,8 @@
-﻿using Application.Domain.Users;
+﻿using FinanceHelper.Domain.Objects.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Application.Data.Maps
+namespace FinanceHelper.Application.Data.Maps
 {
     public class UserEntityTypeConfiguration : IEntityTypeConfiguration<UserAccount>
     {

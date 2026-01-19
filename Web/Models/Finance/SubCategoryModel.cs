@@ -1,6 +1,6 @@
-﻿using Application.Domain.Finance.ExpenseTracking;
+﻿using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
 
-namespace Web.Models.Finance;
+namespace FinanceHelper.Web.Models.Finance;
 
 public class SubCategoryModel(SubCategory subCategory)
 {

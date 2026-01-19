@@ -1,13 +1,8 @@
-﻿using Application.Domain.Users;
+﻿using FinanceHelper.Domain.Objects.Finance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
 
-using System.Text;
-using Application.Domain.Finance;
-
-namespace Application.Data.Maps
+namespace FinanceHelper.Application.Data.Maps
 {
     public class SalaryEntityTypeConfiguration : IEntityTypeConfiguration<Salary>
     {

@@ -1,10 +1,10 @@
-﻿using Application.Domain.Base;
-using Application.Domain.Finance;
-using Application.Extensions.Numerics;
-using Application.Services.Tax;
+﻿using FinanceHelper.Application.Extensions.Numerics;
+using FinanceHelper.Application.Services.Tax;
+using FinanceHelper.Domain.Objects.Base;
+using FinanceHelper.Domain.Objects.Finance;
 using MediatR;
 
-namespace Application.Usecases.Finance.Salarys.Command
+namespace FinanceHelper.Application.Usecases.Finance.Salarys.Command
 {
     public class CalculateSalaryTaxablesCommand : IRequest<BaseResult<Salary>>
     {

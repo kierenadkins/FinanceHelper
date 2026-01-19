@@ -1,11 +1,11 @@
-﻿using Application.Domain.Users;
-using Application.Tools;
+﻿using FinanceHelper.Application.Tools;
+using FinanceHelper.Domain.Objects.Users;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.Validators
+namespace FinanceHelper.Application.Validators
 {
     public class UserAccountValidator : AbstractValidator<UserAccount>
     {

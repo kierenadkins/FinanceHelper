@@ -1,10 +1,10 @@
-﻿using Application.Domain.Dto;
-using Application.Services.Finance;
-using Application.Services.Finance.ExpenseTracking;
-using Application.Services.User;
+﻿using FinanceHelper.Application.Domain.Dto;
+using FinanceHelper.Application.Services.Finance;
+using FinanceHelper.Application.Services.Finance.ExpenseTracking;
+using FinanceHelper.Application.Services.User;
 using MediatR;
 
-namespace Application.Usecases.Finance
+namespace FinanceHelper.Application.Usecases.Finance
 {
     public class GetFinanceDashboardQuery : IRequest<FinanceDto?>
     {

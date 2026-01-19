@@ -1,11 +1,11 @@
-﻿using Application.Enums.Finance;
-using Application.Settings;
+﻿using FinanceHelper.Application.Settings;
+using FinanceHelper.Domain.Enums.Finance;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.Services.Tax
+namespace FinanceHelper.Application.Services.Tax
 {
     public class TaxService : ITaxService
     {

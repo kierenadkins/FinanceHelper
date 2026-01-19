@@ -1,11 +1,11 @@
-﻿using Application.Domain.Base;
-using Application.Domain.Finance.ExpenseTracking;
-using Application.Services.Finance.ExpenseTracking;
-using Application.Services.User;
-using Application.Validators;
+﻿using FinanceHelper.Application.Services.Finance.ExpenseTracking;
+using FinanceHelper.Application.Services.User;
+using FinanceHelper.Application.Validators;
+using FinanceHelper.Domain.Objects.Base;
+using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
 using MediatR;
 
-namespace Application.Usecases.Category.Command;
+namespace FinanceHelper.Application.Usecases.Category.Command;
 
 public class SaveCategoryCommand : IRequest<BaseResult>
 {
@@ -20,7 +20,7 @@ public class SaveCategoryCommandHandler(IUserAccountService userAccountService, 
         var result = new BaseResult();
         var userId = userAccountService.GetCurrent();
 
-        var category = new Domain.Finance.ExpenseTracking.Category { UserId = userId, Type = request.CategoryType };
+        var category = new FinanceHelper.Domain.Objects.Finance.ExpenseTracking.Category { UserId = userId, Type = request.CategoryType };
 
         var catValidator = new CategoryValidator();
         var catValidationResult = await catValidator.ValidateAsync(category, cancellationToken);

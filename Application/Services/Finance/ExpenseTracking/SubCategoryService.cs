@@ -1,8 +1,8 @@
-﻿using Application.Data;
-using Application.Domain.Finance.ExpenseTracking;
-using Application.Services.Cache;
+﻿using FinanceHelper.Application.Data;
+using FinanceHelper.Application.Services.Cache;
+using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
 
-namespace Application.Services.Finance.ExpenseTracking;
+namespace FinanceHelper.Application.Services.Finance.ExpenseTracking;
 
 public class SubCategoryService : GenericCrudService<SubCategory>, ISubCategoryService
 {

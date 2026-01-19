@@ -1,14 +1,11 @@
-﻿using Application.Domain.Base;
-using Application.Domain.Users;
-using Application.Services.Encryption;
-using Application.Services.User;
-using Application.Validators;
+﻿using FinanceHelper.Application.Services.Encryption;
+using FinanceHelper.Application.Services.User;
+using FinanceHelper.Application.Validators;
+using FinanceHelper.Domain.Objects.Base;
+using FinanceHelper.Domain.Objects.Users;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Application.Usecases.Users.Command
+namespace FinanceHelper.Application.Usecases.Users.Command
 {
     public class SignupCommand : IRequest<BaseResult>
     {

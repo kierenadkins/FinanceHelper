@@ -1,12 +1,12 @@
-﻿using Application.Domain.Users;
-using Application.Services.Session;
-using Application.Usecases.Users.Command;
+﻿using FinanceHelper.Application.Services.Session;
+using FinanceHelper.Application.Usecases.Users.Command;
+using FinanceHelper.Domain.Objects.Users;
+using FinanceHelper.Web.Models;
+using FinanceHelper.Web.Models.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Web.Models;
-using Web.Models.Auth;
 
-namespace Web.Controllers
+namespace FinanceHelper.Web.Controllers
 {
     public class AuthController : Controller
     {

@@ -1,11 +1,11 @@
-﻿using Application.Domain.Users;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Application.Domain.Finance;
-using Application.Domain.Finance.ExpenseTracking;
+using FinanceHelper.Domain.Objects.Finance;
+using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
+using FinanceHelper.Domain.Objects.Users;
 
-namespace Application.Services.Cache
+namespace FinanceHelper.Application.Services.Cache
 {
     public static class CacheKeys
     {

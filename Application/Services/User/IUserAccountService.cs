@@ -1,6 +1,6 @@
-﻿using Application.Domain.Users;
+﻿using FinanceHelper.Domain.Objects.Users;
 
-namespace Application.Services.User
+namespace FinanceHelper.Application.Services.User
 {
     public interface IUserAccountService : IGenericCrudService<UserAccount>
     {

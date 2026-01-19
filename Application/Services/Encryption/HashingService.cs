@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Application.Services.Encryption
+namespace FinanceHelper.Application.Services.Encryption
 {
     public class HashingService : IHashingService
     {

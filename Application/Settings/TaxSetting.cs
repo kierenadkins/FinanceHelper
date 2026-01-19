@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.Settings
+namespace FinanceHelper.Application.Settings
 {
     public class TaxSettings
     {

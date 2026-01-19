@@ -1,9 +1,9 @@
+using FinanceHelper.Web.Attributes;
+using FinanceHelper.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using Web.Attributes;
-using Web.Models;
 
-namespace Web.Controllers
+namespace FinanceHelper.Web.Controllers
 {
     [AuthorizeSession]
     public class HomeController : Controller

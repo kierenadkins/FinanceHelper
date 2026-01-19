@@ -1,6 +1,6 @@
-﻿using Application.Domain.Accounts;
+﻿using FinanceHelper.Domain.Objects.Accounts;
 
-namespace Application.Services.Savings;
+namespace FinanceHelper.Application.Services.Savings;
 
 public interface ISavingService
 {

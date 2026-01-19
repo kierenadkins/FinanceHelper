@@ -1,6 +1,6 @@
-﻿using Application.Enums.Finance;
+﻿using FinanceHelper.Domain.Enums.Finance;
 
-namespace Application.Services.Tax
+namespace FinanceHelper.Application.Services.Tax
 {
     public interface ITaxService
     {

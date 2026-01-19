@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Application.Domain.Base
+namespace FinanceHelper.Domain.Objects.Base
 {
     public class BaseResult
     {

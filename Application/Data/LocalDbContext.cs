@@ -1,10 +1,9 @@
-﻿using Application.Data.Maps;
-using Application.Domain.Users;
-using Application.Domain.Finance;
-using Application.Domain.Finance.ExpenseTracking;
+﻿using FinanceHelper.Domain.Objects.Finance;
+using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
+using FinanceHelper.Domain.Objects.Users;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Data
+namespace FinanceHelper.Application.Data
 {
     public class LocalDbContext : DbContext
     {

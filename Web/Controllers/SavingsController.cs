@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FinanceHelper.Web.Attributes;
 using Microsoft.AspNetCore.Mvc;
-using Web.Attributes;
 
-namespace Web.Controllers
+namespace FinanceHelper.Web.Controllers
 {
     [AuthorizeSession]
     public class SavingsController : Controller

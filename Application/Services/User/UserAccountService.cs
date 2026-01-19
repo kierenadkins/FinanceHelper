@@ -1,16 +1,10 @@
-﻿using Application.Data;
-using Application.Domain.Finance;
-using Application.Domain.Users;
-using Application.Services.Cache;
-using Application.Services.Finance;
-using Application.Services.Session;
+﻿using FinanceHelper.Application.Data;
+using FinanceHelper.Application.Services.Cache;
+using FinanceHelper.Application.Services.Session;
+using FinanceHelper.Domain.Objects.Users;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
 
-namespace Application.Services.User
+namespace FinanceHelper.Application.Services.User
 {
     public class UserAccountService(IRepository<UserAccount> repository,
     ISessionManagerService sessionManager,

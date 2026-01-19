@@ -1,4 +1,4 @@
-﻿namespace Application.Services.Encryption
+﻿namespace FinanceHelper.Application.Services.Encryption
 {
     public interface IEncryptionService
     {

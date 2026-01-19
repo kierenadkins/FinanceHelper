@@ -1,13 +1,13 @@
-﻿using Application.Domain.Finance.ExpenseTracking;
-using Application.Services.Finance.ExpenseTracking;
-using Application.Services.User;
-using Application.Usecases.Category.Command;
+﻿using FinanceHelper.Application.Services.Finance.ExpenseTracking;
+using FinanceHelper.Application.Services.User;
+using FinanceHelper.Application.Usecases.Category.Command;
+using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
+using FinanceHelper.Web.Attributes;
+using FinanceHelper.Web.Models.Finance;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Web.Attributes;
-using Web.Models.Finance;
 
-namespace Web.Controllers;
+namespace FinanceHelper.Web.Controllers;
 
 [AuthorizeSession]
 public class CategoryController : Controller

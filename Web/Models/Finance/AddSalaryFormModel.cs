@@ -1,8 +1,9 @@
-﻿using Application.Domain.Finance;
-using Application.Enums.Finance;
+﻿using FinanceHelper.Application.Extensions.Numerics;
+using FinanceHelper.Domain.Enums.Finance;
+using FinanceHelper.Domain.Objects.Finance;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Web.Models.Finance
+namespace FinanceHelper.Web.Models.Finance
 {
     public class AddSalaryFormModel
     {
@@ -35,14 +36,15 @@ namespace Web.Models.Finance
         public bool IsReview { get; set; } = false;
         public List<String> Errors { get; set; } = new List<string>();
 
-        public void UpdateMonthlyTotals(MonthlyTotals monthlyTotals)
+        public void UpdateMonthlyTotals()
         {
-            NetSalaryMonthly = monthlyTotals?.NetSalary ?? 0;
-            GrossSalaryMonthly = monthlyTotals?.GrossSalary ?? 0;
-            TaxMonthly = monthlyTotals?.Tax ?? 0;
-            StudentLoanMonthly = monthlyTotals?.StudentLoan ?? 0;
-            PensionContributionMonthly = monthlyTotals?.PensionContribution ?? 0;
-            NationalInsuranceMonthly = monthlyTotals?.NationalInsurance ?? 0;
+            NetSalaryMonthly = NetSalary.YearlyToMonthly();
+            GrossSalaryMonthly = GrossSalary.YearlyToMonthly();
+            TaxMonthly = Tax.YearlyToMonthly();
+            StudentLoanMonthly = StudentLoan.YearlyToMonthly();
+            PensionContributionMonthly = PensionContribution.YearlyToMonthly();
+            NationalInsuranceMonthly = NationalInsurance.YearlyToMonthly();
+
         }
     }
 }

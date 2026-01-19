@@ -1,20 +1,20 @@
-using Application.Data;
-using Application.Domain.Finance;
-using Application.Domain.Finance.ExpenseTracking;
-using Application.Domain.Users;
-using Application.Services;
-using Application.Services.Cache;
-using Application.Services.Encryption;
-using Application.Services.Finance;
-using Application.Services.Finance.ExpenseTracking;
-using Application.Services.Session;
-using Application.Services.Sterializer;
-using Application.Services.Tax;
-using Application.Services.User;
-using Application.Settings;
+using FinanceHelper.Application.Data;
+using FinanceHelper.Application.Services;
+using FinanceHelper.Application.Services.Cache;
+using FinanceHelper.Application.Services.Encryption;
+using FinanceHelper.Application.Services.Finance;
+using FinanceHelper.Application.Services.Finance.ExpenseTracking;
+using FinanceHelper.Application.Services.Session;
+using FinanceHelper.Application.Services.Sterializer;
+using FinanceHelper.Application.Services.Tax;
+using FinanceHelper.Application.Services.User;
+using FinanceHelper.Application.Settings;
+using FinanceHelper.Domain.Objects.Finance;
+using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
+using FinanceHelper.Domain.Objects.Users;
 using Microsoft.EntityFrameworkCore;
 
-namespace Web
+namespace FinanceHelper.Web
 {
     public class Program
     {

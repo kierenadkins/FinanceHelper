@@ -1,7 +1,7 @@
-﻿using Application.Domain.Finance.ExpenseTracking;
+﻿using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
 using FluentValidation;
 
-namespace Application.Validators;
+namespace FinanceHelper.Application.Validators;
 
 public class CategoryValidator : AbstractValidator<Category>
 {

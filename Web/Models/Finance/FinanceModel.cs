@@ -1,4 +1,4 @@
-﻿namespace Web.Models.Finance
+﻿namespace FinanceHelper.Web.Models.Finance
 {
     public class FinanceModel
     {

@@ -1,5 +1,6 @@
-﻿@using Application.Domain.Finance.ExpenseTracking
-@model IEnumerable<Web.Models.Finance.CategoryModel>
+﻿@using FinanceHelper.Domain.Objects.Finance.ExpenseTracking
+@using FinanceHelper.Web.Models.Finance
+@model IEnumerable<CategoryModel>
 
 <div class="container-xxl py-5">
 
@@ -68,7 +69,7 @@
         </div>
     </div>
 
-    @foreach (var cat in Model ?? Enumerable.Empty<Web.Models.Finance.CategoryModel>())
+    @foreach (var cat in Model ?? Enumerable.Empty<CategoryModel>())
     {
         <div class="card border-0 shadow-sm rounded-5 mb-5 overflow-hidden">
             <div class="card-header bg-body-secondary d-flex justify-content-between align-items-center px-4 py-3">

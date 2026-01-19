@@ -1,9 +1,9 @@
-﻿using Application.Data;
-using Application.Domain.Finance;
-using Application.Services.Cache;
-using Application.Services.Session;
+﻿using FinanceHelper.Application.Data;
+using FinanceHelper.Application.Services.Cache;
+using FinanceHelper.Application.Services.Session;
+using FinanceHelper.Domain.Objects.Finance;
 
-namespace Application.Services.Finance;
+namespace FinanceHelper.Application.Services.Finance;
 
 public class SalaryService(IRepository<Salary> repository,
     ISessionManagerService sessionManager,

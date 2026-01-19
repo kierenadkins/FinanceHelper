@@ -1,14 +1,14 @@
-﻿using Application.Domain.Finance;
-using Application.Enums.Finance;
-using Application.Usecases.Finance;
-using Application.Usecases.Finance.Salarys.Command;
+﻿using FinanceHelper.Application.Usecases.Finance;
+using FinanceHelper.Application.Usecases.Finance.Salarys.Command;
+using FinanceHelper.Domain.Enums.Finance;
+using FinanceHelper.Domain.Objects.Finance;
+using FinanceHelper.Web.Attributes;
+using FinanceHelper.Web.Models.Finance;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Web.Attributes;
-using Web.Models.Finance;
 
-namespace Web.Controllers
+namespace FinanceHelper.Web.Controllers
 {
     [AuthorizeSession]
     public class FinanceController : Controller
@@ -61,6 +61,7 @@ namespace Web.Controllers
             return View(model);
         }
 
+
         public async Task<IActionResult> CalculateSalaryDeductions(AddSalaryFormModel model)
         {
             var salary = new Salary { GrossSalary = model.GrossSalary, PensionPercentage = model.PensionPercentage, PayNationalInsurance = model.PayNationalInsurance, HasStudentLoan = model.HasStudentLoan, StudentPlanType = model.StudentPlanType };
@@ -75,9 +76,7 @@ namespace Web.Controllers
             var salaryResponse = result.Value;
 
             var addSalaryFormModel = new AddSalaryFormModel { GrossSalary = salaryResponse!.GrossSalary, HasStudentLoan = salaryResponse!.HasStudentLoan, NationalInsurance = salaryResponse!.NationalInsurance, NetSalary = salaryResponse!.NetSalary, PayNationalInsurance = salaryResponse!.PayNationalInsurance, PensionContribution = salaryResponse!.PensionContribution, PensionPercentage = salaryResponse!.PensionPercentage, StudentLoan = salaryResponse!.StudentLoan, StudentPlanType = salaryResponse!.StudentPlanType, Tax = salaryResponse!.Tax, TaxableBenefits = salaryResponse!.TaxableBenefits, TaxBand = salaryResponse!.TaxBand, StudentPlanTypeOptions = model.StudentPlanTypeOptions };
-
-            var monthlyTotals = new MonthlyTotals(salary);
-            addSalaryFormModel.UpdateMonthlyTotals(monthlyTotals);
+            addSalaryFormModel.UpdateMonthlyTotals();
 
             addSalaryFormModel.IsReview = true;
 
@@ -87,7 +86,6 @@ namespace Web.Controllers
         public async Task<IActionResult> SaveSalary(AddSalaryFormModel model)
         {
             var salary = new Salary { GrossSalary = model.GrossSalary, HasStudentLoan = model.HasStudentLoan, NationalInsurance = model.NationalInsurance, NetSalary = model.NetSalary, PayNationalInsurance = model.PayNationalInsurance, PensionContribution = model.PensionContribution, PensionPercentage = model.PensionPercentage, StudentLoan = model.StudentLoan, StudentPlanType = model.StudentPlanType, Tax = model.Tax, TaxBand = model.TaxBand };
-
             await _mediator.Send(new SaveSalaryCommand { Salary = salary });
             return RedirectToAction(nameof(Index));
         }

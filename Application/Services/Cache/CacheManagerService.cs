@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace Application.Services.Cache
+namespace FinanceHelper.Application.Services.Cache
 {
     public class CacheManagerService : ICacheManagerService
     {

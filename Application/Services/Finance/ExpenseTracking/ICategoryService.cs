@@ -1,6 +1,6 @@
-﻿using Application.Domain.Finance.ExpenseTracking;
+﻿using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
 
-namespace Application.Services.Finance.ExpenseTracking;
+namespace FinanceHelper.Application.Services.Finance.ExpenseTracking;
 
 public interface ICategoryService
 {

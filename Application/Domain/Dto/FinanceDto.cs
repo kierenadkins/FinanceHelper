@@ -1,8 +1,8 @@
-﻿using Application.Domain.Finance;
-using Application.Domain.Finance.ExpenseTracking;
-using Application.Extensions.Numerics;
+﻿using FinanceHelper.Application.Extensions.Numerics;
+using FinanceHelper.Domain.Objects.Finance;
+using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
 
-namespace Application.Domain.Dto;
+namespace FinanceHelper.Application.Domain.Dto;
 
 public class FinanceDto
 {

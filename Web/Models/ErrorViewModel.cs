@@ -1,4 +1,4 @@
-namespace Web.Models
+namespace FinanceHelper.Web.Models
 {
     public class ErrorViewModel
     {

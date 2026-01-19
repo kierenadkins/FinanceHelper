@@ -1,6 +1,6 @@
-﻿using Application.Domain.Base;
+﻿using FinanceHelper.Domain.Objects.Base;
 
-namespace Application.Domain.Accounts;
+namespace FinanceHelper.Domain.Objects.Accounts;
 
 public class SavingTransaction : BaseEntity
 {

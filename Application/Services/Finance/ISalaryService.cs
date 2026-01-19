@@ -1,6 +1,6 @@
-﻿using Application.Domain.Finance;
+﻿using FinanceHelper.Domain.Objects.Finance;
 
-namespace Application.Services.Finance
+namespace FinanceHelper.Application.Services.Finance
 {
     public interface ISalaryService : IGenericCrudService<Salary>
     {

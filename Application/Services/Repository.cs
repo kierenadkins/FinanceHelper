@@ -1,11 +1,11 @@
-﻿using Application.Data;
+﻿using FinanceHelper.Application.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace Application.Services
+namespace FinanceHelper.Application.Services
 {
     public interface IRepository<T> where T : class
     {

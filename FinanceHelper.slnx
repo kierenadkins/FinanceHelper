@@ -1,6 +1,7 @@
 <Solution>
-  <Project Path="Application/Application.csproj" />
+  <Project Path="Application/FinanceHelper.Application.csproj" />
   <Project Path="ApplicationTest/ApplicationTest.csproj" Id="a748b761-c7dc-4df0-8edc-506573a99ccd" />
-  <Project Path="FinanceHelperConsole/FinanceHelperConsole.csproj" Id="4500fa1c-1820-4774-a637-f6dde1778ba1" />
-  <Project Path="Web/Web.csproj" />
+  <Project Path="Domain/FinanceHelper.Domain.csproj" Id="758a2cc2-be1d-40e2-adfb-5c24940c49e4" />
+  <Project Path="Infrastructure/FinanceHelper.Infrastructure.csproj" Id="0ab9b340-6ada-42fb-be56-8e698b6a791c" />
+  <Project Path="Web/FinanceHelper.Web.csproj" />
 </Solution>

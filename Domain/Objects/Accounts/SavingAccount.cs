@@ -1,9 +1,6 @@
-﻿using Application.Domain.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using FinanceHelper.Domain.Objects.Base;
 
-namespace Application.Domain.Accounts
+namespace FinanceHelper.Domain.Objects.Accounts
 {
     public class SavingAccount : BaseEntity
     {

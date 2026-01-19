@@ -1,14 +1,14 @@
-﻿using Application.Domain.Base;
-using Application.Services.Encryption;
-using Application.Services.Session;
-using Application.Services.User;
-using Application.Tools;
+﻿using FinanceHelper.Application.Services.Encryption;
+using FinanceHelper.Application.Services.Session;
+using FinanceHelper.Application.Services.User;
+using FinanceHelper.Application.Tools;
+using FinanceHelper.Domain.Objects.Base;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.Usecases.Users.Command
+namespace FinanceHelper.Application.Usecases.Users.Command
 {
     public class LoginQuery : IRequest<BaseResult>
     {

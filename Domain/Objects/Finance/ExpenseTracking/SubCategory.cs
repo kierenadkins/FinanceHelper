@@ -1,6 +1,6 @@
-﻿using Application.Domain.Base;
+﻿using FinanceHelper.Domain.Objects.Base;
 
-namespace Application.Domain.Finance.ExpenseTracking;
+namespace FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
 
 public enum SubCategoryType
 {

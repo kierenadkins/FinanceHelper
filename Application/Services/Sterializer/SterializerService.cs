@@ -4,7 +4,7 @@ using System.Text;
 using System.Xml;
 using Newtonsoft.Json;
 
-namespace Application.Services.Sterializer
+namespace FinanceHelper.Application.Services.Sterializer
 {
     public class SterializerService : ISterializerService
     {

@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FinanceHelper.Web.Models;
+using System.ComponentModel.DataAnnotations;
 
-namespace Web.Models.Auth
+namespace FinanceHelper.Web.Models.Auth
 {
     public class SignupViewModel
     {

@@ -1,8 +1,8 @@
-﻿using Application.Domain.Finance.ExpenseTracking;
+﻿using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Application.Data.Maps;
+namespace FinanceHelper.Application.Data.Maps;
 
 public class SubCategoryEntityTypeConfiguration : IEntityTypeConfiguration<SubCategory>
 {

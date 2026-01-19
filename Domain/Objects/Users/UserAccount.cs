@@ -1,9 +1,9 @@
-﻿using Application.Domain.Base;
+﻿using FinanceHelper.Domain.Objects.Base;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.Domain.Users
+namespace FinanceHelper.Domain.Objects.Users
 {
     public class UserAccount : BaseEntity
     {

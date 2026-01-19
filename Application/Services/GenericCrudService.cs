@@ -1,7 +1,7 @@
-﻿using Application.Data;
-using Application.Domain.Base;
-using Application.Services;
-using Application.Services.Cache;
+﻿using FinanceHelper.Application.Data;
+using FinanceHelper.Application.Services;
+using FinanceHelper.Application.Services.Cache;
+using FinanceHelper.Domain.Objects.Base;
 using Microsoft.EntityFrameworkCore;
 
 public abstract class GenericCrudService<T> : IGenericCrudService<T> where T : class

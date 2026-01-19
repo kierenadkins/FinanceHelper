@@ -1,7 +1,7 @@
-﻿using Application.Domain.Finance;
-using Application.Enums.Finance;
+﻿using FinanceHelper.Domain.Enums.Finance;
+using FinanceHelper.Domain.Objects.Finance;
 
-namespace Web.Models.Finance
+namespace FinanceHelper.Web.Models.Finance
 {
     public class SalaryModel
     {

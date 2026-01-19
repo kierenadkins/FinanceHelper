@@ -1,9 +1,4 @@
-﻿using Application.Data;
-using Application.Domain.Accounts;
-using Application.Domain.Finance.ExpenseTracking;
-using Application.Services.Cache;
-
-namespace Application.Services.Savings;
+﻿namespace FinanceHelper.Application.Services.Savings;
 
 //public class SavingService(
 //    IRepository<SavingAccount> repo,

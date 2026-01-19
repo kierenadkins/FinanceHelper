@@ -1,8 +1,4 @@
-﻿using Application.Domain.Accounts;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace Application.Data.Maps;
+﻿namespace FinanceHelper.Application.Data.Maps;
 
 //public class SavingAccountMap : IEntityTypeConfiguration<SavingAccount>
 //{

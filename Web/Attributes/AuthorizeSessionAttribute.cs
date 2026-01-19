@@ -1,8 +1,8 @@
-﻿using Application.Services.Session;
+﻿using FinanceHelper.Application.Services.Session;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Web.Attributes
+namespace FinanceHelper.Web.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizeSessionAttribute : Attribute, IAuthorizationFilter

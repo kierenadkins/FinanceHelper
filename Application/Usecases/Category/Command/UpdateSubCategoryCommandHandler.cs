@@ -1,11 +1,11 @@
-﻿using Application.Domain.Base;
-using Application.Domain.Finance.ExpenseTracking;
-using Application.Services.Finance.ExpenseTracking;
-using Application.Services.User;
-using Application.Validators;
+﻿using FinanceHelper.Application.Services.Finance.ExpenseTracking;
+using FinanceHelper.Application.Services.User;
+using FinanceHelper.Application.Validators;
+using FinanceHelper.Domain.Objects.Base;
+using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
 using MediatR;
 
-namespace Application.Usecases.Category.Command;
+namespace FinanceHelper.Application.Usecases.Category.Command;
 
 public class UpdateSubCategoryCommand : IRequest<BaseResult>
 {

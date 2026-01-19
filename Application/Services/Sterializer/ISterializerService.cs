@@ -1,4 +1,4 @@
-﻿namespace Application.Services.Sterializer
+﻿namespace FinanceHelper.Application.Services.Sterializer
 {
     public interface ISterializerService
     {
