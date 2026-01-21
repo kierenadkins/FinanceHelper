@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FinanceHelper.Domain.Objects.Finance;
+﻿using FinanceHelper.Domain.Objects.Finance;
 using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
 using FinanceHelper.Domain.Objects.Users;
 
-namespace FinanceHelper.Application.Services.Cache
+namespace FinanceHelper.Application.Common
 {
     public static class CacheKeys
     {

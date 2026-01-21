@@ -1,11 +1,12 @@
-﻿using FinanceHelper.Domain.Objects.Finance;
+﻿using FinanceHelper.Application.Interfaces;
+using FinanceHelper.Domain.Objects.Finance;
 using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
 using FinanceHelper.Domain.Objects.Users;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinanceHelper.Application.Data
+namespace FinanceHelper.Infrastructure.Data
 {
-    public class LocalDbContext : DbContext
+    public class LocalDbContext : DbContext, IFinanceHelperDbContext
     {
         public LocalDbContext(DbContextOptions<LocalDbContext> options)
             : base(options)
@@ -19,7 +20,6 @@ namespace FinanceHelper.Application.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(LocalDbContext).Assembly);
         }
     }

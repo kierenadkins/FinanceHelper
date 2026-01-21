@@ -1,9 +1,6 @@
-﻿using FinanceHelper.Application.Data;
+﻿using FinanceHelper.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace FinanceHelper.Application.Services
 {
@@ -21,13 +18,13 @@ namespace FinanceHelper.Application.Services
 
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly LocalDbContext _context;
+        private readonly IFinanceHelperDbContext _context;
         private readonly DbSet<T> _dbSet;
 
-        public Repository(LocalDbContext context)
+        public Repository(IFinanceHelperDbContext context)
         {
             _context = context;
-            _dbSet = _context.Set<T>();
+            _dbSet = _context.Set<T>();   // FIXED
         }
 
         public async Task<List<T>> GetAllAsync()
@@ -39,7 +36,6 @@ namespace FinanceHelper.Application.Services
         {
             return await _context.Set<T>().Where(predicate).ToListAsync();
         }
-
 
         public async Task<T?> GetAsync(object id)
         {

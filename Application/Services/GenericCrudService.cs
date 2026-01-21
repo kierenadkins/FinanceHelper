@@ -1,6 +1,6 @@
-﻿using FinanceHelper.Application.Data;
+﻿using FinanceHelper.Application.Common;
+using FinanceHelper.Application.Interfaces;
 using FinanceHelper.Application.Services;
-using FinanceHelper.Application.Services.Cache;
 using FinanceHelper.Domain.Objects.Base;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,13 +8,13 @@ public abstract class GenericCrudService<T> : IGenericCrudService<T> where T : c
 {
     protected readonly IRepository<T> _repo;
     protected readonly ICacheManagerService _cache;
-    protected readonly LocalDbContext _context;
+    protected readonly IFinanceHelperDbContext _context;
     protected readonly IEntityCacheKey<T> _cacheKeys;
 
     protected GenericCrudService(
         IRepository<T> repo,
         ICacheManagerService cache,
-        LocalDbContext context,
+        IFinanceHelperDbContext context,
         IEntityCacheKey<T> cacheKeys)
     {
         _repo = repo;
@@ -24,7 +24,7 @@ public abstract class GenericCrudService<T> : IGenericCrudService<T> where T : c
     }
 
     protected async Task<List<T>> GetListCachedAsync(
-        Func<LocalDbContext, IQueryable<T>> query,
+        Func<IFinanceHelperDbContext, IQueryable<T>> query,
         params object[] cacheArgs)
     {
         var key = _cacheKeys.ListKey(cacheArgs);

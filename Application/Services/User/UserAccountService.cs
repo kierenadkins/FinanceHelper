@@ -1,6 +1,5 @@
-﻿using FinanceHelper.Application.Data;
-using FinanceHelper.Application.Services.Cache;
-using FinanceHelper.Application.Services.Session;
+﻿using FinanceHelper.Application.Common;
+using FinanceHelper.Application.Interfaces;
 using FinanceHelper.Domain.Objects.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,7 +8,7 @@ namespace FinanceHelper.Application.Services.User
     public class UserAccountService(IRepository<UserAccount> repository,
     ISessionManagerService sessionManager,
     ICacheManagerService cacheManager,
-    LocalDbContext ctx,
+    IFinanceHelperDbContext ctx,
     IEntityCacheKey<UserAccount> cacheKeys
 ) : GenericCrudService<UserAccount>(repository, cacheManager, ctx, cacheKeys), IUserAccountService
     {

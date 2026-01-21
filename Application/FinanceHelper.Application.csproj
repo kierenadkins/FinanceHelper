@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Enums\" />
     <Folder Include="Helpers\" />
     <Folder Include="Usecases\Category\Query\" />
     <Folder Include="Usecases\Finance\Salarys\Request\" />

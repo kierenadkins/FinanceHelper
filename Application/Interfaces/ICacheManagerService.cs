@@ -1,4 +1,4 @@
-﻿namespace FinanceHelper.Application.Services.Cache
+﻿namespace FinanceHelper.Application.Interfaces
 {
     public interface ICacheManagerService
     {

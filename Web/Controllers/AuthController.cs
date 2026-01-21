@@ -1,4 +1,4 @@
-﻿using FinanceHelper.Application.Services.Session;
+﻿using FinanceHelper.Application.Interfaces;
 using FinanceHelper.Application.Usecases.Users.Command;
 using FinanceHelper.Domain.Objects.Users;
 using FinanceHelper.Web.Models;

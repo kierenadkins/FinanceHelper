@@ -1,5 +1,5 @@
-﻿using FinanceHelper.Application.Services.Encryption;
-using FinanceHelper.Application.Services.Session;
+﻿using FinanceHelper.Application.Interfaces;
+using FinanceHelper.Application.Services.Encryption;
 using FinanceHelper.Application.Services.User;
 using FinanceHelper.Application.Tools;
 using FinanceHelper.Domain.Objects.Base;

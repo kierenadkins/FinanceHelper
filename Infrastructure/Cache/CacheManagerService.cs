@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
+using FinanceHelper.Application.Interfaces;
 
 namespace FinanceHelper.Application.Services.Cache
 {

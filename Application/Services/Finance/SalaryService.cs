@@ -1,6 +1,5 @@
-﻿using FinanceHelper.Application.Data;
-using FinanceHelper.Application.Services.Cache;
-using FinanceHelper.Application.Services.Session;
+﻿using FinanceHelper.Application.Common;
+using FinanceHelper.Application.Interfaces;
 using FinanceHelper.Domain.Objects.Finance;
 
 namespace FinanceHelper.Application.Services.Finance;
@@ -8,7 +7,7 @@ namespace FinanceHelper.Application.Services.Finance;
 public class SalaryService(IRepository<Salary> repository,
     ISessionManagerService sessionManager,
     ICacheManagerService cacheManager,
-    LocalDbContext ctx,
+    IFinanceHelperDbContext ctx,
     IEntityCacheKey<Salary> cacheKeys
 ) : GenericCrudService<Salary>(repository, cacheManager, ctx, cacheKeys), ISalaryService
 {
