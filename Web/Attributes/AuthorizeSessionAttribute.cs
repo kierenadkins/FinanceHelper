@@ -1,4 +1,4 @@
-﻿using FinanceHelper.Application.Interfaces;
+﻿using FinanceHelper.Application.Services.Session;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 

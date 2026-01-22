@@ -5,7 +5,6 @@ using FinanceHelper.Domain.Objects.Finance;
 namespace FinanceHelper.Application.Services.Finance;
 
 public class SalaryService(IRepository<Salary> repository,
-    ISessionManagerService sessionManager,
     ICacheManagerService cacheManager,
     IFinanceHelperDbContext ctx,
     IEntityCacheKey<Salary> cacheKeys

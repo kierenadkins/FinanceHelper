@@ -1,3 +1,4 @@
+using FinanceHelper.Application;
 using FinanceHelper.Application.Settings;
 using Microsoft.EntityFrameworkCore;
 using FinanceHelper.Infrastructure;
@@ -23,6 +24,7 @@ namespace FinanceHelper.Web
             });
 
             builder.Services.AddData(builder.Configuration);
+            builder.Services.AddApplication( builder.Configuration);
 
             builder.Services.Configure<TaxSettings>(builder.Configuration.GetSection("TaxSettings"));
             builder.Services.AddEndpointsApiExplorer();

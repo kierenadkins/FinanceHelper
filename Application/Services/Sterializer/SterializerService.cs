@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using FinanceHelper.Application.Interfaces;
 using Newtonsoft.Json;
 
 namespace FinanceHelper.Application.Services.Sterializer

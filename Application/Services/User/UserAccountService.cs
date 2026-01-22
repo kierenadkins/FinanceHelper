@@ -1,5 +1,6 @@
 ﻿using FinanceHelper.Application.Common;
 using FinanceHelper.Application.Interfaces;
+using FinanceHelper.Application.Services.Session;
 using FinanceHelper.Domain.Objects.Users;
 using Microsoft.EntityFrameworkCore;
 

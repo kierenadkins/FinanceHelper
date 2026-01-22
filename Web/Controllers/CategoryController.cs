@@ -65,9 +65,15 @@ public class CategoryController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> AddSubCategoryPostAsync(AddSubCategoryModel model)
     {
-        var subCategory = PopulateSubCategory(model);
-
-        var result = await _mediator.Send(new AddSubCategoryCommand { SubCategory = subCategory });
+        var result = await _mediator.Send(new AddSubCategoryCommand {
+            Name = model.Name,
+            SubCategoryType = model.SubCategoryType,
+            PayFrequency = model.PaymentFrequency,
+            CategoryId = model.CategoryId,
+            YearlyCost = model.YearlyCost,
+            MonthlyCost = model.MonthlyCost,
+            WeeklyCost = model.WeeklyCost
+        });
 
         if (!result.Success)
         {
@@ -104,9 +110,17 @@ public class CategoryController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> EditSubCategoryPost(AddSubCategoryModel model)
     {
-        var subCat = PopulateSubCategory(model);
-
-        var result = await _mediator.Send(new UpdateSubCategoryCommand() { SubCategory = subCat });
+        var result = await _mediator.Send(new UpdateSubCategoryCommand
+        {
+            Id = model.SubCategoryId,
+            Name = model.Name,
+            SubCategoryType = model.SubCategoryType,
+            PayFrequency = model.PaymentFrequency,
+            CategoryId = model.CategoryId,
+            YearlyCost = model.YearlyCost,
+            MonthlyCost = model.MonthlyCost,
+            WeeklyCost = model.WeeklyCost
+        });
 
         if (!result.Success)
         {
@@ -125,21 +139,5 @@ public class CategoryController : Controller
         await _subCategoryService.DeleteAsync(id, userId);
 
         return RedirectToAction("Index", "Finance");
-    }
-
-    private static SubCategory PopulateSubCategory(AddSubCategoryModel model)
-    {
-        var subCategory = new SubCategory
-        {
-            Id = model.SubCategoryId,
-            Name = model.Name,
-            SubCategoryType = model.SubCategoryType,
-            PayFrequency = model.PaymentFrequency,
-            CategoryId = model.CategoryId,
-            YearlyCost = model.YearlyCost,
-            MonthlyCost = model.MonthlyCost,
-            WeeklyCost = model.WeeklyCost
-        };
-        return subCategory;
     }
 }

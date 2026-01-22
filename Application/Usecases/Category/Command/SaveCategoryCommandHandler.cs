@@ -3,6 +3,7 @@ using FinanceHelper.Application.Services.User;
 using FinanceHelper.Application.Validators;
 using FinanceHelper.Domain.Objects.Base;
 using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
+using FluentValidation;
 using MediatR;
 
 namespace FinanceHelper.Application.Usecases.Category.Command;
@@ -22,39 +23,23 @@ public class SaveCategoryCommandHandler(IUserAccountService userAccountService, 
 
         var category = new FinanceHelper.Domain.Objects.Finance.ExpenseTracking.Category { UserId = userId, Type = request.CategoryType };
 
-        var catValidator = new CategoryValidator();
-        var catValidationResult = await catValidator.ValidateAsync(category, cancellationToken);
-
-        if (!catValidationResult.IsValid)
-        {
-            result.AddErrors(catValidationResult.Errors.Select(e => e.ErrorMessage));
-            return result;
-        }
-
-        //if (request.Category.SubCategories.Any())
-        //{
-        //    var subValidator = new SubCategoryValidator();
-
-        //    foreach (var subCategory in request.Category.SubCategories)
-        //    {
-        //        var validationResult = await subValidator.ValidateAsync(subCategory, cancellationToken);
-
-        //        if (validationResult.IsValid) continue;
-
-        //        result.AddErrors(validationResult.Errors.Select(e => e.ErrorMessage));
-        //        return result;
-        //    }
-        //}
-
         var categories = await categoryService.GetAllCategoriesWithUserIdCached(userId);
 
-        if (categories.Count > 0 & categories.Any(x => x.Type == category.Type))
+        if (categories.Any(x => x.Type == category.Type))
         {
-            result.AddError("This category already exists for your account");
+            result.AddError("This category already exists for your account.");
             return result;
         }
 
         await categoryService.AddAsync(category, userId);
         return result;
+    }
+
+    public class SaveCategoryCommandValidator : AbstractValidator<SaveCategoryCommand>
+    {
+        public SaveCategoryCommandValidator()
+        {
+            RuleFor(x => x.CategoryType).NotNull().WithMessage("Category type is required.");
+        }
     }
 }

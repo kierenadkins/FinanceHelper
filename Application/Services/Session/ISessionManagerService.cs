@@ -1,4 +1,4 @@
-﻿namespace FinanceHelper.Application.Interfaces
+﻿namespace FinanceHelper.Application.Services.Session
 {
     public interface ISessionManagerService
     {

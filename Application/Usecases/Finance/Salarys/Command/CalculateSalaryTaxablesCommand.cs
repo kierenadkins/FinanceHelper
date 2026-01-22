@@ -1,56 +1,59 @@
-﻿using FinanceHelper.Application.Extensions.Numerics;
-using FinanceHelper.Application.Services.Tax;
+﻿using FinanceHelper.Application.Services.Salarys;
+using FinanceHelper.Domain.Enums.Finance;
 using FinanceHelper.Domain.Objects.Base;
 using FinanceHelper.Domain.Objects.Finance;
+using FluentValidation;
 using MediatR;
 
 namespace FinanceHelper.Application.Usecases.Finance.Salarys.Command
 {
     public class CalculateSalaryTaxablesCommand : IRequest<BaseResult<Salary>>
     {
-        public Salary Salary { get; set; }
+        public decimal GrossSalary { get; set; }
+        public bool PayNationalInsurance { get; set; }
+        public bool HasStudentLoan { get; set; }
+        public StudentPlanType? StudentPlanType { get; set; } 
+        public int PensionPercentage { get; set; }
     }
 
     public class CalculateSalaryTaxablesHandler : IRequestHandler<CalculateSalaryTaxablesCommand, BaseResult<Salary>>
     {
-        private readonly ITaxService _taxService;
+        private readonly ISalaryCalculatorService _calculator;
 
-        public CalculateSalaryTaxablesHandler(ITaxService taxService)
+        public CalculateSalaryTaxablesHandler(ISalaryCalculatorService calculator)
         {
-            _taxService = taxService;
+            _calculator = calculator;
         }
 
         public async Task<BaseResult<Salary>> Handle(CalculateSalaryTaxablesCommand request, CancellationToken cancellationToken)
         {
-            if (request?.Salary == null)
-                return BaseResult<Salary>.ErrorResult("Salary not found");
+            var salary = _calculator.Calculate(
+                request.GrossSalary,
+                request.PayNationalInsurance,
+                request.HasStudentLoan,
+                request.PensionPercentage,
+                request.StudentPlanType
+            );
 
-            var salary = request.Salary;
-            var gross = salary.GrossSalary;
-
-            salary.TaxBand = _taxService.GetTaxBand(gross);
-            salary.Tax = _taxService.CalculateTax(gross).To2DP();
-
-            if (salary.PayNationalInsurance)
-            {
-                salary.NationalInsurance = _taxService.CalculateNationalInsurance(gross).To2DP();
-            }
-
-            if (salary.HasStudentLoan)
-            {
-                var planType = salary.StudentPlanType
-                    ?? throw new InvalidOperationException("StudentPlanType must be set when HasStudentLoan is true");
-
-                salary.StudentLoan = _taxService.CalculateStudentLoan(gross, planType).To2DP();
-            }
-
-            if (salary.PensionPercentage > 0)
-            {
-                salary.PensionContribution = _taxService.CalculatePension(gross, salary.PensionPercentage).To2DP();
-            }
-
-            salary.NetSalary = salary.GrossSalary - (salary.Tax + salary.NationalInsurance + salary.PensionContribution + salary.StudentLoan).To2DP();
             return BaseResult<Salary>.SuccessResult(salary);
+        }
+
+        public class CalculateSalaryTaxablesCommandValidator : AbstractValidator<CalculateSalaryTaxablesCommand>
+        {
+            public CalculateSalaryTaxablesCommandValidator()
+            {
+                RuleFor(x => x.GrossSalary)
+                    .GreaterThan(0).WithMessage("Gross salary must be greater than 0");
+
+                RuleFor(x => x.PensionPercentage)
+                    .InclusiveBetween(0, 100)
+                    .WithMessage("Pension percentage must be between 0 and 100");
+
+                RuleFor(x => x.StudentPlanType)
+                    .NotNull()
+                    .When(x => x.HasStudentLoan)
+                    .WithMessage("Student plan type must be set when HasStudentLoan is true");
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using FinanceHelper.Application.Interfaces;
+﻿using FinanceHelper.Application.Services.Session;
 using FinanceHelper.Application.Usecases.Users.Command;
 using FinanceHelper.Domain.Objects.Users;
 using FinanceHelper.Web.Models;
@@ -13,8 +13,6 @@ namespace FinanceHelper.Web.Controllers
         private readonly IMediator _mediator;
         private readonly ISessionManagerService _session;
 
-        private const string SessionKeyUser = "CurrentUser";
-
         public AuthController(IMediator mediator, ISessionManagerService session)
         {
             _mediator = mediator;
@@ -25,8 +23,6 @@ namespace FinanceHelper.Web.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            
-            
             return View(new LoginViewModel());
         }
 
@@ -38,7 +34,7 @@ namespace FinanceHelper.Web.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            var result = await _mediator.Send(new LoginQuery { Email = model.EmailAddress, Password = model.Password });
+            var result = await _mediator.Send(new LoginUserQuery { Email = model.EmailAddress, Password = model.Password });
 
             if (!result.Success)
             {
@@ -63,15 +59,13 @@ namespace FinanceHelper.Web.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            var user = new UserAccount
+            var result = await _mediator.Send(new SignupCommand
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 EmailAddress = model.EmailAddress,
                 Password = model.Password
-            };
-
-            var result = await _mediator.Send(new SignupCommand { User = user });
+            });
 
             if (!result.Success)
             {

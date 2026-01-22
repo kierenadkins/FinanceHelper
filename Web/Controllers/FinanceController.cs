@@ -64,9 +64,7 @@ namespace FinanceHelper.Web.Controllers
 
         public async Task<IActionResult> CalculateSalaryDeductions(AddSalaryFormModel model)
         {
-            var salary = new Salary { GrossSalary = model.GrossSalary, PensionPercentage = model.PensionPercentage, PayNationalInsurance = model.PayNationalInsurance, HasStudentLoan = model.HasStudentLoan, StudentPlanType = model.StudentPlanType };
-
-            var result = await _mediator.Send(new CalculateSalaryTaxablesCommand { Salary = salary });
+            var result = await _mediator.Send(new CalculateSalaryTaxablesCommand { GrossSalary = model.GrossSalary, PensionPercentage = model.PensionPercentage, PayNationalInsurance = model.PayNationalInsurance, HasStudentLoan = model.HasStudentLoan, StudentPlanType = model.StudentPlanType });
             
             if(result.Errors.Count > 0)
             {
@@ -85,8 +83,7 @@ namespace FinanceHelper.Web.Controllers
 
         public async Task<IActionResult> SaveSalary(AddSalaryFormModel model)
         {
-            var salary = new Salary { GrossSalary = model.GrossSalary, HasStudentLoan = model.HasStudentLoan, NationalInsurance = model.NationalInsurance, NetSalary = model.NetSalary, PayNationalInsurance = model.PayNationalInsurance, PensionContribution = model.PensionContribution, PensionPercentage = model.PensionPercentage, StudentLoan = model.StudentLoan, StudentPlanType = model.StudentPlanType, Tax = model.Tax, TaxBand = model.TaxBand };
-            await _mediator.Send(new SaveSalaryCommand { Salary = salary });
+            await _mediator.Send(new SaveSalaryCommand { GrossSalary = model.GrossSalary, HasStudentLoan = model.HasStudentLoan, NationalInsurance = model.NationalInsurance, NetSalary = model.NetSalary, PayNationalInsurance = model.PayNationalInsurance, PensionContribution = model.PensionContribution, PensionPercentage = model.PensionPercentage, StudentLoan = model.StudentLoan, StudentPlanType = model.StudentPlanType, Tax = model.Tax, TaxBand = model.TaxBand });
             return RedirectToAction(nameof(Index));
         }
     }
