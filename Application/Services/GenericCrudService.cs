@@ -1,8 +1,9 @@
 ﻿using FinanceHelper.Application.Common;
 using FinanceHelper.Application.Interfaces;
-using FinanceHelper.Application.Services;
 using FinanceHelper.Domain.Objects.Base;
 using Microsoft.EntityFrameworkCore;
+
+namespace FinanceHelper.Application.Services;
 
 public abstract class GenericCrudService<T> : IGenericCrudService<T> where T : class
 {

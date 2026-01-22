@@ -1,4 +1,6 @@
 ﻿
+namespace FinanceHelper.Application.Services;
+
 public interface IGenericCrudService<T> where T : class
 {
     public Task<T> AddAsync(T entity, params object[] cacheArgs);

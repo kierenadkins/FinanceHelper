@@ -1,7 +1,6 @@
 ﻿using FinanceHelper.Application.Services.Encryption;
 using FinanceHelper.Application.Services.User;
 using FinanceHelper.Application.Tools;
-using FinanceHelper.Application.Validators;
 using FinanceHelper.Domain.Objects.Base;
 using FinanceHelper.Domain.Objects.Users;
 using FluentValidation;

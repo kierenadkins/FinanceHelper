@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FinanceHelper.Application.Data.Maps
+namespace FinanceHelper.Infrastructure.EntityFramework.Configurations
 {
     public class SalaryEntityTypeConfiguration : IEntityTypeConfiguration<Salary>
     {

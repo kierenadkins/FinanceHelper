@@ -4,7 +4,7 @@ using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
 using FinanceHelper.Domain.Objects.Users;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinanceHelper.Infrastructure.Data
+namespace FinanceHelper.Infrastructure.EntityFramework
 {
     public class LocalDbContext : DbContext, IFinanceHelperDbContext
     {

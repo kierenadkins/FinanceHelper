@@ -1,7 +1,6 @@
 ﻿using FinanceHelper.Application.Common;
 using FinanceHelper.Application.Interfaces;
 using FinanceHelper.Application.Services;
-using FinanceHelper.Application.Services.Cache;
 using FinanceHelper.Application.Services.Encryption;
 using FinanceHelper.Application.Services.Finance;
 using FinanceHelper.Application.Services.Finance.ExpenseTracking;
@@ -13,7 +12,8 @@ using FinanceHelper.Application.Services.User;
 using FinanceHelper.Domain.Objects.Finance;
 using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
 using FinanceHelper.Domain.Objects.Users;
-using FinanceHelper.Infrastructure.Data;
+using FinanceHelper.Infrastructure.Cache;
+using FinanceHelper.Infrastructure.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,4 +1,4 @@
-﻿namespace FinanceHelper.Application.Data.Maps;
+﻿namespace FinanceHelper.Infrastructure.EntityFramework.Configurations;
 
 //public class SavingAccountMap : IEntityTypeConfiguration<SavingAccount>
 //{

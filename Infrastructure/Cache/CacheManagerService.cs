@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Primitives;
-using System.Collections;
+﻿using System.Collections;
 using System.Reflection;
 using FinanceHelper.Application.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Primitives;
 
-namespace FinanceHelper.Application.Services.Cache
+namespace FinanceHelper.Infrastructure.Cache
 {
     public class CacheManagerService : ICacheManagerService
     {
