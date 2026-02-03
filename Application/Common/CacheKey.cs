@@ -1,4 +1,5 @@
-﻿using FinanceHelper.Domain.Objects.Finance;
+﻿using FinanceHelper.Domain.Objects.Accounts;
+using FinanceHelper.Domain.Objects.Finance;
 using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
 using FinanceHelper.Domain.Objects.Users;
 
@@ -49,6 +50,24 @@ namespace FinanceHelper.Application.Common
         public string ListKey(params object[] args)
         {
             if (args.Length == 1) return $"CategoryByUserId_{args[0]}";
+            throw new ArgumentException("Invalid arguments for category cache key");
+        }
+    }
+
+    public class SavingCacheKeys : IEntityCacheKey<SavingAccount>
+    {
+        public string ListKey(params object[] args)
+        {
+            if (args.Length == 1) return $"SavingAccountById_{args[0]}";
+            throw new ArgumentException("Invalid arguments for category cache key");
+        }
+    }
+
+    public class TransactionsCacheKeys : IEntityCacheKey<SavingTransaction>
+    {
+        public string ListKey(params object[] args)
+        {
+            if (args.Length == 1) return $"SavingAccountById{args[0]}";
             throw new ArgumentException("Invalid arguments for category cache key");
         }
     }

@@ -4,40 +4,46 @@ namespace FinanceHelper.Domain.Objects.Accounts
 {
     public class SavingAccount : BaseEntity
     {
-        public SavingAccount(int userId, string name, string provider, AccountType accountType, decimal interestRate = 0, decimal initialDeposit = 0)
+        public SavingAccount(int userId, string name, string provider, AccountType accountType, decimal interestRate = 0, decimal initialDeposit = 0, InterestType interestType)
         {
             UserId = userId;
             Name = name;
             Provider = provider;
             AccountType = accountType;
             InterestRate = interestRate;
+            InterestType = interestType;
 
             if (initialDeposit > 0)
             {
-                AddTransaction(initialDeposit, TransactionType.Deposit, "Initial Deposit");
+                AddTransaction(initialDeposit, "Initial Deposit");
             }
         }
-        public int UserId { get; set; }
-        public string Name { get; set; }
-        public string Provider { get; set; }
-        public decimal GrossBalance => Transactions.Sum(t => t.EffectiveAmount);
-        public decimal Earnings { get; private set; }
-        public decimal NetBalance => GrossBalance + Earnings;
-        public AccountType AccountType { get; set; }
-        public decimal InterestRate { get; set; }
+        public int UserId { get; private set; }
+        protected string Name { get; private set; }
+        protected string Provider { get; private set; }
+        protected decimal GrossBalance => Transactions.Sum(t => t.EffectiveAmount);
+        protected decimal Earnings { get; private set; }
+        protected decimal NetBalance => GrossBalance + Earnings;
+        protected AccountType AccountType { get; private set; }
+        protected decimal InterestRate { get; private set; }
         public List<SavingTransaction> Transactions { get; private set; } = new();
+        protected InterestType InterestType { get; private set; } = InterestType.None;
 
-        public void AddTransaction(decimal amount, TransactionType type, string description = "Transaction")
+        public void AddTransaction(decimal amount, string description = "Transaction")
         {
-            if (amount <= 0)
-                throw new ArgumentException("Transaction amount must be positive.", nameof(amount));
+            if (amount == 0)
+                throw new ArgumentException("Transaction amount cannot be zero.", nameof(amount));
 
-            if (type == TransactionType.Withdrawal && GrossBalance < amount)
+            var type = amount > 0 ? TransactionType.Deposit : TransactionType.Withdrawal;
+
+            var absoluteAmount = Math.Abs(amount);
+
+            if (type == TransactionType.Withdrawal && GrossBalance < absoluteAmount)
                 throw new InvalidOperationException("Insufficient balance for this withdrawal.");
 
             var transaction = new SavingTransaction
             {
-                Amount = amount,
+                Amount = absoluteAmount,
                 Type = type,
                 Description = description,
                 TransactionDate = DateTime.UtcNow
@@ -45,6 +51,7 @@ namespace FinanceHelper.Domain.Objects.Accounts
 
             Transactions.Add(transaction);
         }
+
 
         public decimal GetGrowth(DateTime fromDate)
         {
@@ -64,5 +71,14 @@ namespace FinanceHelper.Domain.Objects.Accounts
         Savings,
         FixedDeposit,
         Other
+    }
+
+    public enum InterestType
+    {
+        None,
+        Daily,
+        Weekly,
+        Monthly,
+        Yearly,
     }
 }
