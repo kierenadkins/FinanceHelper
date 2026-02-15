@@ -1,4 +1,5 @@
-﻿using FinanceHelper.Domain.Objects.Finance;
+﻿using FinanceHelper.Domain.Objects.Accounts;
+using FinanceHelper.Domain.Objects.Finance;
 using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
 using FinanceHelper.Domain.Objects.Users;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,8 @@ public interface IFinanceHelperDbContext
     DbSet<Salary> Salaries { get; set; }
     DbSet<Category> Categories { get; set; }
     DbSet<SubCategory> SubCategories { get; set; }
+    DbSet<SavingAccount> SavingAccounts { get; set; }
+    DbSet<SavingTransaction> SavingTransaction { get; set; }
 
     DbSet<T> Set<T>() where T : class;
 
