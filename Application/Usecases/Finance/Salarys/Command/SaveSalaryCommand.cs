@@ -1,18 +1,16 @@
 ﻿using FinanceHelper.Application.Services.Finance;
 using FinanceHelper.Application.Services.User;
+using FinanceHelper.Domain.Enums.Finance;
 using FinanceHelper.Domain.Objects.Base;
 using FinanceHelper.Domain.Objects.Finance;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using FinanceHelper.Domain.Enums.Finance;
 using FluentValidation;
+using MediatR;
 
 namespace FinanceHelper.Application.Usecases.Finance.Salarys.Command
 {
     public class SaveSalaryCommand : IRequest<BaseResult>
     {
+        public int SalaryId { get; set; }
         public decimal GrossSalary { get; set; }
         public bool HasStudentLoan { get; set; }
         public decimal NationalInsurance { get; set; }
@@ -51,6 +49,7 @@ namespace FinanceHelper.Application.Usecases.Finance.Salarys.Command
 
             var salary = new Salary
             {
+                Id = request.SalaryId,
                 GrossSalary = request.GrossSalary,
                 HasStudentLoan = request.HasStudentLoan,
                 NationalInsurance = request.NationalInsurance,

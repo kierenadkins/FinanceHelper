@@ -38,8 +38,9 @@ namespace FinanceHelper.Web.Controllers
             return View(model);
         }
 
+
         [HttpGet]
-        public IActionResult SalaryForm(decimal salary)
+        public IActionResult SalaryForm(SalaryInputModel SalaryInputModel)
         {
             var model = new AddSalaryFormModel();
             var studentPlanTypeOptions = Enum.GetValues(typeof(StudentPlanType)).Cast<StudentPlanType>()
@@ -49,14 +50,15 @@ namespace FinanceHelper.Web.Controllers
                     Text = sp.ToString()
                 });
 
-            if (salary < 0)
+            if (SalaryInputModel.GrossSalary < 0)
             {
                 model.Errors.Add("Please enter a positive number");
                 return View(model);
             }
 
-            model.GrossSalary = salary;
+            model.GrossSalary = SalaryInputModel.GrossSalary;
             model.StudentPlanTypeOptions = studentPlanTypeOptions;
+            model.SalaryId = SalaryInputModel.SalaryId;
 
             return View(model);
         }
@@ -73,7 +75,7 @@ namespace FinanceHelper.Web.Controllers
 
             var salaryResponse = result.Value;
 
-            var addSalaryFormModel = new AddSalaryFormModel { GrossSalary = salaryResponse!.GrossSalary, HasStudentLoan = salaryResponse!.HasStudentLoan, NationalInsurance = salaryResponse!.NationalInsurance, NetSalary = salaryResponse!.NetSalary, PayNationalInsurance = salaryResponse!.PayNationalInsurance, PensionContribution = salaryResponse!.PensionContribution, PensionPercentage = salaryResponse!.PensionPercentage, StudentLoan = salaryResponse!.StudentLoan, StudentPlanType = salaryResponse!.StudentPlanType, Tax = salaryResponse!.Tax, TaxableBenefits = salaryResponse!.TaxableBenefits, TaxBand = salaryResponse!.TaxBand, StudentPlanTypeOptions = model.StudentPlanTypeOptions };
+            var addSalaryFormModel = new AddSalaryFormModel { Id = model.Id, GrossSalary = salaryResponse!.GrossSalary, HasStudentLoan = salaryResponse!.HasStudentLoan, NationalInsurance = salaryResponse!.NationalInsurance, NetSalary = salaryResponse!.NetSalary, PayNationalInsurance = salaryResponse!.PayNationalInsurance, PensionContribution = salaryResponse!.PensionContribution, PensionPercentage = salaryResponse!.PensionPercentage, StudentLoan = salaryResponse!.StudentLoan, StudentPlanType = salaryResponse!.StudentPlanType, Tax = salaryResponse!.Tax, TaxableBenefits = salaryResponse!.TaxableBenefits, TaxBand = salaryResponse!.TaxBand, StudentPlanTypeOptions = model.StudentPlanTypeOptions };
             addSalaryFormModel.UpdateMonthlyTotals();
 
             addSalaryFormModel.IsReview = true;
@@ -83,7 +85,7 @@ namespace FinanceHelper.Web.Controllers
 
         public async Task<IActionResult> SaveSalary(AddSalaryFormModel model)
         {
-            await _mediator.Send(new SaveSalaryCommand { GrossSalary = model.GrossSalary, HasStudentLoan = model.HasStudentLoan, NationalInsurance = model.NationalInsurance, NetSalary = model.NetSalary, PayNationalInsurance = model.PayNationalInsurance, PensionContribution = model.PensionContribution, PensionPercentage = model.PensionPercentage, StudentLoan = model.StudentLoan, StudentPlanType = model.StudentPlanType, Tax = model.Tax, TaxBand = model.TaxBand });
+            await _mediator.Send(new SaveSalaryCommand { SalaryId = model.Id, GrossSalary = model.GrossSalary, HasStudentLoan = model.HasStudentLoan, NationalInsurance = model.NationalInsurance, NetSalary = model.NetSalary, PayNationalInsurance = model.PayNationalInsurance, PensionContribution = model.PensionContribution, PensionPercentage = model.PensionPercentage, StudentLoan = model.StudentLoan, StudentPlanType = model.StudentPlanType, Tax = model.Tax, TaxBand = model.TaxBand });
             return RedirectToAction(nameof(Index));
         }
     }

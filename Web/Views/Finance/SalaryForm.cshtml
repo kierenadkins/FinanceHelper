@@ -34,6 +34,7 @@
                             </div>
                             <span asp-validation-for="PensionPercentage" class="text-danger small"></span>
                         </div>
+                        <input type="hidden" asp-for="Id" />
                     </div>
 
                     <hr class="my-4">
@@ -104,6 +105,7 @@
                                         <label asp-for="StudentLoan" class="form-label small fw-semibold"></label>
                                         <input asp-for="StudentLoan" class="form-control form-control-lg" />
                                     </div>
+                                    <input type="hidden" asp-for="Id" />
                                 </div>
                             </div>
                         </div>
@@ -148,6 +150,7 @@
                                     <input type="hidden" asp-for="PayNationalInsurance" />
                                     <input type="hidden" asp-for="HasStudentLoan" />
                                     <input type="hidden" asp-for="StudentPlanType" />
+                                    <input type="hidden" asp-for="Id" />
                                 </div>
                             </div>
                         </div>
@@ -170,22 +173,27 @@
 @section Scripts {
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const hasStudentLoanCheckbox = document.getElementById('hasStudentLoanCheckbox');
+
+            // ---- Student loan toggle ----
+            const hasStudentLoanCheckbox = document.getElementById('@Html.IdFor(m => m.HasStudentLoan)');
             const studentPlanDiv = document.getElementById('studentPlanDiv');
-            if (hasStudentLoanCheckbox) {
+
+            if (hasStudentLoanCheckbox && studentPlanDiv) {
                 function toggleStudentPlan() {
                     studentPlanDiv.style.display = hasStudentLoanCheckbox.checked ? 'block' : 'none';
                 }
+
                 hasStudentLoanCheckbox.addEventListener('change', toggleStudentPlan);
                 toggleStudentPlan();
             }
 
+            // ---- Yearly <-> Monthly syncing ----
             const fields = [
-                ['GrossSalary', 'GrossSalaryMonthly'],
-                ['NetSalary', 'NetSalaryMonthly'],
-                ['Tax', 'TaxMonthly'],
-                ['NationalInsurance', 'NationalInsuranceMonthly'],
-                ['StudentLoan', 'StudentLoanMonthly']
+                ['@Html.IdFor(m => m.GrossSalary)', '@Html.IdFor(m => m.GrossSalaryMonthly)'],
+                ['@Html.IdFor(m => m.NetSalary)', '@Html.IdFor(m => m.NetSalaryMonthly)'],
+                ['@Html.IdFor(m => m.Tax)', '@Html.IdFor(m => m.TaxMonthly)'],
+                ['@Html.IdFor(m => m.NationalInsurance)', '@Html.IdFor(m => m.NationalInsuranceMonthly)'],
+                ['@Html.IdFor(m => m.StudentLoan)', '@Html.IdFor(m => m.StudentLoanMonthly)']
             ];
 
             fields.forEach(([yearlyId, monthlyId]) => {
@@ -199,16 +207,20 @@
                 yearlyInput.addEventListener('input', () => {
                     if (isUpdating) return;
                     isUpdating = true;
+
                     const val = parseFloat(yearlyInput.value);
                     monthlyInput.value = isNaN(val) ? '' : (val / 12).toFixed(2);
+
                     isUpdating = false;
                 });
 
                 monthlyInput.addEventListener('input', () => {
                     if (isUpdating) return;
                     isUpdating = true;
+
                     const val = parseFloat(monthlyInput.value);
                     yearlyInput.value = isNaN(val) ? '' : (val * 12).toFixed(2);
+
                     isUpdating = false;
                 });
             });

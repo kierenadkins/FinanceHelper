@@ -36,6 +36,9 @@ namespace FinanceHelper.Web.Models.Finance
         public bool IsReview { get; set; } = false;
         public List<String> Errors { get; set; } = new List<string>();
 
+        public int? SalaryId { get; set; }
+        public bool IsEdit => SalaryId.HasValue;
+
         public void UpdateMonthlyTotals()
         {
             NetSalaryMonthly = NetSalary.YearlyToMonthly();
