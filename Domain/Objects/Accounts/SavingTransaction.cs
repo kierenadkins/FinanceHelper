@@ -4,7 +4,7 @@ namespace FinanceHelper.Domain.Objects.Accounts;
 
 public class SavingTransaction : BaseEntity
 {
-    public int SavingAccountId { get; set; } // Foreign key to SavingAccount
+    public int SavingAccountId { get; set; } 
     public decimal Amount { get; set; } 
     public TransactionType Type { get; set; } 
     public string Description { get; set; }

@@ -4,7 +4,7 @@ namespace FinanceHelper.Domain.Objects.Accounts
 {
     public class SavingAccount : BaseEntity
     {
-        public SavingAccount(int userId, string name, string provider, AccountType accountType, decimal interestRate = 0, decimal initialDeposit = 0, InterestType interestType)
+        public SavingAccount(int userId, string name, string provider, AccountType accountType, decimal interestRate, decimal initialDeposit, InterestType interestType)
         {
             UserId = userId;
             Name = name;
@@ -18,6 +18,7 @@ namespace FinanceHelper.Domain.Objects.Accounts
                 AddTransaction(initialDeposit, "Initial Deposit");
             }
         }
+
         public int UserId { get; private set; }
         protected string Name { get; private set; }
         protected string Provider { get; private set; }
@@ -64,6 +65,15 @@ namespace FinanceHelper.Domain.Objects.Accounts
         public decimal GetGrowthLastYear() => GetGrowth(DateTime.UtcNow.AddYears(-1));
         public decimal GetGrowthLast6Months() => GetGrowth(DateTime.UtcNow.AddMonths(-6));
         public decimal GetGrowthLast3Months() => GetGrowth(DateTime.UtcNow.AddMonths(-3));
+
+        public void UpdateSavingAccount(string name, string provider, AccountType accountType, decimal interestRate, InterestType interestType)
+        {
+            Name = name;
+            Provider = provider;
+            AccountType = accountType;
+            InterestRate = interestRate;
+            InterestType = interestType;
+        }
     }
 
     public enum AccountType
