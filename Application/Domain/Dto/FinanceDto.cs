@@ -15,7 +15,7 @@ public class FinanceDto
         YearlyTotalOutGoings = CategoriesWithSubCats.SelectMany(cat => cat.SubCategories).Where(sub => sub.SubCategoryType == SubCategoryType.Expense).Sum(sub => sub.YearlyCost);
         MonthlyOutGoings = YearlyTotalOutGoings.YearlyToMonthly();
         YearlyLeftOver = Salary.NetSalary - YearlyTotalOutGoings;
-        MonthlyLeftOver = (Salary.NetSalary.YearlyToMonthly() - MonthlyOutGoings).To2DP();
+        MonthlyLeftOver = (Salary.NetSalary.YearlyToMonthly() - MonthlyOutGoings).To2Dp();
 
     }
 

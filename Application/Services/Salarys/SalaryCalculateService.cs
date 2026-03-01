@@ -25,15 +25,15 @@ public class SalaryCalculatorService(ITaxService taxService) : ISalaryCalculator
             StudentPlanType = studentPlanType,
             PensionPercentage = pensionPercentage,
             TaxBand = taxService.GetTaxBand(grossSalary),
-            Tax = taxService.CalculateTax(grossSalary).To2DP(),
-            NationalInsurance = payNationalInsurance ? taxService.CalculateNationalInsurance(grossSalary).To2DP() : 0,
-            StudentLoan = hasStudentLoan ? taxService.CalculateStudentLoan(grossSalary, studentPlanType!.Value).To2DP() : 0,
-            PensionContribution = pensionPercentage > 0 ? taxService.CalculatePension(grossSalary, pensionPercentage).To2DP() : 0,
+            Tax = taxService.CalculateTax(grossSalary).To2Dp(),
+            NationalInsurance = payNationalInsurance ? taxService.CalculateNationalInsurance(grossSalary).To2Dp() : 0,
+            StudentLoan = hasStudentLoan ? taxService.CalculateStudentLoan(grossSalary, studentPlanType!.Value).To2Dp() : 0,
+            PensionContribution = pensionPercentage > 0 ? taxService.CalculatePension(grossSalary, pensionPercentage).To2Dp() : 0,
         };
 
         salary.NetSalary = grossSalary -
                            (salary.Tax + salary.NationalInsurance + salary.PensionContribution + salary.StudentLoan)
-                           .To2DP();
+                           .To2Dp();
 
         return salary;
     }
