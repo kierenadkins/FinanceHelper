@@ -1,10 +1,9 @@
 ﻿using FinanceHelper.Application.Services.Savings;
 using FinanceHelper.Application.Services.User;
 using FinanceHelper.Domain.Objects.Base;
-using FluentValidation;
 using MediatR;
 
-namespace FinanceHelper.Application.Usecases.Category.Command;
+namespace FinanceHelper.Application.Usecases.Savings.Command;
 
 public class AddSavingTransaction : IRequest<BaseResult>
 {
@@ -13,13 +12,12 @@ public class AddSavingTransaction : IRequest<BaseResult>
 
 }
 
-public class AddSavingTransactionHandler(ISavingService _savingService, IUserAccountService _UserAccount)
-    : IRequestHandler<AddSavingTransaction, BaseResult>
+public class AddSavingTransactionHandler(ISavingService savingService, IUserAccountService _UserAccount) : IRequestHandler<AddSavingTransaction, BaseResult>
 {
     public async Task<BaseResult> Handle(AddSavingTransaction request, CancellationToken cancellationToken)
     {
 
-        var savingAccount = await _savingService.GetByIdAsync(request.id);
+        var savingAccount = await savingService.GetByIdAsync(request.id);
 
         if (savingAccount == null)
         {
@@ -28,36 +26,8 @@ public class AddSavingTransactionHandler(ISavingService _savingService, IUserAcc
 
         savingAccount.AddTransaction(request.Amount);
 
-        await _savingService.UpdateAsync(savingAccount);
+        await savingService.UpdateAsync(savingAccount);
 
         return new BaseResult();
     }
-
-    public class SaveSavingsAccountValidator : AbstractValidator<SaveSavingsAccount>
-    {
-        public SaveSavingsAccountValidator()
-        {
-            RuleFor(x => x.Name)
-                .NotEmpty()
-                .MaximumLength(100);
-
-            RuleFor(x => x.Provider)
-                .NotEmpty()
-                .MaximumLength(100);
-
-            RuleFor(x => x.InitalBalance)
-                .GreaterThanOrEqualTo(0);
-
-            RuleFor(x => x.AccountType)
-                .IsInEnum();
-
-            RuleFor(x => x.InterestRate)
-                .GreaterThanOrEqualTo(0)
-                .LessThanOrEqualTo(100);
-
-            RuleFor(x => x.InterestType)
-                .IsInEnum();
-        }
-    }
-
 }

@@ -44,7 +44,7 @@ public class UpdateSavingAccountHandler(ISavingService _savingService)
                 .NotEmpty()
                 .MaximumLength(100);
 
-            RuleFor(x => x.InitalBalance)
+            RuleFor(x => x.InitialBalance)
                 .GreaterThanOrEqualTo(0);
 
             RuleFor(x => x.AccountType)

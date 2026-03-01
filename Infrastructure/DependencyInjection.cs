@@ -5,10 +5,12 @@ using FinanceHelper.Application.Services.Encryption;
 using FinanceHelper.Application.Services.Finance;
 using FinanceHelper.Application.Services.Finance.ExpenseTracking;
 using FinanceHelper.Application.Services.Salarys;
+using FinanceHelper.Application.Services.Savings;
 using FinanceHelper.Application.Services.Session;
 using FinanceHelper.Application.Services.Sterializer;
 using FinanceHelper.Application.Services.Tax;
 using FinanceHelper.Application.Services.User;
+using FinanceHelper.Domain.Objects.Accounts;
 using FinanceHelper.Domain.Objects.Finance;
 using FinanceHelper.Domain.Objects.Finance.ExpenseTracking;
 using FinanceHelper.Domain.Objects.Users;
@@ -43,12 +45,15 @@ public static class DependencyInjection
         services.AddScoped<ITaxService, TaxService>();
         services.AddScoped<ISalaryService, SalaryService>();
         services.AddScoped<ISalaryCalculatorService, SalaryCalculatorService>();
+        services.AddScoped<ISavingService, SavingAccountService>();
 
 
         services.AddScoped<IEntityCacheKey<UserAccount>, UserAccountCacheKeys>();
         services.AddScoped<IEntityCacheKey<Salary>, SalaryCacheKeys>();
         services.AddScoped<IEntityCacheKey<Category>, CategoryCacheKeys>();
         services.AddScoped<IEntityCacheKey<SubCategory>, SubCategoryCacheKeys>();
+        services.AddScoped<IEntityCacheKey<SavingAccount>, SavingCacheKeys>();
+        services.AddScoped<IEntityCacheKey<SavingTransaction>, TransactionsCacheKeys>();
         return services;
     }
     

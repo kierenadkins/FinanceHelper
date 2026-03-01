@@ -10,5 +10,6 @@ public interface ISavingService
     Task UpdateAsync(SavingAccount entity, params object[] cacheArgs);
     Task UpdateAsync(IEnumerable<SavingAccount> entities, params object[] cacheArgs);
     Task DeleteAsync(int id, params object[] cacheArgs);
-    Task DeleteAsync(SavingAccount entity, params object[] cacheArgs); 
+    Task DeleteAsync(SavingAccount entity, params object[] cacheArgs);
+    Task<List<SavingAccount>?> GetAllByUserIdCacheAsync(int userId);
 }

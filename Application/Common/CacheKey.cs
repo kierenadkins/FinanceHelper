@@ -10,6 +10,7 @@ namespace FinanceHelper.Application.Common
         public static string UserByEmail(string email) => $"Get_UserByEmail_{email}";
         public static string UserById(int id) => $"Get_UserById_{id}";
         public static string SalaryByUserId (int userId) => $"Get_SalaryByUserId_{userId}";
+        public static string SavingByUserId(int userId) => $"Get_SavingByUserId_{userId}";
     }
 
     public interface IEntityCacheKey<T>

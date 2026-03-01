@@ -25,9 +25,9 @@ namespace FinanceHelper.Application.Usecases.Finance
                 return null;
             }
 
-            //var savings = savingService.GetAllSavingsWithTransactionsWithUserIdCached(userId);
+            var savings = savingService.GetAllByUserIdCacheAsync(userId);
 
-            return new SavingAccount();
+            return savings;
         }
     }
 }
