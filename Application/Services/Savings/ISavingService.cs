@@ -5,6 +5,7 @@ namespace FinanceHelper.Application.Services.Savings;
 public interface ISavingService
 {
     Task<SavingAccount?> GetByIdAsync(int id);
+    Task<SavingAccount?> GetByIdWithTransactionsAsync(int id);
     Task<SavingAccount> AddAsync(SavingAccount entity, params object[] cacheArgs);
     Task AddRangeAsync(List<SavingAccount> entities, params object[] cacheArgs);
     Task UpdateAsync(SavingAccount entity, params object[] cacheArgs);

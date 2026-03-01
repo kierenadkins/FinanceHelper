@@ -1,0 +1,244 @@
+@using FinanceHelper.Web.Models.Saving
+@using FinanceHelper.Domain.Objects.Accounts
+@model SavingAccountModel
+
+@{
+    ViewData["Title"] = $"Edit {Model.Name}";
+}
+
+<div class="container-xxl py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="h3 fw-bold mb-2">@Model.Name</h1>
+            <p class="text-muted mb-0">Manage account details and transactions</p>
+        </div>
+        <a asp-action="Index" class="btn btn-outline-secondary btn-lg rounded-pill">
+            <i class="bi bi-arrow-left me-2"></i>Back
+        </a>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm p-4 mb-4">
+                <h5 class="fw-bold mb-4">Account Settings</h5>
+
+                <form asp-action="Edit" method="post">
+                    <input type="hidden" name="Id" value="@Model.Id" />
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Account Name</label>
+                        <input type="text" name="Name" value="@Model.Name" 
+                               class="form-control form-control-lg rounded-3" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Provider</label>
+                        <input type="text" name="Provider" value="@Model.Provider" 
+                               class="form-control form-control-lg rounded-3" />
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Account Type</label>
+                            <select name="AccountType" class="form-select form-select-lg rounded-3">
+                                @foreach (var at in Enum.GetValues(typeof(AccountType)).Cast<AccountType>())
+                                {
+                                    <option value="@at" selected="@(at == Model.AccountType)">@at</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Interest Type</label>
+                            <select name="InterestType" class="form-select form-select-lg rounded-3">
+                                @foreach (var it in Enum.GetValues(typeof(InterestType)).Cast<InterestType>())
+                                {
+                                    <option value="@it" selected="@(it == Model.InterestType)">@it</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Interest Rate (%)</label>
+                        <div class="input-group input-group-lg">
+                            <input type="number" step="0.01" name="InterestRate" value="@Model.InterestRate" 
+                                   class="form-control rounded-start-3" />
+                            <span class="input-group-text rounded-end-3">%</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100 rounded-3">
+                        <i class="bi bi-floppy me-2"></i>Save Changes
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            
+            <div class="row g-3 mb-4">
+                <div class="col-12">
+                    <div class="kpi-card bg-gradient-success p-4 shadow-sm">
+                        <div>
+                            <h6 class="mb-2 text-white-50">Gross Balance</h6>
+                            <h3 class="fw-bold text-white mb-1">£@Model.GrossBalance.ToString("F2")</h3>
+                        </div>
+                        <i class="bi bi-piggy-bank text-white-50"></i>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="kpi-card bg-gradient-info p-4 shadow-sm">
+                        <div>
+                            <h6 class="mb-2 text-white-50">Net Balance (with earnings)</h6>
+                            <h3 class="fw-bold text-white mb-1">£@Model.NetBalance.ToString("F2")</h3>
+                        </div>
+                        <i class="bi bi-cash-coin text-white-50"></i>
+                    </div>
+                </div>
+
+                @if (Model.Earnings > 0)
+                {
+                    <div class="col-12">
+                        <div class="kpi-card bg-gradient-warning p-4 shadow-sm">
+                            <div>
+                                <h6 class="mb-2 text-white-50">Interest Earned</h6>
+                                <h3 class="fw-bold text-white mb-1">+£@Model.Earnings.ToString("F2")</h3>
+                            </div>
+                            <i class="bi bi-graph-up-arrow text-white-50"></i>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="card border-0 shadow-sm p-4">
+                <h5 class="fw-bold mb-4">Add Transaction</h5>
+
+                <form id="add-transaction-form" method="post" asp-action="AddTransaction">
+                    <input type="hidden" name="id" value="@Model.Id" />
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Amount (£)</label>
+                        <input type="number" step="0.01" name="Amount" 
+                               class="form-control form-control-lg rounded-3" 
+                               placeholder="0.00" required />
+                        <small class="text-muted d-block mt-2">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Positive for deposit, negative for withdrawal
+                        </small>
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-lg w-100 rounded-3">
+                        <i class="bi bi-plus-circle me-2"></i>Add Transaction
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card border-0 shadow-sm mt-5 overflow-hidden">
+        <div class="card-header bg-white border-bottom py-3">
+            <h5 class="mb-0 fw-bold">Transaction History</h5>
+        </div>
+
+        @if (Model.Transactions != null && Model.Transactions.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="fw-bold">Date</th>
+                            <th class="fw-bold">Description</th>
+                            <th class="fw-bold">Type</th>
+                            <th class="text-end fw-bold">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var t in Model.Transactions.OrderByDescending(x => x.TransactionDate))
+                        {
+                            <tr>
+                                <td>
+                                    <small class="text-muted">@t.TransactionDate.ToLocalTime().ToString("dd MMM yyyy")</small>
+                                </td>
+                                <td>
+                                    <span class="fw-semibold">@t.Description</span>
+                                </td>
+                                <td>
+                                    @if (t.Type == TransactionType.Deposit)
+                                    {
+                                        <span class="badge bg-success">
+                                            <i class="bi bi-arrow-down me-1"></i>Deposit
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">
+                                            <i class="bi bi-arrow-up me-1"></i>Withdrawal
+                                        </span>
+                                    }
+                                </td>
+                                <td class="text-end">
+                                    <h6 class="mb-0 fw-bold @(t.EffectiveAmount > 0 ? "text-success" : "text-danger")">
+                                        @(t.EffectiveAmount > 0 ? "+" : "")£@Math.Abs(t.EffectiveAmount).ToString("F2")
+                                    </h6>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="p-5 text-center text-muted">
+                <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                <p class="mt-3 mb-0">No transactions yet</p>
+            </div>
+        }
+    </div>
+
+</div>
+
+<style>
+    .bg-gradient-success {
+        background: linear-gradient(135deg, #198754 0%, #20c997 100%) !important;
+    }
+    .bg-gradient-info {
+        background: linear-gradient(135deg, #0dcaf0 0%, #0d6efd 100%) !important;
+    }
+    .bg-gradient-warning {
+        background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%) !important;
+    }
+    .text-white-50 {
+        color: rgba(255, 255, 255, 0.7);
+    }
+</style>
+
+@section Scripts {
+    <script>
+        (function () {
+            const form = document.getElementById('add-transaction-form');
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const formData = new FormData(form);
+                    fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    }).then(r => r.json()).then(j => {
+                        if (j.success) {
+                            window.location.reload();
+                        } else {
+                            alert(j.message || 'Failed to add transaction');
+                        }
+                    }).catch(() => alert('Failed to add transaction'));
+                });
+            }
+        })();
+    </script>
+}

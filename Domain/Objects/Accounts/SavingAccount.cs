@@ -24,15 +24,15 @@ namespace FinanceHelper.Domain.Objects.Accounts
         }
 
         public int UserId { get; private set; }
-        protected string Name { get; private set; }
-        protected string Provider { get; private set; }
-        protected decimal GrossBalance => Transactions.Sum(t => t.EffectiveAmount);
-        protected decimal Earnings { get; private set; }
-        protected decimal NetBalance => GrossBalance + Earnings;
-        protected AccountType AccountType { get; private set; }
-        protected decimal InterestRate { get; private set; }
+        public string Name { get; private set; }
+        public string Provider { get; private set; }
+        public decimal GrossBalance => Transactions.Sum(t => t.EffectiveAmount);
+        public decimal Earnings { get; private set; }
+        public decimal NetBalance => GrossBalance + Earnings;
+        public AccountType AccountType { get; private set; }
+        public decimal InterestRate { get; private set; }
         public List<SavingTransaction> Transactions { get; private set; } = new();
-        protected InterestType InterestType { get; private set; } = InterestType.None;
+        public InterestType InterestType { get; private set; } = InterestType.None;
 
         public void AddTransaction(decimal amount, string description = "Transaction")
         {

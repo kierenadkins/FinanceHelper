@@ -16,18 +16,18 @@ namespace FinanceHelper.Application.Usecases.Finance
         IUserAccountService userAccountService, ISavingService savingService)
         : IRequestHandler<GetSavingAccountDashboard, List<SavingAccount>>
     {
-        public Task<List<SavingAccount>> Handle(GetSavingAccountDashboard request, CancellationToken cancellationToken)
+        public async Task<List<SavingAccount>> Handle(GetSavingAccountDashboard request, CancellationToken cancellationToken)
         {
             var userId = userAccountService.GetCurrent();
 
             if (userId == 0)
             {
-                return null;
+                return new List<SavingAccount>();
             }
 
-            var savings = savingService.GetAllByUserIdCacheAsync(userId);
+            var savings = await savingService.GetAllByUserIdCacheAsync(userId);
 
-            return savings;
+            return savings ?? new List<SavingAccount>();
         }
     }
 }

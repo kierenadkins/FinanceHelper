@@ -13,6 +13,8 @@ namespace FinanceHelper.Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            // Razor Pages support for savings UI
+            builder.Services.AddRazorPages();
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddDistributedMemoryCache();
@@ -56,6 +58,8 @@ namespace FinanceHelper.Web
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            app.MapRazorPages();
 
             app.Run();
         }

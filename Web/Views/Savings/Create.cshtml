@@ -1,0 +1,100 @@
+@using FinanceHelper.Web.Models.Saving
+@model AddSavingAccountModel
+
+@{
+    ViewData["Title"] = "Create Saving Account";
+}
+
+<div class="container-xxl py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+
+            <div class="mb-5">
+                <h1 class="h3 fw-bold mb-2">Create Saving Account</h1>
+                <p class="text-muted">Set up a new account to start tracking your savings</p>
+            </div>
+
+            <div class="card border-0 shadow-sm p-5">
+                <form asp-action="Create" method="post" class="needs-validation" novalidate>
+
+                    <div class="mb-4">
+                        <label asp-for="Name" class="form-label fw-bold">Account Name</label>
+                        <input asp-for="Name" class="form-control form-control-lg rounded-3" 
+                               placeholder="e.g., Emergency Fund" required />
+                        <div class="invalid-feedback">Please enter an account name.</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Provider" class="form-label fw-bold">Bank / Provider</label>
+                        <input asp-for="Provider" class="form-control form-control-lg rounded-3" 
+                               placeholder="e.g., Barclays, Nationwide" required />
+                        <div class="invalid-feedback">Please enter a provider name.</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="AccountType" class="form-label fw-bold">Account Type</label>
+                            <select asp-for="AccountType" asp-items="Model.AccountTypeOptions" 
+                                    class="form-select form-select-lg rounded-3" required>
+                                <option value="">Select type...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="InterestType" class="form-label fw-bold">Interest Frequency</label>
+                            <select asp-for="InterestType" asp-items="Model.InterestTypeOptions" 
+                                    class="form-select form-select-lg rounded-3" required>
+                                <option value="">Select frequency...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="InterestRate" class="form-label fw-bold">Interest Rate (%)</label>
+                            <div class="input-group input-group-lg">
+                                <input asp-for="InterestRate" type="number" step="0.01" 
+                                       class="form-control rounded-start-3" placeholder="0.00" />
+                                <span class="input-group-text rounded-end-3">%</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="InitialBalance" class="form-label fw-bold">Initial Deposit</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text rounded-start-3">£</span>
+                                <input asp-for="InitialBalance" type="number" step="0.01" 
+                                       class="form-control rounded-end-3" placeholder="0.00" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-3 d-sm-flex justify-content-sm-end mt-5">
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg rounded-3 px-4">
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary btn-lg rounded-3 px-4">
+                            <i class="bi bi-check-circle me-2"></i>Create Account
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            'use strict';
+            const form = document.querySelector('.needs-validation');
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        })();
+    </script>
+}

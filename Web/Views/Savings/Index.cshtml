@@ -1,0 +1,139 @@
+@using FinanceHelper.Web.Models.Saving
+@model SavingsModel
+
+@{
+    ViewData["Title"] = "Savings Dashboard";
+}
+
+<div class="container-xxl py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="h3 fw-bold mb-2">Savings Dashboard</h1>
+            <p class="text-muted mb-0">Track and manage your saving accounts</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary btn-lg rounded-pill">
+            <i class="bi bi-plus-circle me-2"></i>Add Account
+        </a>
+    </div>
+
+    @if (Model?.Savings != null && Model.Savings.Any())
+    {
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="kpi-card bg-gradient-success p-4 shadow-sm">
+                    <div>
+                        <h6 class="mb-2 text-white-50">Total Gross Balance</h6>
+                        <h3 class="fw-bold text-white mb-1">£@Model.TotalGross.ToString("F2")</h3>
+                        <small class="text-white-50">Combined balance</small>
+                    </div>
+                    <i class="bi bi-piggy-bank text-white-50"></i>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="kpi-card bg-gradient-info p-4 shadow-sm">
+                    <div>
+                        <h6 class="mb-2 text-white-50">Total Net Balance</h6>
+                        <h3 class="fw-bold text-white mb-1">£@Model.TotalNet.ToString("F2")</h3>
+                        <small class="text-white-50">With earnings</small>
+                    </div>
+                    <i class="bi bi-cash-coin text-white-50"></i>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="kpi-card bg-gradient-primary p-4 shadow-sm">
+                    <div>
+                        <h6 class="mb-2 text-white-50">Accounts</h6>
+                        <h3 class="fw-bold text-white mb-1">@Model.Savings.Count</h3>
+                        <small class="text-white-50">Active accounts</small>
+                    </div>
+                    <i class="bi bi-boxes text-white-50"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom py-3">
+                <h5 class="mb-0 fw-bold">Your Accounts</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="fw-bold">Account</th>
+                            <th class="fw-bold">Provider</th>
+                            <th class="fw-bold">Type</th>
+                            <th class="fw-bold">Interest</th>
+                            <th class="text-end fw-bold">Gross Balance</th>
+                            <th class="text-end fw-bold">Earnings</th>
+                            <th class="text-end fw-bold">Net Balance</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var saving in Model.Savings)
+                        {
+                            <tr>
+                                <td>
+                                    <strong class="text-dark">@saving.Name</strong>
+                                </td>
+                                <td>
+                                    <span class="text-muted">@saving.Provider</span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-secondary">@saving.AccountType</span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-info">@saving.InterestRate%</span>
+                                </td>
+                                <td class="text-end">
+                                    <strong>£@saving.GrossBalance.ToString("F2")</strong>
+                                </td>
+                                <td class="text-end">
+                                    <span class="text-success fw-semibold">+£@saving.Earnings.ToString("F2")</span>
+                                </td>
+                                <td class="text-end">
+                                    <h6 class="mb-0 fw-bold">£@saving.NetBalance.ToString("F2")</h6>
+                                </td>
+                                <td class="text-center">
+                                    <a asp-action="Edit" asp-route-id="@saving.Id" class="btn btn-sm btn-outline-primary rounded-pill">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="card border-0 shadow-sm p-5 text-center">
+            <div class="mb-4">
+                <i class="bi bi-inbox text-muted" style="font-size: 4rem;"></i>
+            </div>
+            <h4 class="fw-bold mb-2">No Saving Accounts Yet</h4>
+            <p class="text-muted mb-4">Create your first saving account to start tracking your finances</p>
+            <a asp-action="Create" class="btn btn-primary btn-lg rounded-pill">
+                <i class="bi bi-plus-circle me-2"></i>Create Account
+            </a>
+        </div>
+    }
+
+</div>
+
+<style>
+    .bg-gradient-success {
+        background: linear-gradient(135deg, #198754 0%, #20c997 100%) !important;
+    }
+    .bg-gradient-info {
+        background: linear-gradient(135deg, #0dcaf0 0%, #0d6efd 100%) !important;
+    }
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #0d6efd 0%, #6f42c1 100%) !important;
+    }
+    .text-white-50 {
+        color: rgba(255, 255, 255, 0.7);
+    }
+</style>

@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Infrastructure\FinanceHelper.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Savings\" />
+  </ItemGroup>
+
 </Project>

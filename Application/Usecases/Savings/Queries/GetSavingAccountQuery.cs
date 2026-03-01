@@ -21,7 +21,7 @@ namespace FinanceHelper.Application.Usecases.Finance
             if (request.Id == 0)
                 return null;
 
-            return await savingService.GetByIdAsync(request.Id);
+            return await savingService.GetByIdWithTransactionsAsync(request.Id);
         }
     }
 }
