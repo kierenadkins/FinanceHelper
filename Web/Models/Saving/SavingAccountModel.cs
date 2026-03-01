@@ -10,9 +10,8 @@ namespace FinanceHelper.Web.Models.Saving
         public AccountType AccountType { get; set; }
         public decimal InterestRate { get; set; }
         public InterestType InterestType { get; set; }
-        public decimal GrossBalance { get; set; }
-        public decimal Earnings { get; set; }
-        public decimal NetBalance { get; set; }
+        public decimal Balance { get; set; }
+        public decimal TotalInterestEarned { get; set; }
         public List<SavingTransaction> Transactions { get; set; } = new();
 
         public SavingAccountModel() { }
@@ -24,9 +23,11 @@ namespace FinanceHelper.Web.Models.Saving
             Provider = account.Provider;
             AccountType = account.AccountType;
             InterestRate = account.InterestRate;
-            GrossBalance = account.GrossBalance;
-            Earnings = account.Earnings;
-            NetBalance = account.NetBalance;
+            InterestType = account.InterestType;
+            Balance = account.Balance;
+            TotalInterestEarned = account.Transactions
+                .Where(t => t.Type == TransactionType.Interest)
+                .Sum(t => t.Amount);
             Transactions = account.Transactions ?? new List<SavingTransaction>();
         }
     }

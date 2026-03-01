@@ -29,11 +29,19 @@ public class SaveSavingsAccountHandler(ISavingService savingService, IUserAccoun
             return new BaseResult("User does not exist");
         }
 
-        var savingAccount = new SavingAccount(user, request.Name, request.Provider, request.AccountType, request.InterestRate, request.InitialBalance, request.InterestType);
+        try
+        {
+            var savingAccount = new SavingAccount(user, request.Name, request.Provider, request.AccountType, request.InterestRate, request.InitialBalance, request.InterestType);
 
-        await savingService.AddAsync(savingAccount);
+            // Pass user ID to invalidate cache
+            await savingService.AddAsync(savingAccount, user);
 
-        return new BaseResult();
+            return new BaseResult();
+        }
+        catch (Exception ex)
+        {
+            return new BaseResult($"Failed to save account: {ex.Message}");
+        }
     }
 
     public class SaveSavingsAccountValidator : AbstractValidator<SaveSavingsAccount>

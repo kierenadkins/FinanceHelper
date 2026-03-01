@@ -32,10 +32,55 @@ namespace FinanceHelper.Web.Controllers
                 return View(model);
             }
 
-            model.Savings = list.Select(x => new SavingAccountModel(x)).ToList();
+            model.Savings = list.Select(x => MapToProgressionModel(x)).ToList();
             model.CalculateTotals();
 
             return View(model);
+        }
+
+        private SavingAccountProgressionModel MapToProgressionModel(SavingAccount account)
+        {
+            var transactions = account.Transactions
+                .OrderBy(t => t.TransactionDate)
+                .ToList();
+
+            var progressionHistory = new List<ProgressionPoint>();
+            decimal runningBalance = 0;
+
+            foreach (var transaction in transactions)
+            {
+                runningBalance += transaction.EffectiveAmount;
+                progressionHistory.Add(new ProgressionPoint
+                {
+                    Date = transaction.TransactionDate,
+                    Type = transaction.Type.ToString(),
+                    Amount = transaction.Amount,
+                    Description = transaction.Description,
+                    RunningBalance = runningBalance
+                });
+            }
+
+            var lastInterestTransaction = transactions
+                .Where(t => t.Type == TransactionType.Interest)
+                .OrderByDescending(t => t.TransactionDate)
+                .FirstOrDefault();
+
+            return new SavingAccountProgressionModel
+            {
+                Id = account.Id,
+                Name = account.Name,
+                Provider = account.Provider,
+                AccountType = account.AccountType,
+                InterestRate = account.InterestRate,
+                InterestType = account.InterestType.ToString(),
+                Balance = account.Balance,
+                TotalInterestEarned = account.Transactions
+                    .Where(t => t.Type == TransactionType.Interest)
+                    .Sum(t => t.Amount),
+                ProgressionHistory = progressionHistory,
+                LastInterestDate = lastInterestTransaction?.TransactionDate ?? (account.DateCreated ?? DateTime.UtcNow),
+                CreatedDate = account.DateCreated ?? DateTime.UtcNow
+            };
         }
 
         // GET: SavingsController/Details/5
@@ -123,32 +168,51 @@ namespace FinanceHelper.Web.Controllers
         }
 
         // GET: SavingsController/Delete/5
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            return View();
+            var account = await _mediator.Send(new GetSavingAccount { Id = id });
+            if (account == null)
+                return NotFound();
+
+            var model = new SavingAccountModel(account);
+            return View(model);
         }
 
         // POST: SavingsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(int id, IFormCollection collection)
         {
             try
             {
+                var result = await _mediator.Send(new DeleteSavingAccount { Id = id });
+                
+                if (result != null && !result.Success)
+                {
+                    var errorMessage = result.Errors?.Any() == true
+                        ? string.Join("; ", result.Errors)
+                        : "Unable to delete saving account.";
+                    TempData["Error"] = errorMessage;
+                    return RedirectToAction(nameof(Delete), new { id });
+                }
+
+                TempData["Success"] = "Saving account deleted successfully";
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                TempData["Error"] = $"Error deleting account: {ex.Message}";
+                return RedirectToAction(nameof(Delete), new { id });
             }
         }
 
         [HttpPost]
         public async Task<JsonResult> AddTransaction(AddSavingTransaction model)
         {
-            if (model.Amount <= 0)
+            // Allow negative amounts (withdrawals) - just check it's not zero
+            if (model.Amount == 0)
             {
-                return Json(new { success = false, message = "Transaction amount must be greater than zero" });
+                return Json(new { success = false, message = "Transaction amount cannot be zero" });
             }
 
             var result = await _mediator.Send(model);

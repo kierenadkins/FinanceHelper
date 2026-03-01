@@ -11,6 +11,10 @@ public class SavingAccountEntityTypeConfiguration : IEntityTypeConfiguration<Sav
         builder.ToTable("tbl_SavingAccount");
         builder.HasKey(x => x.Id);
 
+        builder.Property(x => x.LastInterestCalculationDate)
+            .HasDefaultValueSql("GETUTCDATE()")
+            .IsRequired();
+
         builder.HasMany(x => x.Transactions).WithOne()
             .HasForeignKey(x => x.SavingAccountId)
             .OnDelete(DeleteBehavior.Cascade);

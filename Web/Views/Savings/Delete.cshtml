@@ -1,0 +1,125 @@
+@using FinanceHelper.Web.Models.Saving
+@model SavingAccountModel
+
+@{
+    ViewData["Title"] = $"Delete {Model.Name}";
+}
+
+<div class="container-lg py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="h3 fw-bold mb-2">Delete Account</h1>
+            <p class="text-muted mb-0">Are you sure you want to delete this saving account?</p>
+        </div>
+    </div>
+
+    <!-- Warning Card -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="alert alert-danger d-flex" role="alert">
+                <div class="me-3">
+                    <i class="bi bi-exclamation-triangle-fill" style="font-size: 2rem;"></i>
+                </div>
+                <div>
+                    <h5 class="alert-heading fw-bold mb-2">⚠️ This action cannot be undone</h5>
+                    <p class="mb-2">
+                        You are about to permanently delete the saving account <strong>@Model.Name</strong> from @Model.Provider.
+                    </p>
+                    <hr>
+                    <p class="mb-0">All transaction history and data associated with this account will be deleted. Please make sure this is what you want to do.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account Summary -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light border-0">
+                    <h5 class="card-title fw-bold mb-0">Account Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <small class="text-muted d-block mb-1">Account Name</small>
+                                <h6 class="fw-bold">@Model.Name</h6>
+                            </div>
+                            <div class="mb-3">
+                                <small class="text-muted d-block mb-1">Provider</small>
+                                <h6 class="fw-bold">@Model.Provider</h6>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block mb-1">Account Type</small>
+                                <h6 class="fw-bold">@Model.AccountType</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <small class="text-muted d-block mb-1">Current Balance</small>
+                                <h6 class="fw-bold">£@Model.Balance.ToString("F2")</h6>
+                            </div>
+                            <div class="mb-3">
+                                <small class="text-muted d-block mb-1">Interest Earned</small>
+                                <h6 class="fw-bold text-success">+£@Model.TotalInterestEarned.ToString("F2")</h6>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block mb-1">Interest Rate</small>
+                                <h6 class="fw-bold">@Model.InterestRate%</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <small class="text-muted d-block mb-1">Total Transactions</small>
+                        <h6 class="fw-bold">@Model.Transactions.Count transactions</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row">
+        <div class="col-lg-8">
+            <form method="post" asp-action="Delete" asp-route-id="@Model.Id" id="deleteForm">
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-danger btn-lg rounded-3 flex-grow-1">
+                        <i class="bi bi-trash me-2"></i>Yes, Delete Account
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg rounded-3">
+                        <i class="bi bi-x-circle me-2"></i>Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        // Confirm deletion with additional warning
+        document.getElementById('deleteForm').addEventListener('submit', function(e) {
+            const confirmDelete = confirm(
+                'Are you absolutely sure?\n\n' +
+                'Account: @Model.Name\n' +
+                'Balance: £@Model.Balance.ToString("F2")\n' +
+                'Transactions: @Model.Transactions.Count\n\n' +
+                'This action CANNOT be undone.'
+            );
+            
+            if (!confirmDelete) {
+                e.preventDefault();
+            }
+        });
+    </script>
+}
+
+<style>
+    .alert {
+        border-radius: 0.75rem;
+    }
+</style>

@@ -16,6 +16,7 @@ namespace FinanceHelper.Domain.Objects.Accounts
             AccountType = accountType;
             InterestRate = interestRate;
             InterestType = interestType;
+            LastInterestCalculationDate = DateTime.UtcNow;
 
             if (initialDeposit > 0)
             {
@@ -26,13 +27,12 @@ namespace FinanceHelper.Domain.Objects.Accounts
         public int UserId { get; private set; }
         public string Name { get; private set; }
         public string Provider { get; private set; }
-        public decimal GrossBalance => Transactions.Sum(t => t.EffectiveAmount);
-        public decimal Earnings { get; private set; }
-        public decimal NetBalance => GrossBalance + Earnings;
+        public decimal Balance => Transactions.Sum(t => t.EffectiveAmount);
         public AccountType AccountType { get; private set; }
         public decimal InterestRate { get; private set; }
         public List<SavingTransaction> Transactions { get; private set; } = new();
         public InterestType InterestType { get; private set; } = InterestType.None;
+        public DateTime LastInterestCalculationDate { get; private set; } = DateTime.UtcNow;
 
         public void AddTransaction(decimal amount, string description = "Transaction")
         {
@@ -43,7 +43,7 @@ namespace FinanceHelper.Domain.Objects.Accounts
 
             var absoluteAmount = Math.Abs(amount);
 
-            if (type == TransactionType.Withdrawal && GrossBalance < absoluteAmount)
+            if (type == TransactionType.Withdrawal && Balance < absoluteAmount)
                 throw new InvalidOperationException("Insufficient balance for this withdrawal.");
 
             var transaction = new SavingTransaction
@@ -57,6 +57,22 @@ namespace FinanceHelper.Domain.Objects.Accounts
             Transactions.Add(transaction);
         }
 
+        public void ApplyInterest(decimal interestAmount)
+        {
+            if (interestAmount < 0)
+                throw new ArgumentException("Interest amount cannot be negative.", nameof(interestAmount));
+
+            var transaction = new SavingTransaction
+            {
+                Amount = interestAmount,
+                Type = TransactionType.Interest,
+                Description = "Interest Earned",
+                TransactionDate = DateTime.UtcNow
+            };
+
+            Transactions.Add(transaction);
+            LastInterestCalculationDate = DateTime.UtcNow;
+        }
 
         public decimal GetGrowth(DateTime fromDate)
         {

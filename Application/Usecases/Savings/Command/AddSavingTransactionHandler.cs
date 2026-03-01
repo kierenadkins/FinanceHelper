@@ -9,25 +9,40 @@ public class AddSavingTransaction : IRequest<BaseResult>
 {
     public int id { get; set; }
     public decimal Amount { get; set; }
-
+    public string Description { get; set; } = "Transaction";
 }
 
-public class AddSavingTransactionHandler(ISavingService savingService, IUserAccountService _UserAccount) : IRequestHandler<AddSavingTransaction, BaseResult>
+public class AddSavingTransactionHandler(ISavingService savingService, IUserAccountService userAccountService) : IRequestHandler<AddSavingTransaction, BaseResult>
 {
     public async Task<BaseResult> Handle(AddSavingTransaction request, CancellationToken cancellationToken)
     {
-
-        var savingAccount = await savingService.GetByIdAsync(request.id);
+        var savingAccount = await savingService.GetByIdWithTransactionsAsync(request.id);
 
         if (savingAccount == null)
         {
             return new BaseResult("No such saving account exists");
         }
 
-        savingAccount.AddTransaction(request.Amount);
-
-        await savingService.UpdateAsync(savingAccount);
-
-        return new BaseResult();
+        try
+        {
+            savingAccount.AddTransaction(request.Amount, request.Description);
+            
+            // Invalidate cache by passing the user ID
+            await savingService.UpdateAsync(savingAccount, savingAccount.UserId);
+            
+            return new BaseResult();
+        }
+        catch (InvalidOperationException ex)
+        {
+            return new BaseResult(ex.Message);
+        }
+        catch (ArgumentException ex)
+        {
+            return new BaseResult(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return new BaseResult($"Failed to add transaction: {ex.Message}");
+        }
     }
 }

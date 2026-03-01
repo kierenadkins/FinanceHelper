@@ -21,15 +21,23 @@ public class UpdateSavingAccountHandler(ISavingService _savingService)
 {
     public async Task<BaseResult> Handle(UpdateSavingAccount request, CancellationToken cancellationToken)
     {
-        var savingsAccount = await _savingService.GetByIdAsync(request.Id);
+        try
+        {
+            var savingsAccount = await _savingService.GetByIdWithTransactionsAsync(request.Id);
 
-        if (savingsAccount == null)
-            return new BaseResult("Saving account not found.");
+            if (savingsAccount == null)
+                return new BaseResult("Saving account not found.");
 
-        savingsAccount.UpdateSavingAccount(request.Name, request.Provider, request.AccountType, request.InterestRate, request.InterestType);
+            savingsAccount.UpdateSavingAccount(request.Name, request.Provider, request.AccountType, request.InterestRate, request.InterestType);
 
-        await _savingService.UpdateAsync(savingsAccount);
-        return new BaseResult();
+            // Pass user ID to invalidate cache
+            await _savingService.UpdateAsync(savingsAccount, savingsAccount.UserId);
+            return new BaseResult();
+        }
+        catch (Exception ex)
+        {
+            return new BaseResult($"Failed to update account: {ex.Message}");
+        }
     }
 
     public class SaveSavingsAccountValidator : AbstractValidator<SaveSavingsAccount>

@@ -46,6 +46,8 @@ public static class DependencyInjection
         services.AddScoped<ISalaryService, SalaryService>();
         services.AddScoped<ISalaryCalculatorService, SalaryCalculatorService>();
         services.AddScoped<ISavingService, SavingAccountService>();
+        services.AddScoped<IInterestCalculationService, InterestCalculationService>();
+        services.AddScoped<IInterestApplicationService, InterestApplicationService>();
 
 
         services.AddScoped<IEntityCacheKey<UserAccount>, UserAccountCacheKeys>();

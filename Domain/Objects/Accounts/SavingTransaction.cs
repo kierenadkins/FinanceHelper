@@ -9,11 +9,12 @@ public class SavingTransaction : BaseEntity
     public TransactionType Type { get; set; } 
     public string Description { get; set; }
     public DateTime TransactionDate { get; set; }
-    public decimal EffectiveAmount => Type == TransactionType.Deposit ? Amount : -Amount;
+    public decimal EffectiveAmount => Type == TransactionType.Deposit || Type == TransactionType.Interest ? Amount : -Amount;
 }
 
 public enum TransactionType
 {
     Deposit,
     Withdrawal,
+    Interest,
 }
