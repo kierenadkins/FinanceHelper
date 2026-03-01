@@ -50,8 +50,8 @@ namespace FinanceHelper.Application.Common
     {
         public string ListKey(params object[] args)
         {
-            if (args.Length == 1) return $"CategoryByUserId_{args[0]}";
-            throw new ArgumentException("Invalid arguments for category cache key");
+            if (args.Length == 1) return $"SubCategoryByUserId_{args[0]}";
+            throw new ArgumentException("Invalid arguments for subcategory cache key");
         }
     }
 
@@ -59,8 +59,8 @@ namespace FinanceHelper.Application.Common
     {
         public string ListKey(params object[] args)
         {
-            if (args.Length == 1) return $"SavingAccountById_{args[0]}";
-            throw new ArgumentException("Invalid arguments for category cache key");
+            if (args.Length == 1) return $"SavingAccountByUserId_{args[0]}";
+            throw new ArgumentException("Invalid arguments for saving account cache key");
         }
     }
 
@@ -68,8 +68,8 @@ namespace FinanceHelper.Application.Common
     {
         public string ListKey(params object[] args)
         {
-            if (args.Length == 1) return $"SavingAccountById{args[0]}";
-            throw new ArgumentException("Invalid arguments for category cache key");
+            if (args.Length == 1) return $"SavingTransactionByAccountId_{args[0]}";
+            throw new ArgumentException("Invalid arguments for transaction cache key");
         }
     }
 }

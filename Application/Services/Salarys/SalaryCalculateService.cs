@@ -14,8 +14,14 @@ public class SalaryCalculatorService(ITaxService taxService) : ISalaryCalculator
         int pensionPercentage,
         StudentPlanType? studentPlanType)
     {
+        if (grossSalary <= 0)
+            throw new ArgumentException("Gross salary must be greater than zero", nameof(grossSalary));
+
         if (hasStudentLoan && studentPlanType == null)
             throw new InvalidOperationException("StudentPlanType must be set when HasStudentLoan is true");
+
+        if (pensionPercentage < 0 || pensionPercentage > 100)
+            throw new ArgumentException("Pension percentage must be between 0 and 100", nameof(pensionPercentage));
 
         var salary = new Salary
         {
@@ -31,8 +37,8 @@ public class SalaryCalculatorService(ITaxService taxService) : ISalaryCalculator
             PensionContribution = pensionPercentage > 0 ? taxService.CalculatePension(grossSalary, pensionPercentage).To2Dp() : 0,
         };
 
-        salary.NetSalary = grossSalary -
-                           (salary.Tax + salary.NationalInsurance + salary.PensionContribution + salary.StudentLoan)
+        salary.NetSalary = (grossSalary -
+                           (salary.Tax + salary.NationalInsurance + salary.PensionContribution + salary.StudentLoan))
                            .To2Dp();
 
         return salary;

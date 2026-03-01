@@ -5,20 +5,22 @@
     ViewData["Title"] = "Savings Dashboard";
 }
 
-<div class="container-xxl py-5">
+<div class="container-xxl py-4">
 
+    <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-5">
         <div>
             <h1 class="h3 fw-bold mb-2">Savings Dashboard</h1>
             <p class="text-muted mb-0">Track and manage your saving accounts</p>
         </div>
-        <a asp-action="Create" class="btn btn-primary btn-lg rounded-pill">
+        <a asp-action="Create" class="btn btn-primary btn-lg rounded-pill shadow-sm">
             <i class="bi bi-plus-circle me-2"></i>Add Account
         </a>
     </div>
 
     @if (Model?.Savings != null && Model.Savings.Any())
     {
+        <!-- KPI Cards -->
         <div class="row g-4 mb-5">
             <div class="col-md-4">
                 <div class="kpi-card bg-gradient-success p-4 shadow-sm">
@@ -52,22 +54,23 @@
             </div>
         </div>
 
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-white border-bottom py-3">
+        <!-- Accounts Table -->
+        <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+            <div class="card-header bg-body-secondary px-4 py-3">
                 <h5 class="mb-0 fw-bold">Your Accounts</h5>
             </div>
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
-                            <th class="fw-bold">Account</th>
-                            <th class="fw-bold">Provider</th>
-                            <th class="fw-bold">Type</th>
-                            <th class="fw-bold">Interest</th>
+                            <th class="fw-bold"><i class="bi bi-building me-2"></i>Account</th>
+                            <th class="fw-bold"><i class="bi bi-bank me-2"></i>Provider</th>
+                            <th class="fw-bold"><i class="bi bi-tag me-2"></i>Type</th>
+                            <th class="fw-bold"><i class="bi bi-percent me-2"></i>Interest</th>
                             <th class="text-end fw-bold">Gross Balance</th>
                             <th class="text-end fw-bold">Earnings</th>
                             <th class="text-end fw-bold">Net Balance</th>
-                            <th class="text-center">Actions</th>
+                            <th class="text-center fw-bold">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -81,24 +84,31 @@
                                     <span class="text-muted">@saving.Provider</span>
                                 </td>
                                 <td>
-                                    <span class="badge bg-secondary">@saving.AccountType</span>
+                                    <span class="badge bg-secondary rounded-pill">@saving.AccountType</span>
                                 </td>
                                 <td>
-                                    <span class="badge bg-info">@saving.InterestRate%</span>
+                                    <span class="badge bg-info rounded-pill">@saving.InterestRate%</span>
                                 </td>
                                 <td class="text-end">
                                     <strong>£@saving.GrossBalance.ToString("F2")</strong>
                                 </td>
                                 <td class="text-end">
-                                    <span class="text-success fw-semibold">+£@saving.Earnings.ToString("F2")</span>
+                                    <span class="text-success fw-semibold">
+                                        <i class="bi bi-arrow-up me-1"></i>+£@saving.Earnings.ToString("F2")
+                                    </span>
                                 </td>
                                 <td class="text-end">
-                                    <h6 class="mb-0 fw-bold">£@saving.NetBalance.ToString("F2")</h6>
+                                    <h6 class="mb-0 fw-bold text-primary">£@saving.NetBalance.ToString("F2")</h6>
                                 </td>
                                 <td class="text-center">
-                                    <a asp-action="Edit" asp-route-id="@saving.Id" class="btn btn-sm btn-outline-primary rounded-pill">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <a asp-action="Edit" asp-route-id="@saving.Id" class="btn btn-outline-primary rounded-pill" title="Edit account">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-outline-danger rounded-pill" title="Delete account" onclick="confirmDelete(@saving.Id)">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         }
@@ -109,19 +119,31 @@
     }
     else
     {
-        <div class="card border-0 shadow-sm p-5 text-center">
+        <!-- Empty State -->
+        <div class="card border-0 shadow-sm rounded-3 p-5 text-center">
             <div class="mb-4">
-                <i class="bi bi-inbox text-muted" style="font-size: 4rem;"></i>
+                <i class="bi bi-inbox" style="font-size: 4rem; color: #6c757d;"></i>
             </div>
             <h4 class="fw-bold mb-2">No Saving Accounts Yet</h4>
-            <p class="text-muted mb-4">Create your first saving account to start tracking your finances</p>
+            <p class="text-muted mb-4">Get started by adding your first saving account to track your money growth.</p>
             <a asp-action="Create" class="btn btn-primary btn-lg rounded-pill">
-                <i class="bi bi-plus-circle me-2"></i>Create Account
+                <i class="bi bi-plus-circle me-2"></i>Create Your First Account
             </a>
         </div>
     }
 
 </div>
+
+@section Scripts {
+    <script>
+        function confirmDelete(id) {
+            if (confirm('Are you sure you want to delete this account?')) {
+                // Add delete functionality here
+                console.log('Deleting account:', id);
+            }
+        }
+    </script>
+}
 
 <style>
     .bg-gradient-success {

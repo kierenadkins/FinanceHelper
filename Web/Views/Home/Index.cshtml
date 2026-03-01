@@ -1,8 +1,136 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using FinanceHelper.Application.Interfaces
+@using FinanceHelper.Application.Services.Session
+@inject ISessionManagerService SessionManager
+
+@{
+    ViewData["Title"] = "Home";
+    var userSession = SessionManager.Get<int>("CurrentUser");
+    var isLoggedIn = userSession > 0;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@if (isLoggedIn)
+{
+    <!-- Dashboard for logged-in users -->
+    <div class="container-xxl py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">Welcome Back!</h1>
+                <p class="lead text-muted mb-4">Take control of your finances with FinanceBuddy. Track your income, manage savings, and plan your financial future.</p>
+                <div class="d-flex gap-3">
+                    <a href="@Url.Action("Index", "Finance")" class="btn btn-primary btn-lg">
+                        <i class="bi bi-graph-up me-2"></i>View Finance Dashboard
+                    </a>
+                    <a href="@Url.Action("Index", "Savings")" class="btn btn-outline-primary btn-lg">
+                        <i class="bi bi-piggy-bank me-2"></i>Manage Savings
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <i class="bi bi-wallet2" style="font-size: 6rem; color: #0d6efd; opacity: 0.8;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <!-- Hero Section -->
+    <div class="bg-primary text-white py-5">
+        <div class="container-xxl">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">Your Personal Finance Manager</h1>
+                    <p class="lead mb-4">FinanceBuddy helps you take control of your money. Track your salary, manage savings, and plan your financial future with ease.</p>
+                    <div class="d-flex gap-3">
+                        <a href="@Url.Action("Signup", "Auth")" class="btn btn-light btn-lg">
+                            <i class="bi bi-person-plus me-2"></i>Get Started
+                        </a>
+                        <a href="@Url.Action("Login", "Auth")" class="btn btn-outline-light btn-lg">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center mt-4 mt-lg-0">
+                    <i class="bi bi-wallet2" style="font-size: 8rem; opacity: 0.9;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="container-xxl py-5">
+        <h2 class="text-center fw-bold mb-5">Why Choose FinanceBuddy?</h2>
+        
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-graph-up text-primary" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Salary Tracking</h5>
+                    <p class="text-muted small">Calculate and track your net salary with detailed tax breakdowns and monthly projections.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-piggy-bank text-success" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Savings Management</h5>
+                    <p class="text-muted small">Organize multiple savings accounts, track interest earnings, and watch your wealth grow.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-wallet2 text-info" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Budget Planning</h5>
+                    <p class="text-muted small">Create categories and subcategories to organize your spending and plan your budget.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-shield-lock text-danger" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Secure & Private</h5>
+                    <p class="text-muted small">Your financial data is encrypted and stored securely with industry-standard protection.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="bg-light py-5">
+        <div class="container-xxl">
+            <div class="row text-center g-4">
+                <div class="col-md-4">
+                    <h3 class="fw-bold text-primary display-6">10K+</h3>
+                    <p class="text-muted mb-0">Active Users</p>
+                </div>
+                <div class="col-md-4">
+                    <h3 class="fw-bold text-primary display-6">£1B+</h3>
+                    <p class="text-muted mb-0">Money Tracked</p>
+                </div>
+                <div class="col-md-4">
+                    <h3 class="fw-bold text-primary display-6">100%</h3>
+                    <p class="text-muted mb-0">Data Secure</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="container-xxl py-5 text-center">
+        <h2 class="fw-bold mb-4">Ready to Take Control?</h2>
+        <p class="lead text-muted mb-4 max-w-2xl">Join thousands of users who are already managing their finances better with FinanceBuddy.</p>
+        <a href="@Url.Action("Signup", "Auth")" class="btn btn-primary btn-lg">
+            <i class="bi bi-person-plus me-2"></i>Create Your Free Account
+        </a>
+    </div>
+}

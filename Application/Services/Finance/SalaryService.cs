@@ -10,8 +10,13 @@ public class SalaryService(IRepository<Salary> repository,
     IEntityCacheKey<Salary> cacheKeys
 ) : GenericCrudService<Salary>(repository, cacheManager, ctx, cacheKeys), ISalaryService
 {
+    private const int SalaryCacheDurationSeconds = 3600;
+
     public async Task<Salary?> GetAllByUserIdCacheAsync(int userId)
     {
+        if (userId <= 0)
+            throw new ArgumentException("User ID must be greater than zero", nameof(userId));
+
         var cacheKey = CacheKeys.SalaryByUserId(userId);
 
         if (cacheManager.IsSet(cacheKey))
@@ -20,7 +25,7 @@ public class SalaryService(IRepository<Salary> repository,
         var salary = await repository.GetAsync(x => x.UserId == userId);
 
         if (salary is not null)
-            cacheManager.Set(salary, cacheKey, 3600);
+            cacheManager.Set(salary, cacheKey, SalaryCacheDurationSeconds);
 
         return salary;
     }

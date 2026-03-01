@@ -1,43 +1,87 @@
 ﻿@using FinanceHelper.Web.Models.Auth
 @model LoginViewModel
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Sign In";
 }
 
-<div class="container mt-5" style="max-width: 400px;">
-    <h2 class="text-center mb-4">Sign In</h2>
+<div class="container">
+    <div class="row justify-content-center align-items-center" style="min-height: calc(100vh - 180px);">
+        <div class="col-md-6 col-lg-5">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-body p-5">
+                    <div class="text-center mb-5">
+                        <div class="mb-3">
+                            <i class="bi bi-wallet2 text-primary" style="font-size: 3rem;"></i>
+                        </div>
+                        <h2 class="fw-bold text-primary mb-2">Welcome Back</h2>
+                        <p class="text-muted">Sign in to your FinanceBuddy account</p>
+                    </div>
 
-    <form asp-action="Login" method="post" novalidate>
-        @Html.AntiForgeryToken()
+                    @if (!string.IsNullOrWhiteSpace(Model?.Error))
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-circle me-2"></i>
+                            @Model.Error
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
 
-        <div class="form-group mb-3">
-            <label asp-for="EmailAddress" class="form-label"></label>
-            <input asp-for="EmailAddress" class="form-control" placeholder="you@example.com" />
-            <span asp-validation-for="EmailAddress" class="text-danger"></span>
-        </div>
+                    <form asp-action="Login" method="post" novalidate class="needs-validation">
+                        @Html.AntiForgeryToken()
 
-        <div class="form-group mb-3">
-            <label asp-for="Password" class="form-label"></label>
-            <input asp-for="Password" type="password" class="form-control" placeholder="Enter password" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
+                        <div class="mb-3">
+                            <label asp-for="EmailAddress" class="form-label fw-semibold">Email Address</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light">
+                                    <i class="bi bi-envelope text-muted"></i>
+                                </span>
+                                <input asp-for="EmailAddress" 
+                                       class="form-control form-control-lg" 
+                                       placeholder="you@example.com"
+                                       required />
+                            </div>
+                            <span asp-validation-for="EmailAddress" class="text-danger small mt-1 d-block"></span>
+                        </div>
 
-        @if (!string.IsNullOrWhiteSpace(Model?.Error))
-        {
-            <div class="alert alert-danger py-2">
-                @Model.Error
+                        <div class="mb-4">
+                            <label asp-for="Password" class="form-label fw-semibold">Password</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light">
+                                    <i class="bi bi-lock text-muted"></i>
+                                </span>
+                                <input asp-for="Password" 
+                                       type="password" 
+                                       class="form-control form-control-lg" 
+                                       placeholder="Enter password"
+                                       required />
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger small mt-1 d-block"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 btn-lg fw-semibold rounded-3 mb-3">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                        </button>
+                    </form>
+
+                    <hr class="my-4">
+
+                    <div class="text-center">
+                        <p class="text-muted mb-0">
+                            Don't have an account?
+                            <a asp-controller="Auth" asp-action="Signup" class="text-primary fw-semibold text-decoration-none">
+                                Create one now
+                            </a>
+                        </p>
+                    </div>
+                </div>
             </div>
-        }
 
-        <button type="submit" class="btn btn-primary w-100">Login</button>
-
-        <div class="text-center mt-3">
-            <small>
-                Don’t have an account?
-                <a asp-controller="Auth" asp-action="Signup">Register</a>
-            </small>
+            <p class="text-center text-muted small mt-4">
+                <i class="bi bi-shield-check text-success me-1"></i>
+                Your data is secure and encrypted
+            </p>
         </div>
-    </form>
+    </div>
 </div>
 
 @section Scripts {

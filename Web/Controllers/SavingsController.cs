@@ -23,17 +23,16 @@ namespace FinanceHelper.Web.Controllers
         // GET: /Savings
         public async Task<IActionResult> Index()
         {
-            var model = new FinanceHelper.Web.Models.Saving.SavingsModel();
+            var model = new SavingsModel();
 
             var list = await _mediator.Send(new GetSavingAccountDashboard());
 
             if (list == null || list.Count == 0)
             {
-                // Debug: Return empty model if no accounts
                 return View(model);
             }
 
-            model.Savings = list.Select(x => new FinanceHelper.Web.Models.Saving.SavingAccountModel(x)).ToList();
+            model.Savings = list.Select(x => new SavingAccountModel(x)).ToList();
             model.CalculateTotals();
 
             return View(model);
@@ -60,6 +59,12 @@ namespace FinanceHelper.Web.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
+            if (model.InitialBalance < 0)
+            {
+                ModelState.AddModelError(nameof(model.InitialBalance), "Initial balance must be greater than or equal to zero");
+                return View(model);
+            }
+
             var cmd = new SaveSavingsAccount
             {
                 Name = model.Name,
@@ -73,10 +78,14 @@ namespace FinanceHelper.Web.Controllers
             var result = await _mediator.Send(cmd);
             if (result != null && !result.Success)
             {
-                ModelState.AddModelError(string.Empty, result.Errors != null && result.Errors.Any() ? string.Join(';', result.Errors) : "Unable to save saving account.");
+                var errorMessage = result.Errors?.Any() == true
+                    ? string.Join("; ", result.Errors)
+                    : "Unable to save saving account.";
+                ModelState.AddModelError(string.Empty, errorMessage);
                 return View(model);
             }
 
+            TempData["Success"] = "Saving account created successfully";
             return RedirectToAction(nameof(Index));
         }
 
@@ -87,8 +96,7 @@ namespace FinanceHelper.Web.Controllers
             if (account == null)
                 return NotFound();
 
-            var model = new FinanceHelper.Web.Models.Saving.SavingAccountModel(account);
-
+            var model = new SavingAccountModel(account);
             return View(model);
         }
 
@@ -103,10 +111,14 @@ namespace FinanceHelper.Web.Controllers
             var result = await _mediator.Send(model);
             if (result != null && !result.Success)
             {
-                TempData["Error"] = result.Errors != null && result.Errors.Any() ? string.Join(';', result.Errors) : "Unable to update saving account.";
+                var errorMessage = result.Errors?.Any() == true
+                    ? string.Join("; ", result.Errors)
+                    : "Unable to update saving account.";
+                TempData["Error"] = errorMessage;
                 return RedirectToAction(nameof(Edit), new { id = model.Id });
             }
 
+            TempData["Success"] = "Saving account updated successfully";
             return RedirectToAction(nameof(Index));
         }
 
@@ -134,11 +146,21 @@ namespace FinanceHelper.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> AddTransaction(AddSavingTransaction model)
         {
+            if (model.Amount <= 0)
+            {
+                return Json(new { success = false, message = "Transaction amount must be greater than zero" });
+            }
+
             var result = await _mediator.Send(model);
             if (result != null && !result.Success)
-                return Json(new { success = false, message = result.Errors != null && result.Errors.Any() ? string.Join(';', result.Errors) : "Failed" });
+            {
+                var message = result.Errors?.Any() == true
+                    ? string.Join("; ", result.Errors)
+                    : "Failed to add transaction";
+                return Json(new { success = false, message });
+            }
 
-            return Json(new { success = true });
+            return Json(new { success = true, message = "Transaction added successfully" });
         }
     }
 }

@@ -1,5 +1,18 @@
+/* ==============================
+   GLOBAL STYLING
+   ============================== */
+:root {
+  --bs-primary-rgb: 13, 110, 253;
+  --bs-success-rgb: 25, 135, 84;
+  --bs-warning-rgb: 255, 193, 7;
+  --bs-danger-rgb: 220, 53, 69;
+  --bs-info-rgb: 23, 162, 184;
+}
+
 html {
   font-size: 14px;
+  scroll-behavior: smooth;
+  height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -8,27 +21,122 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
-  margin-bottom: 60px;
   background-color: #f8f9fa;
+  color: #212529;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+main {
+  flex: 1;
+  overflow-y: auto;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+/* ==============================
+   BUTTONS
+   ============================== */
+.btn:focus, 
+.btn:active:focus, 
+.btn-link.nav-link:focus, 
+.form-control:focus, 
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.35);
+}
+
+.btn-outline-primary:hover {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+/* ==============================
+   FORMS
+   ============================== */
+.form-control,
+.form-select {
+  border-radius: 8px;
+  border: 1.5px solid #dee2e6;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+}
+
+.form-control-lg,
+.form-select-lg {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+}
+
+.form-label {
+  color: #212529;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.form-floating > .form-control-plaintext::placeholder, 
+.form-floating > .form-control::placeholder {
+  color: #6c757d;
   text-align: start;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, 
+.form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+.input-group-text {
+  background-color: #f8f9fa;
+  border: 1.5px solid #dee2e6;
+  color: #6c757d;
+}
+
+/* ==============================
+   CARDS
+   ============================== */
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  border-radius: 12px 12px 0 0;
 }
 
 /* ==============================
@@ -40,132 +148,264 @@ body {
   align-items: flex-start;
   border-radius: 12px;
   color: white;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.3s ease;
+  padding: 1.25rem;
+  min-height: auto;
+  margin-bottom: 1rem;
 }
 
 .kpi-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
 }
 
 .kpi-card i {
-  font-size: 2.5rem;
+  font-size: 2rem;
   opacity: 0.8;
+  margin-left: auto;
 }
 
 .kpi-card h4 {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
 }
 
 .kpi-card h6 {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: 600;
   opacity: 0.95;
+  margin-bottom: 0.25rem;
 }
 
 .kpi-card small {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   opacity: 0.85;
   display: block;
+  margin-top: 0.25rem;
 }
 
-/* ==============================
-   FORMS
-   ============================== */
-.form-control-lg,
-.form-select-lg {
-  border-radius: 8px;
-  border: 1px solid #dee2e6;
-  font-size: 0.95rem;
-  padding: 0.75rem 1rem;
+/* Gradient Backgrounds */
+.bg-gradient-success {
+  background: linear-gradient(135deg, #198754 0%, #20c997 100%) !important;
 }
 
-.form-control-lg:focus,
-.form-select-lg:focus {
-  border-color: #0d6efd;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+.bg-gradient-info {
+  background: linear-gradient(135deg, #0dcaf0 0%, #0d6efd 100%) !important;
 }
 
-.form-label {
-  color: #212529;
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%) !important;
 }
 
-/* ==============================
-   CARDS
-   ============================== */
-.card {
-  transition: box-shadow 0.2s;
+.bg-gradient-warning {
+  background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%) !important;
 }
 
-.card:hover {
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08) !important;
-}
-
-.card-header {
-  border-bottom: 1px solid #e9ecef;
+.bg-gradient-danger {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
 }
 
 /* ==============================
    TABLES
    ============================== */
-.table-hover tbody tr:hover {
-  background-color: #f5f5f5;
+.table {
+  font-size: 0.9rem;
+  margin-bottom: 0;
 }
 
-.badge {
+.table thead th {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+  font-weight: 600;
+  color: #212529;
+  text-transform: uppercase;
   font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  padding: 0.75rem;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid #dee2e6;
+  transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.table td {
+  padding: 0.75rem;
+  vertical-align: middle;
+}
+
+.table-responsive {
+  border-radius: 0 0 12px 12px;
+}
+
+/* ==============================
+   BADGES
+   ============================== */
+.badge {
   padding: 0.4rem 0.6rem;
-  font-weight: 500;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 6px;
 }
 
 /* ==============================
-   BUTTONS
+   ALERTS
    ============================== */
-.btn {
-  border-radius: 8px;
-  font-weight: 500;
-  transition: all 0.2s;
+.alert {
+  border-radius: 10px;
+  border: none;
+  padding: 0.75rem 1rem;
+  animation: slideInDown 0.3s ease;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
 }
 
-.btn-primary {
-  background-color: #0d6efd;
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
 }
 
-.btn-primary:hover {
-  background-color: #0b5ed7;
-  transform: translateY(-1px);
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
 }
 
-.btn-outline-primary:hover {
-  transform: translateY(-1px);
+.alert-warning {
+  background-color: #fff3cd;
+  color: #856404;
 }
 
-.btn-outline-secondary {
-  color: #6c757d;
-  border-color: #dee2e6;
-}
-
-.btn-outline-secondary:hover {
-  color: #fff;
-  background-color: #6c757d;
-  border-color: #6c757d;
+.alert-info {
+  background-color: #d1ecf1;
+  color: #0c5460;
 }
 
 /* ==============================
-   UTILITY
+   MODALS
    ============================== */
-.fw-semibold {
+.modal-content {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  border-radius: 12px 12px 0 0;
+}
+
+/* ==============================
+   NAVBAR
+   ============================== */
+.navbar {
+  padding: 0.75rem 0;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.navbar-brand {
+  font-size: 1.5rem !important;
+  letter-spacing: -0.5px;
+}
+
+.nav-link {
+  padding: 0.5rem 1rem !important;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+  font-size: 0.95rem;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.active {
+  background-color: rgba(255, 255, 255, 0.2);
   font-weight: 600;
 }
 
-.text-success {
-  color: #198754 !important;
+/* ==============================
+   FOOTER
+   ============================== */
+footer {
+  flex-shrink: 0;
+  margin-top: auto;
 }
 
-.text-danger {
-  color: #dc3545 !important;
+/* ==============================
+   HEADINGS
+   ============================== */
+h1, h2, h3, h4, h5, h6 {
+  color: #212529;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 0.75rem;
+}
+
+.display-4 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* ==============================
+   UTILITY CLASSES
+   ============================== */
+.text-muted {
+  color: #6c757d !important;
+}
+
+.shadow-sm {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+}
+
+.rounded-3 {
+  border-radius: 12px !important;
+}
+
+.rounded-4 {
+  border-radius: 16px !important;
+}
+
+.rounded-pill {
+  border-radius: 50px !important;
+}
+
+/* ==============================
+   ANIMATIONS
+   ============================== */
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease;
 }
 
 /* ==============================
@@ -173,11 +413,71 @@ body {
    ============================== */
 @media (max-width: 768px) {
   .kpi-card {
-    flex-direction: column;
+    padding: 1rem;
+    min-height: auto;
+  }
+
+  .kpi-card h4 {
+    font-size: 1.25rem;
   }
 
   .kpi-card i {
-    margin-top: 0.5rem;
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
+
+  .display-4 {
+    font-size: 1.5rem;
+  }
+
+  .table {
+    font-size: 0.8rem;
+  }
+
+  .table thead th {
+    padding: 0.5rem;
+    font-size: 0.7rem;
+  }
+
+  .table td {
+    padding: 0.5rem;
+  }
+
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .badge {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.65rem;
+  }
+
+  .card {
+    margin-bottom: 1rem;
+  }
+
+  .kpi-card {
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* ==============================
+   SCROLLBAR STYLING
+   ============================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
