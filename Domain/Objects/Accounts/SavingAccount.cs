@@ -4,6 +4,10 @@ namespace FinanceHelper.Domain.Objects.Accounts
 {
     public class SavingAccount : BaseEntity
     {
+        public SavingAccount()
+        {
+        }
+
         public SavingAccount(int userId, string name, string provider, AccountType accountType, decimal interestRate, decimal initialDeposit, InterestType interestType)
         {
             UserId = userId;
